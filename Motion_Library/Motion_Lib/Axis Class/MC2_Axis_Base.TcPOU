@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="MC2_Axis_Base" Id="{6091fbf5-8563-4c3d-a46f-a871d52562e9}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK MC2_Axis_Base EXTENDS CyclicBase
+    <Declaration><![CDATA[FUNCTION_BLOCK MC2_Axis_Base EXTENDS CyclicBase IMPLEMENTS ITF_AxisControl, ITF_AxisStatus
 VAR_INPUT
 END_VAR
 VAR_OUTPUT

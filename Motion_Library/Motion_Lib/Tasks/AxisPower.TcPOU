@@ -71,16 +71,17 @@ mcPower(Axis := AxisReference);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Disable" Id="{0a54e8c6-7456-4747-8eeb-b97b9078e709}">
-      <Declaration><![CDATA[METHOD Disable : BOOL
+      <Declaration><![CDATA[METHOD Disable : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT EnableAxis THEN
-	RETURN;
+	Disable := S_FALSE;
+ELSE
+	Disable := S_OK;
+	EnableAxis := FALSE;
 END_IF
-Disable := TRUE;
-EnableAxis := FALSE;
 ]]></ST>
       </Implementation>
     </Method>

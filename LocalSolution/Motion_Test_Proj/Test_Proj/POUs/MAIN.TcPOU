@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="MAIN" Id="{4c2acc94-7e0b-4045-bc96-4e57a86837e2}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	AxisPowTestSuite : AxisPowerTestSuite;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[AxisPowTestSuite();]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -44,7 +44,7 @@ END_VAR
       </Implementation>
     </Method>
     <Method Name="EnableAxis" Id="{a835c18f-6175-4614-a6ac-65491f5fc70d}">
-      <Declaration><![CDATA[METHOD PUBLIC EnableAxis : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC EnableAxis : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>

@@ -85,15 +85,17 @@ EnableAxis := FALSE;
       </Implementation>
     </Method>
     <Method Name="Enable" Id="{afe5d65c-4532-4d19-b244-08cfed3445ed}">
-      <Declaration><![CDATA[METHOD Enable : BOOL
+      <Declaration><![CDATA[METHOD Enable : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF EnableAxis THEN
-	RETURN;
-END_IF
-Enable := EnableAxis := true;]]></ST>
+	Enable := S_FALSE;
+ELSE
+	EnableAxis := TRUE;
+	Enable := S_OK;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{03d72923-bd2d-4684-847b-d6b404bc945a}">

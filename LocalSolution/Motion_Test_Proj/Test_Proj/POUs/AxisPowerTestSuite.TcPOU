@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="AxisPowerTestSuite" Id="{ac2625ce-9cae-4674-bbac-7fb3863ceb8a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisPowerTestSuite
+VAR
+	StubAxis : AXIS_REF;
+	TestAxisPower : AxisPower(StubAxis);
+	ReRun: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[DoesAxisAcceptEnable();
+IF ReRun THEN
+	TestSuite.ReRunTests();
+	ReRun := FALSE;
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="DoesAxisAcceptEnable" Id="{fe79904b-ba9b-4299-9251-955ef4cd651f}">
+      <Declaration><![CDATA[METHOD DoesAxisAcceptEnable : BOOL
+VAR_INST
+	Expected : HRESULT;
+	Actual	 : HRESULT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	Expected := s_OK;
+	Actual := TestAxisPower.Enable();
+	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

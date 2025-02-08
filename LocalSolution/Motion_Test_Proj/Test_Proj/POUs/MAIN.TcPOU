@@ -3,11 +3,13 @@
   <POU Name="MAIN" Id="{4c2acc94-7e0b-4045-bc96-4e57a86837e2}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	AxisPowTestSuite : AxisPowerTestSuite;
+	PowerTestSuite : AxisPowerTestSuite;
+	ResetTestSuite : AxisResetTestSuite;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[AxisPowTestSuite();]]></ST>
+      <ST><![CDATA[PowerTestSuite();
+ResetTestSuite();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

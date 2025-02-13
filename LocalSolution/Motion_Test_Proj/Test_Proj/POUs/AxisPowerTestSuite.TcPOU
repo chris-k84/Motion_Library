@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="AxisPowerTestSuite" Id="{ac2625ce-9cae-4674-bbac-7fb3863ceb8a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisPowerTestSuite
+VAR
+	StubAxis : AXIS_REF;
+	TestAxisPower : AxisPower(StubAxis);
+	ReRun: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[DoesAxisAcceptEnable_Test();
+RejectEnableWhenEnabled_Test();
+RejectDisableWhenDisabled_Test();
+IF ReRun THEN
+	TestSuite.ReRunTests();
+	ReRun := FALSE;
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="DoesAxisAcceptEnable_Test" Id="{fe79904b-ba9b-4299-9251-955ef4cd651f}">
+      <Declaration><![CDATA[METHOD DoesAxisAcceptEnable_Test : BOOL
+VAR_INST
+	Expected : HRESULT;
+	Actual	 : HRESULT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	Expected := s_OK;
+	Actual := TestAxisPower.Enable();
+	TestAxisPower.Disable();
+	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RejectDisableWhenDisabled_Test" Id="{2c27dff1-a943-4ffc-b0d9-e00a76c5c4af}">
+      <Declaration><![CDATA[METHOD RejectDisableWhenDisabled_Test : BOOL
+VAR_INST
+	Expected : HRESULT;
+	Actual	 : HRESULT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	Expected := s_false;
+	Actual := TestAxisPower.Disable();
+	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RejectEnableWhenEnabled_Test" Id="{3a8db93e-7de7-40e7-bc08-d2e3cb8c9735}">
+      <Declaration><![CDATA[METHOD RejectEnableWhenEnabled_Test : BOOL
+VAR_INST
+	Expected : HRESULT;
+	Actual	 : HRESULT;
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	Expected := S_FALSE;
+	TestAxisPower.Enable();
+	Actual := TestAxisPower.Enable();
+	TestAxisPower.Disable();
+	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

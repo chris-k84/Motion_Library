@@ -71,29 +71,32 @@ mcPower(Axis := AxisReference);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Disable" Id="{0a54e8c6-7456-4747-8eeb-b97b9078e709}">
-      <Declaration><![CDATA[METHOD Disable : BOOL
+      <Declaration><![CDATA[METHOD Disable : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT EnableAxis THEN
-	RETURN;
+	Disable := S_FALSE;
+ELSE
+	Disable := S_OK;
+	EnableAxis := FALSE;
 END_IF
-Disable := TRUE;
-EnableAxis := FALSE;
 ]]></ST>
       </Implementation>
     </Method>
     <Method Name="Enable" Id="{afe5d65c-4532-4d19-b244-08cfed3445ed}">
-      <Declaration><![CDATA[METHOD Enable : BOOL
+      <Declaration><![CDATA[METHOD Enable : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF EnableAxis THEN
-	RETURN;
-END_IF
-Enable := EnableAxis := true;]]></ST>
+	Enable := S_FALSE;
+ELSE
+	EnableAxis := TRUE;
+	Enable := S_OK;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{03d72923-bd2d-4684-847b-d6b404bc945a}">

@@ -33,7 +33,7 @@ axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);]]></
       </Implementation>
     </Method>
     <Method Name="DisableAxis" Id="{4ca2c35a-d664-47dd-b699-e212d5be22eb}">
-      <Declaration><![CDATA[METHOD PUBLIC DisableAxis : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC DisableAxis : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -43,7 +43,7 @@ END_VAR
       </Implementation>
     </Method>
     <Method Name="EnableAxis" Id="{a835c18f-6175-4614-a6ac-65491f5fc70d}">
-      <Declaration><![CDATA[METHOD PUBLIC EnableAxis : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC EnableAxis : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>

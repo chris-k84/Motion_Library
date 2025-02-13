@@ -3,83 +3,71 @@
   <PropertyGroup>
     <FileVersion>1.0.0.0</FileVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{d8b80d32-3495-4a99-8484-a832513b50d2}</ProjectGuid>
+    <ProjectGuid>{a0a9412c-cc4a-44c7-8a3f-cff49687a7b3}</ProjectGuid>
     <SubObjectsSortedByName>true</SubObjectsSortedByName>
     <DownloadApplicationInfo>true</DownloadApplicationInfo>
     <WriteProductVersion>false</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
-    <Name>Motion_Lib</Name>
+    <Name>Test_Proj</Name>
     <ProgramVersion>3.1.4026.13</ProgramVersion>
-    <Application>{453d6535-0294-4f09-9fc3-bd613479bbb1}</Application>
-    <TypeSystem>{d672519a-ad22-4024-8929-217fdd460091}</TypeSystem>
-    <Implicit_Task_Info>{f2da612d-b653-425d-9e0d-0b1048ddc3fe}</Implicit_Task_Info>
-    <Implicit_KindOfTask>{fb65eae8-54ab-44c9-8b7b-f7a65674abd5}</Implicit_KindOfTask>
-    <Implicit_Jitter_Distribution>{6aab442e-b417-4cf9-a52b-0f15c3d555f5}</Implicit_Jitter_Distribution>
-    <LibraryReferences>{a3edca89-c4e1-42fa-8c59-c6b561129102}</LibraryReferences>
-    <Company>Beckhoff UK</Company>
-    <Released>false</Released>
-    <AllowChecksForLibrary>false</AllowChecksForLibrary>
-    <POUsForPropertyAccessIncluded>false</POUsForPropertyAccessIncluded>
-    <GlobalVersionStructureIncluded>false</GlobalVersionStructureIncluded>
-    <Title>Motion Library</Title>
-    <ProjectVersion>1.0.0.0</ProjectVersion>
-    <LibraryCategories>
-      <LibraryCategory xmlns="">
-        <Id>{a4a00b8a-9270-48aa-b020-371bd9c3e701}</Id>
-        <Version>1.0.0.0</Version>
-        <DefaultName>Beckhoff UK</DefaultName>
-      </LibraryCategory>
-    </LibraryCategories>
-    <SelectedLibraryCategories>
-      <Id xmlns="">{a4a00b8a-9270-48aa-b020-371bd9c3e701}</Id>
-    </SelectedLibraryCategories>
-    <Author>Chris Knight</Author>
-    <VirtualLibrary>true</VirtualLibrary>
+    <Application>{40e6a909-d68f-42cc-8ff6-eff400200549}</Application>
+    <TypeSystem>{61ad6ae2-f2a6-4474-838e-73abff9596cc}</TypeSystem>
+    <Implicit_Task_Info>{c1119bbb-7e4c-4577-987f-b976c3a743c6}</Implicit_Task_Info>
+    <Implicit_KindOfTask>{d40100cc-e1b9-4354-89e2-fe11a5a7b4ad}</Implicit_KindOfTask>
+    <Implicit_Jitter_Distribution>{5f22135c-42ec-4217-9552-cabc18d9dbad}</Implicit_Jitter_Distribution>
+    <LibraryReferences>{9a44e792-60ec-4372-82ab-387b65cbc98e}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Axis Class" />
-    <Folder Include="Tasks" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Axis Class\ITF_AxisControl.TcIO">
+    <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Axis Class\ITF_AxisStatus.TcIO">
+    <Compile Include="POUs\AxisPowerTestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Axis Class\MC2_Axis_Base.TcPOU">
+    <Compile Include="POUs\AxisResetTestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\AxesReset.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Tasks\AxisPower.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Tasks\Mc2Halt.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Tasks\Mc2MoveToPosition.TcPOU">
+    <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PlaceholderReference Include="Base Library">
-      <DefaultResolution>Base Library, * (Beckhoff UK)</DefaultResolution>
-      <Namespace>Base_Library</Namespace>
-    </PlaceholderReference>
+    <Folder Include="DUTs" />
+    <Folder Include="GVLs" />
+    <Folder Include="VISUs" />
+    <Folder Include="POUs" />
+  </ItemGroup>
+  <ItemGroup>
     <PlaceholderReference Include="Tc2_MC2">
       <DefaultResolution>Tc2_MC2, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_MC2</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_Standard">
+      <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Standard</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc2_System">
       <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_System</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc3PlcTestSuite">
+      <DefaultResolution>Tc3PlcTestSuite, * (Simmel)</DefaultResolution>
+      <Namespace>Tc3PlcTestSuite</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_Module</Namespace>
+      <SystemLibrary>true</SystemLibrary>
     </PlaceholderReference>
+    <PlaceholderReference Include="[Motion Library]">
+      <DefaultResolution>[Motion Library], * (Beckhoff UK)</DefaultResolution>
+      <Namespace>Motion_Library</Namespace>
+    </PlaceholderReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Test_Proj.tmc">
+      <SubType>Content</SubType>
+    </None>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

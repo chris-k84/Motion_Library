@@ -68,15 +68,16 @@ resetMover(Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Execute" Id="{3351ec6f-5e58-4cce-afac-76b6f35f5e04}">
-      <Declaration><![CDATA[METHOD Execute : BOOL
+      <Declaration><![CDATA[METHOD Execute : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT _ResetMover THEN
-	Execute := _ResetMover := TRUE;
+	Execute := s_OK;
+	_ResetMover := TRUE;
 ELSE
-	Execute := false;
+	Execute := S_FALSE;
 END_IF;]]></ST>
       </Implementation>
     </Method>

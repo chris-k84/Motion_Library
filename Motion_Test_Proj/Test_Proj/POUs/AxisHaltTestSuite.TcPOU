@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="AxisHaltTestSuite" Id="{506c244a-6b71-4d33-aeec-65d4d3cf5d5e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisHaltTestSuite
+VAR
+	StubAxis : AXIS_REF;
+	TestAxisHalt : Mc2Halt(StubAxis);
+	ReRun: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[DoesTaskRejectHaltWhenStationary();
+IF ReRun THEN
+	TestSuite.ReRunTests();
+	ReRun := FALSE;
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="DoesTaskRejectHaltWhenStationary" Id="{d10470f1-6c20-4eed-b536-d69117943531}">
+      <Declaration><![CDATA[METHOD DoesTaskRejectHaltWhenStationary : BOOL
+VAR_INST
+	Expected : BOOL;
+	Actual	 : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	Expected := FALSE;
+	Actual := TestAxisHalt.Execute();
+	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

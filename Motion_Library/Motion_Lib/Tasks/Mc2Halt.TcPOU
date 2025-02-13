@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="Mc2Halt" Id="{8f902aee-94bf-4385-bdcf-ca790f894752}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK Mc2Halt EXTENDS TaskBase
+    <Declaration><![CDATA[FUNCTION_BLOCK Mc2Halt EXTENDS TaskBase
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -72,7 +71,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Execute := _Halt := true;]]></ST>
+        <ST><![CDATA[IF _Axis.Status.Moving THEN
+	Execute := _Halt := true;
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_init" Id="{1d755e0d-6917-492a-87c8-d14e7bb31076}">

@@ -1,13 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="MAIN" Id="{0e9c9627-95a3-4f44-9640-070a0428525d}">
+  <POU Name="MAIN" Id="{0e9c9627-95a3-4f44-9640-070a0428525d}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	PowerTestSuite : AxisPowerTestSuite;
+	ResetTestSuite : AxisResetTestSuite;
 END_VAR
-]]>
-    </Declaration>
+]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[PowerTestSuite();
+ResetTestSuite();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

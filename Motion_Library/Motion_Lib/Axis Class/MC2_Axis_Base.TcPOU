@@ -142,7 +142,7 @@ END_IF
     <Method Name="ResetAxis" Id="{bd5b60f2-6a45-4850-931f-c2efbdee4a44}">
       <Declaration><![CDATA[METHOD PUBLIC ResetAxis : BOOL
 VAR
-	ResetResult : BOOL;
+	ResetResult : HRESULT;
 	MoveAbortResult : BOOL;
 	HaltAbortResult : BOOL;
 END_VAR
@@ -151,7 +151,7 @@ END_VAR
         <ST><![CDATA[ResetResult := axesResetCommand.Execute();
 MoveAbortResult := axesMoveToCommand.Abort();
 HaltAbortResult := axesHaltCommand.Abort();
-ResetAxis := ResetResult AND MoveAbortResult AND HaltAbortResult;]]></ST>
+ResetAxis := (ResetResult = S_OK) AND MoveAbortResult AND HaltAbortResult;]]></ST>
       </Implementation>
     </Method>
   </POU>

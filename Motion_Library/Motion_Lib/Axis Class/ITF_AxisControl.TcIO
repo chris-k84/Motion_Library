@@ -4,13 +4,13 @@
     <Declaration><![CDATA[INTERFACE ITF_AxisControl EXTENDS __SYSTEM.IQueryInterface
 ]]></Declaration>
     <Method Name="DisableAxis" Id="{78e4be45-9441-4dfd-be50-a8de43882816}">
-      <Declaration><![CDATA[METHOD DisableAxis : BOOL
+      <Declaration><![CDATA[METHOD DisableAxis : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
     <Method Name="EnableAxis" Id="{dc495f2e-73cd-4872-9d3b-75cfe930dc9c}">
-      <Declaration><![CDATA[METHOD EnableAxis : BOOL
+      <Declaration><![CDATA[METHOD EnableAxis : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>

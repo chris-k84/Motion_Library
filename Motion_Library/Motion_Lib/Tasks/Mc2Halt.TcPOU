@@ -66,13 +66,14 @@ mcHalt(Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Execute" Id="{020a5dad-2d55-4c66-8489-dc08945209ce}">
-      <Declaration><![CDATA[METHOD Execute : BOOL
+      <Declaration><![CDATA[METHOD Execute : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF _Axis.Status.Moving THEN
-	Execute := _Halt := true;
+	Execute := S_OK;
+	_Halt := TRUE;
 END_IF
 ]]></ST>
       </Implementation>

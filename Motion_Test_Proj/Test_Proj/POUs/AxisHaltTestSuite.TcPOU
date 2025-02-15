@@ -18,12 +18,12 @@ END_IF]]></ST>
     <Method Name="DoesTaskRejectHaltWhenStationary" Id="{d10470f1-6c20-4eed-b536-d69117943531}">
       <Declaration><![CDATA[METHOD DoesTaskRejectHaltWhenStationary : BOOL
 VAR_INST
-	Expected : BOOL;
-	Actual	 : BOOL;
+	Expected : HRESULT;
+	Actual	 : HRESULT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
-	Expected := FALSE;
+	Expected := S_FALSE;
 	Actual := TestAxisHalt.Execute();
 	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>

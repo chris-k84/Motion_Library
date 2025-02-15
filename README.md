@@ -18,7 +18,7 @@ This started out as an XTS library, then became something else, a huge crawling 
 
 ## The Goal
 
-The goal of this repo is to build on the base repo, using the cyclic modules to create an object specifically to run a 
+The goal of this repo is to build on the base repo, using the cyclic modules to create an object specifically to run an axis. The library combines the objects from the base library and the blocks from the MC2 library. 
 
 ## Background
 
@@ -26,7 +26,7 @@ The goal of this repo is to build on the base repo, using the cyclic modules to 
 
 ## Description
 
-
+The repo contains a number of classes that provide execution of the baseic functions of the MC2 library. A class to contain the behaviour of MC_Power, MC_Reset, MC_Halt and MC_MoveAbsolute are packaged into the MC2_Axis_Base class. This can be instantiated and used to control an axis via the TwinCAT NC.
 
 ## Repository Design
 
@@ -36,7 +36,7 @@ Utilising reference libraries you can run them, you can run in UmRT.
 
 ## Tests
 
-
+Tests are implemented in a Test Project, the library is referenced there and tests are run in a TwinCAT RT or UmRT.
 
 ## Support
 

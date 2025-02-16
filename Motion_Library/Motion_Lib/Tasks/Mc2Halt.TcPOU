@@ -71,9 +71,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _Axis.Status.Moving THEN
+        <ST><![CDATA[IF _Axis.Status.Moving AND NOT _Halt THEN
 	Execute := S_OK;
 	_Halt := TRUE;
+ELSE
+	Execute := S_FALSE;
 END_IF
 ]]></ST>
       </Implementation>

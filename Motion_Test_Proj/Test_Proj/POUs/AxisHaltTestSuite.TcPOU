@@ -10,11 +10,28 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[DoesTaskRejectHaltWhenStationary();
+DoesTaskRejectHaltWhenHalting_Test();
 IF ReRun THEN
 	TestSuite.ReRunTests();
 	ReRun := FALSE;
 END_IF]]></ST>
     </Implementation>
+    <Method Name="DoesTaskRejectHaltWhenHalting_Test" Id="{48ddc48e-e466-40b6-8eab-977aa7646793}">
+      <Declaration><![CDATA[METHOD DoesTaskRejectHaltWhenHalting_Test : BOOL
+VAR_INST
+	Expected : HRESULT;
+	Actual	 : HRESULT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	Expected := S_FALSE;
+	TestAxisHalt.Execute();
+	Actual := TestAxisHalt.Execute();
+	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="DoesTaskRejectHaltWhenStationary" Id="{d10470f1-6c20-4eed-b536-d69117943531}">
       <Declaration><![CDATA[METHOD DoesTaskRejectHaltWhenStationary : BOOL
 VAR_INST

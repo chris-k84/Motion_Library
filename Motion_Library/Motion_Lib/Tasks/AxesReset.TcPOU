@@ -2,7 +2,7 @@
 <TcPlcObject Version="1.1.0.1">
   <POU Name="AxesReset" Id="{ea00788b-a7e2-4ddb-a987-8527d11bfcf5}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK AxesReset EXTENDS TaskBase
+FUNCTION_BLOCK AxesReset IMPLEMENTS I_Task
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -11,6 +11,10 @@ VAR
 	resetMover : Tc2_MC2.MC_Reset;
 	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
 	_ResetMover : BOOL;
+	State: INT;
+	_Done: BOOL;
+	_Error: BOOL;
+	_Busy: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -27,6 +31,19 @@ Abort := TRUE;
 State := 0;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="Busy" Id="{6fd13692-80ad-4e8c-b6fa-bf24745db6e9}">
+      <Declaration><![CDATA[{warning 'Add property implementation'}
+PROPERTY Busy : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{3f3da426-01ff-4963-9c05-3e4c10dc1883}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := _busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="Cycle" Id="{a2f61a2f-8d99-4872-967a-55fbf379e9cf}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
@@ -67,6 +84,32 @@ END_CASE
 resetMover(Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
+    <Property Name="Done" Id="{b2c4b57c-337f-40bd-8e81-565ad6a269f2}">
+      <Declaration><![CDATA[{warning 'Add property implementation'}
+PROPERTY Done : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{214b1997-2421-46e9-bb64-09da6c6af054}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := _done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{7069ca0e-f0b0-4125-b7fe-724659e58141}">
+      <Declaration><![CDATA[{warning 'Add property implementation'}
+PROPERTY Error : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{f87457df-05b1-4857-aa40-6a1ab55ff05c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := _error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="Execute" Id="{3351ec6f-5e58-4cce-afac-76b6f35f5e04}">
       <Declaration><![CDATA[METHOD Execute : HRESULT
 VAR_INPUT

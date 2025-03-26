@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="Mc2MoveToPosition" Id="{28fa9c58-d811-4345-8e27-94422602642f}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Mc2MoveToPosition EXTENDS TaskBase
+    <Declaration><![CDATA[FUNCTION_BLOCK Mc2MoveToPosition IMPLEMENTS I_Task
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -10,6 +10,10 @@ VAR
 	moveAbs	: MC_MoveAbsolute;
 	_Axis : REFERENCE TO AXIS_REF;
 	_MoveSwitch : BOOL;
+	State: INT;
+	_Done: BOOL;
+	_Error: BOOL;
+	_Busy: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -45,6 +49,19 @@ END_VAR
           <ST><![CDATA[moveAbs.Acceleration := Acceleration;]]></ST>
         </Implementation>
       </Set>
+    </Property>
+    <Property Name="Busy" Id="{15fd35de-807b-4d13-84bf-f7daa15c531a}">
+      <Declaration><![CDATA[{warning 'Add property implementation'}
+PROPERTY Busy : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{052fd6fa-89c7-4920-8bdf-0578104cda0f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := _Busy;]]></ST>
+        </Implementation>
+      </Get>
     </Property>
     <Method Name="Cycle" Id="{a39af4f2-815a-48ca-8486-fcba13c88617}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
@@ -104,6 +121,32 @@ END_VAR
           <ST><![CDATA[moveAbs.Deceleration := Deceleration;]]></ST>
         </Implementation>
       </Set>
+    </Property>
+    <Property Name="Done" Id="{03fb8255-039b-454a-b329-0c2121d24eb2}">
+      <Declaration><![CDATA[{warning 'Add property implementation'}
+PROPERTY Done : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{98bc89bd-bc6c-43b4-aec6-075eea67c7b3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := _Done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{780892dd-fd19-47af-926f-a732f401392e}">
+      <Declaration><![CDATA[{warning 'Add property implementation'}
+PROPERTY Error : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{b0c83e66-5dc8-4591-bc9b-cf6a1c94a587}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := _Error;]]></ST>
+        </Implementation>
+      </Get>
     </Property>
     <Method Name="FB_init" Id="{0156f89a-4ccc-4fea-9390-c950d3f5d691}">
       <Declaration><![CDATA[METHOD FB_init : BOOL

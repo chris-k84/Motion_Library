@@ -5,16 +5,11 @@
 VAR
 	StubAxis : AXIS_REF;
 	TestAxisHalt : Mc2Halt(StubAxis);
-	ReRun: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[DoesTaskRejectHaltWhenStationary();
-DoesTaskRejectHaltWhenHalting_Test();
-IF ReRun THEN
-	TestSuite.ReRunTests();
-	ReRun := FALSE;
-END_IF]]></ST>
+DoesTaskRejectHaltWhenHalting_Test();]]></ST>
     </Implementation>
     <Method Name="DoesTaskRejectHaltWhenHalting_Test" Id="{48ddc48e-e466-40b6-8eab-977aa7646793}">
       <Declaration><![CDATA[METHOD DoesTaskRejectHaltWhenHalting_Test : BOOL

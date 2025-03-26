@@ -5,17 +5,12 @@
 VAR
 	StubAxis : AXIS_REF;
 	TestAxisPower : AxisPower(StubAxis);
-	ReRun: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[DoesAxisAcceptEnable_Test();
 RejectEnableWhenEnabled_Test();
-RejectDisableWhenDisabled_Test();
-IF ReRun THEN
-	TestSuite.ReRunTests();
-	ReRun := FALSE;
-END_IF]]></ST>
+RejectDisableWhenDisabled_Test();]]></ST>
     </Implementation>
     <Method Name="DoesAxisAcceptEnable_Test" Id="{fe79904b-ba9b-4299-9251-955ef4cd651f}">
       <Declaration><![CDATA[METHOD DoesAxisAcceptEnable_Test : BOOL

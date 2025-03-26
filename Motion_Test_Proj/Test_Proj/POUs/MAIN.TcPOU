@@ -6,12 +6,22 @@ VAR
 	PowerTestSuite : AxisPowerTestSuite;
 	ResetTestSuite : AxisResetTestSuite;
 	HaltTestSuite : AxisHaltTestSuite;
+	arrTestSuites : ARRAY[0..2] OF ITestSuite := [PowerTestSuite, ResetTestSuite, HaltTestSuite];
+	ReRun: BOOL;
+	i: INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[PowerTestSuite();
 ResetTestSuite();
-HaltTestSuite();]]></ST>
+HaltTestSuite();
+
+IF ReRun THEN
+	FOR i := 0 TO 2 DO
+		arrTestSuites[i].ReRunTests();
+	END_FOR
+	ReRun := FALSE;
+END_IF]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

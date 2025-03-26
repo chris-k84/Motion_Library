@@ -5,16 +5,11 @@
 VAR
 	_axis : AXIS_REF;
 	TestAxisReset : AxesReset(_axis);
-	ReRun: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[DoesAcceptExecute_Test();
-RejectResetWhileResetting_Test();
-IF ReRun THEN
-	TestSuite.ReRunTests();
-	ReRun := FALSE;
-END_IF]]></ST>
+RejectResetWhileResetting_Test();]]></ST>
     </Implementation>
     <Method Name="DoesAcceptExecute_Test" Id="{08513cf5-caba-4c77-9c71-3b8a7a80c814}">
       <Declaration><![CDATA[METHOD DoesAcceptExecute_Test : BOOL

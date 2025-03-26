@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="AxisTestSuite" Id="{0a71268f-cfb2-4598-810c-23a4b39b0a83}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisTestSuite EXTENDS FB_TestSuite<TestSuite_Parameter.MaxTestCount>
+VAR
+	TestAxis : MC2_Axis_Base;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[AxisPassesEnableRequest_Test();]]></ST>
+    </Implementation>
+    <Method Name="AxisPassesEnableRequest_Test" Id="{476e15ea-5203-470c-82e5-b849ce0ce1ae}">
+      <Declaration><![CDATA[METHOD AxisPassesEnableRequest_Test
+VAR_INST
+	Expected : HRESULT;
+	Actual	 : HRESULT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	Expected := S_FALSE;
+	Actual := TestAxis.EnableAxis();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

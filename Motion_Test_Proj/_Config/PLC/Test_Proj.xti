@@ -983,7 +983,7 @@ External Setpoint Generation:
 		</DataType>
 	</DataTypes>
 	<Project GUID="{C01A2072-C155-49BF-9448-3F6D7D8FFDC1}" Name="Test_Proj" PrjFilePath="..\..\Test_Proj\Test_Proj.plcproj" TmcFilePath="..\..\Test_Proj\Test_Proj.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{61573576-E2BF-393E-BF0F-A7643ACCEC1E}" TmcPath="Test_Proj\Test_Proj.tmc">
+		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{4A39FA9D-832D-9CA9-8955-38BE14CBEB57}" TmcPath="Test_Proj\Test_Proj.tmc">
 			<Name>Test_Proj Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 			<Vars VarGrpType="2" AreaNo="1">
@@ -1000,6 +1000,10 @@ External Setpoint Generation:
 					<Name>MAIN.HaltTestSuite.StubAxis.PlcToNc</Name>
 					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
 				</Var>
+				<Var>
+					<Name>MAIN._AxisTestSuite.TestAxis._axis.PlcToNc</Name>
+					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+				</Var>
 			</Vars>
 			<Vars VarGrpType="1">
 				<Name>PlcTask Inputs</Name>
@@ -1013,6 +1017,10 @@ External Setpoint Generation:
 				</Var>
 				<Var>
 					<Name>MAIN.HaltTestSuite.StubAxis.NcToPlc</Name>
+					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
+				</Var>
+				<Var>
+					<Name>MAIN._AxisTestSuite.TestAxis._axis.NcToPlc</Name>
 					<Type GUID="{25521FAA-EA5F-4C7F-8864-BBCCDACD2E98}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 				</Var>
 			</Vars>

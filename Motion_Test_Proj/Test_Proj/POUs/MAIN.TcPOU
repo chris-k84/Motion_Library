@@ -6,7 +6,8 @@ VAR
 	PowerTestSuite : AxisPowerTestSuite;
 	ResetTestSuite : AxisResetTestSuite;
 	HaltTestSuite : AxisHaltTestSuite;
-	arrTestSuites : ARRAY[0..2] OF ITestSuite := [PowerTestSuite, ResetTestSuite, HaltTestSuite];
+	_AxisTestSuite : AxisTestSuite;
+	arrTestSuites : ARRAY[0..3] OF ITestSuite := [PowerTestSuite, ResetTestSuite, HaltTestSuite, _AxisTestSuite];
 	ReRun: BOOL;
 	i: INT;
 END_VAR
@@ -15,9 +16,10 @@ END_VAR
       <ST><![CDATA[PowerTestSuite();
 ResetTestSuite();
 HaltTestSuite();
+_AxisTestSuite();
 
 IF ReRun THEN
-	FOR i := 0 TO 2 DO
+	FOR i := 0 TO 3 DO
 		arrTestSuites[i].ReRunTests();
 	END_FOR
 	ReRun := FALSE;

@@ -14,6 +14,7 @@ VAR
 	axesHaltCommand 		: Mc2Halt(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_MoverErrorId: DWORD;
+	_TraceLogger : ITcMessage_Ext;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
@@ -48,7 +49,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[EnableAxis := axesEnable.Enable();]]></ST>
+        <ST><![CDATA[EnableAxis := axesEnable.Enable();
+IF _TraceLogger <> 0 THEN
+	_TraceLogger.Send(Message := 'Axis Enable Commanded');
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="getCurrentPosition" Id="{c887f268-1e61-4e9e-8941-aa0a7b360cf9}">
@@ -139,6 +143,25 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
+    <Property Name="MyLogger" Id="{97ee8842-af8b-4735-a944-a8d715f0f678}">
+      <Declaration><![CDATA[PROPERTY MyLogger : ITcMEssage_Ext]]></Declaration>
+      <Get Name="Get" Id="{4f362e2d-6ab6-470c-878c-24fb58937e29}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[MyLogger := _TraceLogger;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{e7275364-1aa8-41c0-9b72-d0f4c7fed416}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_TraceLogger := MyLogger;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="ResetAxis" Id="{bd5b60f2-6a45-4850-931f-c2efbdee4a44}">
       <Declaration><![CDATA[METHOD PUBLIC ResetAxis : BOOL
 VAR

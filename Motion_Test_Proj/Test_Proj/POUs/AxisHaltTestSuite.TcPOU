@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="AxisHaltTestSuite" Id="{506c244a-6b71-4d33-aeec-65d4d3cf5d5e}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK AxisHaltTestSuite
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisHaltTestSuite EXTENDS FB_TestSuite<TestSuite_Parameter.MaxTestCount>
 VAR
 	StubAxis : AXIS_REF;
 	TestAxisHalt : Mc2Halt(StubAxis);
@@ -24,11 +24,11 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := S_FALSE;
 	TestAxisHalt.Execute();
 	Actual := TestAxisHalt.Execute();
-	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>
       </Implementation>
     </Method>
@@ -39,10 +39,10 @@ VAR_INST
 	Actual	 : HRESULT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := S_FALSE;
 	Actual := TestAxisHalt.Execute();
-	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>
       </Implementation>
     </Method>

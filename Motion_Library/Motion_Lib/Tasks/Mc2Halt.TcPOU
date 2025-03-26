@@ -30,8 +30,7 @@ State := 0;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Busy" Id="{372dcfaa-8cbd-4cb0-a70e-bb4041d8e255}">
-      <Declaration><![CDATA[{warning 'Add property implementation'}
-PROPERTY Busy : BOOL
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{91d2b55e-e06d-4906-afcd-b4c07ffa30db}">
         <Declaration><![CDATA[VAR
@@ -83,8 +82,7 @@ mcHalt(Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
     <Property Name="Done" Id="{0d4d59d1-0a33-4a35-91db-70cde82f5006}">
-      <Declaration><![CDATA[{warning 'Add property implementation'}
-PROPERTY Done : BOOL
+      <Declaration><![CDATA[PROPERTY Done : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{5c83bea7-d010-40d8-bc69-060934607785}">
         <Declaration><![CDATA[VAR
@@ -96,8 +94,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="Error" Id="{3e7959eb-71d7-4ee5-89e9-4dd47b034681}">
-      <Declaration><![CDATA[{warning 'Add property implementation'}
-PROPERTY Error : BOOL
+      <Declaration><![CDATA[PROPERTY Error : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{1eaeb28a-b2d3-41f6-9d16-23d88d0071e2}">
         <Declaration><![CDATA[VAR

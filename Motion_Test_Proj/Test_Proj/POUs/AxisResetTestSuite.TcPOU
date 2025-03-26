@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="AxisResetTestSuite" Id="{35388208-47d1-43d3-9073-bac1bf114263}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK AxisResetTestSuite
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisResetTestSuite EXTENDS FB_TestSuite<TestSuite_Parameter.MaxTestCount>
 VAR
 	_axis : AXIS_REF;
 	TestAxisReset : AxesReset(_axis);
@@ -25,12 +25,12 @@ END_VAR
 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := s_OK;
 	Actual := TestAxisReset.Execute();
 	TestAxisReset.Abort();
-	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
-END_IF]]></ST>
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF	]]></ST>
       </Implementation>
     </Method>
     <Method Name="RejectResetWhileResetting_Test" Id="{0b718029-0f95-45b5-9686-fbc342e36ff7}">
@@ -41,11 +41,11 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := S_FALSE;
 	TestAxisReset.Execute();
 	Actual := TestAxisReset.Execute();
-	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>
     </Method>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="MC2_Axis_Base" Id="{6091fbf5-8563-4c3d-a46f-a871d52562e9}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK MC2_Axis_Base IMPLEMENTS I_Cyclic, ITF_AxisControl, ITF_AxisStatus
+    <Declaration><![CDATA[FUNCTION_BLOCK MC2_Axis_Base IMPLEMENTS I_Cyclic, ITF_AxisControl, ITF_AxisStatus, I_Resettable
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -161,7 +161,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Reset" Id="{bd5b60f2-6a45-4850-931f-c2efbdee4a44}">
-      <Declaration><![CDATA[METHOD PUBLIC Reset : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC Reset : HRESULT
 VAR
 	ResetResult : HRESULT;
 	MoveAbortResult : BOOL;
@@ -172,7 +172,11 @@ END_VAR
         <ST><![CDATA[ResetResult := axesResetCommand.Execute();
 MoveAbortResult := axesMoveToCommand.Abort();
 HaltAbortResult := axesHaltCommand.Abort();
-Reset := (ResetResult = S_OK) AND MoveAbortResult AND HaltAbortResult;]]></ST>
+IF ResetResult = S_OK AND MoveAbortResult AND HaltAbortResult THEN
+	Reset := 1;
+ELSE
+	Reset := -1;
+END_IF]]></ST>
       </Implementation>
     </Method>
   </POU>

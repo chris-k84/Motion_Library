@@ -120,10 +120,10 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF EnableAxis THEN
-	Enable := S_FALSE;
+	Enable := -1;
 ELSE
 	EnableAxis := TRUE;
-	Enable := S_OK;
+	Enable := 1;
 END_IF]]></ST>
       </Implementation>
     </Method>

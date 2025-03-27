@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="MC2_Axis_Base" Id="{6091fbf5-8563-4c3d-a46f-a871d52562e9}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK MC2_Axis_Base EXTENDS CyclicBase IMPLEMENTS ITF_AxisControl, ITF_AxisStatus
+    <Declaration><![CDATA[FUNCTION_BLOCK MC2_Axis_Base IMPLEMENTS I_Cyclic, ITF_AxisControl, ITF_AxisStatus
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -14,7 +14,8 @@ VAR
 	axesHaltCommand 		: Mc2Halt(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_MoverErrorId: DWORD;
-	_TraceLogger : ITcMessage_Ext;
+	_Logger : TcMEssage_Ext_Null;
+	_TraceLogger : ITcMessage_Ext := _Logger;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
@@ -50,9 +51,9 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[EnableAxis := axesEnable.Enable();
-IF _TraceLogger <> 0 THEN
-	_TraceLogger.Send(Message := 'Axis Enable Commanded');
-END_IF]]></ST>
+
+_TraceLogger.Send(Message := 'Axis Enable Commanded');
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="getCurrentPosition" Id="{c887f268-1e61-4e9e-8941-aa0a7b360cf9}">
@@ -143,27 +144,24 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Property Name="MyLogger" Id="{97ee8842-af8b-4735-a944-a8d715f0f678}">
-      <Declaration><![CDATA[PROPERTY MyLogger : ITcMEssage_Ext]]></Declaration>
-      <Get Name="Get" Id="{4f362e2d-6ab6-470c-878c-24fb58937e29}">
-        <Declaration><![CDATA[VAR
+    <Method Name="RegisterLogger" Id="{954d075d-f99c-44c6-9585-ff5758ad051d}">
+      <Declaration><![CDATA[METHOD RegisterLogger : HRESULT
+VAR_INPUT
+	MyLogger : ITcMessage_Ext;
 END_VAR
 ]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[MyLogger := _TraceLogger;]]></ST>
-        </Implementation>
-      </Get>
-      <Set Name="Set" Id="{e7275364-1aa8-41c0-9b72-d0f4c7fed416}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[_TraceLogger := MyLogger;]]></ST>
-        </Implementation>
-      </Set>
-    </Property>
-    <Method Name="ResetAxis" Id="{bd5b60f2-6a45-4850-931f-c2efbdee4a44}">
-      <Declaration><![CDATA[METHOD PUBLIC ResetAxis : BOOL
+      <Implementation>
+        <ST><![CDATA[IF MyLogger <> 0 THEN
+	_TraceLogger := MyLogger;
+	RegisterLogger := 1;
+ELSE
+	_TraceLogger := _Logger;
+	RegisterLogger := -1;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Reset" Id="{bd5b60f2-6a45-4850-931f-c2efbdee4a44}">
+      <Declaration><![CDATA[METHOD PUBLIC Reset : BOOL
 VAR
 	ResetResult : HRESULT;
 	MoveAbortResult : BOOL;
@@ -174,7 +172,7 @@ END_VAR
         <ST><![CDATA[ResetResult := axesResetCommand.Execute();
 MoveAbortResult := axesMoveToCommand.Abort();
 HaltAbortResult := axesHaltCommand.Abort();
-ResetAxis := (ResetResult = S_OK) AND MoveAbortResult AND HaltAbortResult;]]></ST>
+Reset := (ResetResult = S_OK) AND MoveAbortResult AND HaltAbortResult;]]></ST>
       </Implementation>
     </Method>
   </POU>

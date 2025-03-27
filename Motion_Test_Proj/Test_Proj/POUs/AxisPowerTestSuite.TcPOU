@@ -15,14 +15,13 @@ RejectDisableWhenDisabled_Test();]]></ST>
     <Method Name="DoesAxisAcceptEnable_Test" Id="{fe79904b-ba9b-4299-9251-955ef4cd651f}">
       <Declaration><![CDATA[METHOD DoesAxisAcceptEnable_Test : BOOL
 VAR_INST
-	Expected : HRESULT;
-	Actual	 : HRESULT;
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	Expected := s_OK;
-	Actual := TestAxisPower.Enable();
+	Actual := SUCCEEDED(TestAxisPower.Enable());
 	TestAxisPower.Disable();
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>
@@ -46,16 +45,15 @@ END_IF]]></ST>
     <Method Name="RejectEnableWhenEnabled_Test" Id="{3a8db93e-7de7-40e7-bc08-d2e3cb8c9735}">
       <Declaration><![CDATA[METHOD RejectEnableWhenEnabled_Test : BOOL
 VAR_INST
-	Expected : HRESULT;
-	Actual	 : HRESULT;
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
 END_VAR
 
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	Expected := S_FALSE;
 	TestAxisPower.Enable();
-	Actual := TestAxisPower.Enable();
+	Actual := FAILED(TestAxisPower.Enable());
 	TestAxisPower.Disable();
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>

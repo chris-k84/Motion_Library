@@ -4,11 +4,28 @@
     <Declaration><![CDATA[FUNCTION_BLOCK AxisTestSuite EXTENDS FB_TestSuite<TestSuite_Parameter.MaxTestCount>
 VAR
 	TestAxis : MC2_Axis_Base;
+	DummyLogger : TcMEssage_Ext_Null;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[AxisPassesEnableRequest_Test();]]></ST>
+      <ST><![CDATA[AxisPassesEnableRequest_Test();
+AxisAcceptsLogger_Test();
+AxisRejectsNullValueLogger_Test();]]></ST>
     </Implementation>
+    <Method Name="AxisAcceptsLogger_Test" Id="{ac53cc58-5b0b-4f3e-becc-e559fba8878d}">
+      <Declaration><![CDATA[METHOD AxisAcceptsLogger_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	Actual := SUCCEEDED( TestAxis.RegisterLogger(MyLogger := DummyLogger));
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="AxisPassesEnableRequest_Test" Id="{476e15ea-5203-470c-82e5-b849ce0ce1ae}">
       <Declaration><![CDATA[METHOD AxisPassesEnableRequest_Test
 VAR_INST
@@ -19,6 +36,19 @@ END_VAR]]></Declaration>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := S_FALSE;
 	Actual := TestAxis.EnableAxis();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AxisRejectsNullValueLogger_Test" Id="{076128b1-097f-4b47-9ff5-a12fedf0f9fb}">
+      <Declaration><![CDATA[METHOD AxisRejectsNullValueLogger_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	Actual := FAILED( TestAxis.RegisterLogger(MyLogger := 16#0));
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>
       </Implementation>

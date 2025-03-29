@@ -4,6 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK AxisPowerTestSuite EXTENDS FB_TestSuite<TestSuite_Parameter.MaxTestCount>
 VAR
 	StubAxis : AXIS_REF;
+	StubTask : I_Task;
 	TestAxisPower : AxisPower(StubAxis);
 END_VAR
 ]]></Declaration>
@@ -21,8 +22,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	Actual := SUCCEEDED(TestAxisPower.Enable());
-	TestAxisPower.Disable();
+	Actual := SUCCEEDED(TestAxisPower.Enable(StubTask));
+	TestAxisPower.Disable(StubTask);
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>
       </Implementation>
@@ -37,7 +38,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := s_false;
-	Actual := TestAxisPower.Disable();
+	Actual := TestAxisPower.Disable(StubTask);
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>
@@ -52,9 +53,9 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisPower.Enable();
-	Actual := FAILED(TestAxisPower.Enable());
-	TestAxisPower.Disable();
+	TestAxisPower.Enable(StubTask);
+	Actual := FAILED(TestAxisPower.Enable(StubTask));
+	TestAxisPower.Disable(StubTask);
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>

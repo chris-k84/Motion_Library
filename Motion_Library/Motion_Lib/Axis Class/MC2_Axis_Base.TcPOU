@@ -8,14 +8,15 @@ VAR_OUTPUT
 END_VAR
 VAR
 	_axis : Tc2_MC2.AXIS_REF;
-	axesEnable		: AxisPower(_axis);
-	axesResetCommand		: AxesReset(_axis);
-	axesMoveToCommand 		: Mc2MoveToPosition(_axis);
-	axesHaltCommand 		: Mc2Halt(_axis);
+	axesEnable : AxisPower(_axis);
+	axesResetCommand : AxesReset(_axis);
+	axesMoveToCommand : Mc2MoveToPosition(_axis);
+	axesHaltCommand	: Mc2Halt(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_MoverErrorId: DWORD;
 	_Logger : TcMEssage_Ext_Null;
 	_TraceLogger : ITcMessage_Ext := _Logger;
+	CurrentTask : I_Task;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
@@ -40,7 +41,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[DisableAxis := axesEnable.Disable();
+        <ST><![CDATA[DisableAxis := axesEnable.Disable(CurrentTask);
 ]]></ST>
       </Implementation>
     </Method>
@@ -50,7 +51,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[EnableAxis := axesEnable.Enable();
+        <ST><![CDATA[EnableAxis := axesEnable.Enable(CurrentTask);
 
 _TraceLogger.Send(Message := 'Axis Enable Commanded');
 ]]></ST>
@@ -74,7 +75,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT axesHaltCommand.Busy THEN
-	haltResult := axesHaltCommand.Execute();
+	haltResult := axesHaltCommand.Execute(CurrentTask);
 	abortResult := axesMoveToCommand.Abort();
 	HaltAxis := (haltResult = S_OK) AND abortResult;
 ELSE 
@@ -135,7 +136,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF NOT isAtPosition(position := Position) THEN
 	IF NOT axesMoveToCommand.Busy THEN
-		axesMoveToCommand.MoveTo(Position := Position, Velocity := Velocity);
+		axesMoveToCommand.MoveTo(Position,Velocity,CurrentTask);
 		MoveToPosition := TRUE;
 	END_IF
 ELSE
@@ -169,7 +170,7 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[ResetResult := axesResetCommand.Execute();
+        <ST><![CDATA[ResetResult := axesResetCommand.Execute(CurrentTask);
 MoveAbortResult := axesMoveToCommand.Abort();
 HaltAbortResult := axesHaltCommand.Abort();
 IF ResetResult = S_OK AND MoveAbortResult AND HaltAbortResult THEN

@@ -89,6 +89,7 @@ mcPower(Axis := AxisReference);]]></ST>
     <Method Name="Disable" Id="{0a54e8c6-7456-4747-8eeb-b97b9078e709}">
       <Declaration><![CDATA[METHOD Disable : HRESULT
 VAR_INPUT
+	Task : REFERENCE TO I_Task;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -96,6 +97,7 @@ END_VAR
 	Disable := S_FALSE;
 ELSE
 	Disable := S_OK;
+	Task := THIS^;
 	EnableAxis := FALSE;
 END_IF
 ]]></ST>
@@ -116,12 +118,14 @@ END_VAR
     <Method Name="Enable" Id="{afe5d65c-4532-4d19-b244-08cfed3445ed}">
       <Declaration><![CDATA[METHOD Enable : HRESULT
 VAR_INPUT
+	Task : REFERENCE TO I_Task;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF EnableAxis THEN
 	Enable := -1;
 ELSE
+	Task := THIS^;
 	EnableAxis := TRUE;
 	Enable := 1;
 END_IF]]></ST>

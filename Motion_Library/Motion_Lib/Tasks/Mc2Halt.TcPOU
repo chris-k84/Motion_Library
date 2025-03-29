@@ -108,12 +108,14 @@ END_VAR
     <Method Name="Execute" Id="{020a5dad-2d55-4c66-8489-dc08945209ce}">
       <Declaration><![CDATA[METHOD Execute : HRESULT
 VAR_INPUT
+	Task : REFERENCE TO I_Task;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF _Axis.Status.Moving AND NOT _Halt THEN
 	Execute := S_OK;
 	_Halt := TRUE;
+	Task := THIS^;
 ELSE
 	Execute := S_FALSE;
 END_IF

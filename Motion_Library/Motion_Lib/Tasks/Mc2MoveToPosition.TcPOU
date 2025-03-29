@@ -182,12 +182,15 @@ END_VAR
 VAR_INPUT
 	Position : MC_LREAL;
 	Velocity : MC_LREAL;
+	Task : REFERENCE TO I_Task;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[moveAbs.Position := Position;
 moveAbs.Velocity := Velocity;
-_MoveSwitch := MoveTo := true;]]></ST>
+_MoveSwitch := MoveTo := TRUE;
+Task := THIS^;
+]]></ST>
       </Implementation>
     </Method>
   </POU>

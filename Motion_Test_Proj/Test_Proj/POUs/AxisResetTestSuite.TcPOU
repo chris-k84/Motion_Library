@@ -4,6 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK AxisResetTestSuite EXTENDS FB_TestSuite<TestSuite_Parameter.MaxTestCount>
 VAR
 	_axis : AXIS_REF;
+	StubTask : I_Task;
 	TestAxisReset : AxesReset(_axis);
 END_VAR
 ]]></Declaration>
@@ -22,7 +23,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := s_OK;
-	Actual := TestAxisReset.Execute();
+	Actual := TestAxisReset.Execute(StubTask);
 	TestAxisReset.Abort();
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>
@@ -38,8 +39,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := S_FALSE;
-	TestAxisReset.Execute();
-	Actual := TestAxisReset.Execute();
+	TestAxisReset.Execute(StubTask);
+	Actual := TestAxisReset.Execute(StubTask);
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>

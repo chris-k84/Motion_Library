@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Axis Class" />
+    <Folder Include="Internal" />
     <Folder Include="Tasks" />
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +51,12 @@
     <Compile Include="Axis Class\MC2_Axis_Base.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Internal\I_MoveAbs.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internal\MoveAbs.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tasks\AxesReset.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -59,7 +66,10 @@
     <Compile Include="Tasks\Mc2Halt.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\Mc2MoveToPosition.TcPOU">
+    <Compile Include="Tasks\SimpleMoveToPosition.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\BufferedMoveToPosition.TcPOU">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

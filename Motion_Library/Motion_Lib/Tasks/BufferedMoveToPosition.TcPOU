@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="Mc2MoveToPosition" Id="{28fa9c58-d811-4345-8e27-94422602642f}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Mc2MoveToPosition IMPLEMENTS I_Task
+  <POU Name="BufferedMoveToPosition" Id="{f623c473-a640-4427-8dfd-9222a646d8bd}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK BufferedMoveToPosition IMPLEMENTS I_Task
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	moveAbs	: MC_MoveAbsolute;
+	moveAbs : ARRAY[0..1] OF MoveAbs;
+	iMoveAbs : I_MoveAbs := MoveAbs[0];
+	moveAbsIndex : INT;
 	_Axis : REFERENCE TO AXIS_REF;
-	_MoveSwitch : BOOL;
+	MoveToPosition : BOOL;
 	State: INT;
 	_Done: BOOL;
 	_Error: BOOL;
@@ -19,41 +21,61 @@ END_VAR
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
-    <Method Name="Abort" Id="{1cd0d7f2-688c-4d35-83e4-94847f46cad7}">
+    <Method Name="Abort" Id="{9045061b-9962-4607-8807-e07e05404656}">
       <Declaration><![CDATA[METHOD Abort : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[moveAbs.Execute := FALSE;
-moveAbs.Position := moveAbs.Velocity := 0;
-_MoveSwitch := false;
-_Busy := false;
-Abort := true;
+        <ST><![CDATA[iMoveAbs.Execute := FALSE;
+iMoveAbs.Position := 0;
+iMoveAbs.Velocity := 0;
+MoveToPosition := FALSE;
+_Busy := FALSE;
+Abort := TRUE;
 State := 0;]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Acceleration" Id="{3af53338-23b7-44e8-b1be-bfde3ab4639f}">
+    <Property Name="Acceleration" Id="{341f2499-163a-45c5-b240-f5c5cb02dff1}">
       <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>
-      <Get Name="Get" Id="{6ee0cb9a-1db1-4f3d-bd00-5f31376a507f}">
+      <Get Name="Get" Id="{94f7a0b4-ef99-47e5-9f88-308be92cdbc4}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Acceleration := moveAbs.Acceleration;]]></ST>
+          <ST><![CDATA[Acceleration := iMoveAbs.Acceleration;]]></ST>
         </Implementation>
       </Get>
-      <Set Name="Set" Id="{9065b1b0-2b4a-4502-a521-32f63bb5796b}">
+      <Set Name="Set" Id="{dbd4bb19-bac7-45a6-9010-56d55b847137}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[moveAbs.Acceleration := Acceleration;]]></ST>
+          <ST><![CDATA[iMoveAbs.Acceleration := Acceleration;]]></ST>
         </Implementation>
       </Set>
     </Property>
-    <Property Name="Busy" Id="{15fd35de-807b-4d13-84bf-f7daa15c531a}">
+    <Property Name="Blending" Id="{a7c0ed0c-36d3-453f-9975-ca4c3a7e9ba5}">
+      <Declaration><![CDATA[PROPERTY Blending : MC_BufferMode]]></Declaration>
+      <Get Name="Get" Id="{c282e09e-a818-4264-8f8d-0683a728c165}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Blending := iMoveAbs.BufferMode;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{3591ccd7-2624-4277-b08d-05bb698ae34e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[iMoveAbs.BufferMode:= Blending;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Busy" Id="{1af2a4f9-8f2c-47f1-8f84-24d1cc3c56cc}">
       <Declaration><![CDATA[PROPERTY Busy : BOOL
 ]]></Declaration>
-      <Get Name="Get" Id="{052fd6fa-89c7-4920-8bdf-0578104cda0f}">
+      <Get Name="Get" Id="{d60afff3-b571-480e-8382-7cb6dec1c3d4}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -62,7 +84,7 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Method Name="Cycle" Id="{a39af4f2-815a-48ca-8486-fcba13c88617}">
+    <Method Name="Cycle" Id="{968b2426-4712-4973-a44f-8ea7571f0394}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
 END_VAR
@@ -71,27 +93,27 @@ END_VAR
         <ST><![CDATA[Cycle := S_OK;
 CASE State OF
 	0:
-		IF _MoveSwitch THEN
+		IF MoveToPosition THEN
 			Cycle := S_PENDING;
 			_Done := FALSE;
 			_Error := FALSE;
 			_Busy := TRUE;
-			moveAbs.Execute := TRUE;
-			IF moveAbs.Busy THEN
+			iMoveAbs.Execute := TRUE;
+			IF iMoveAbs.Busy THEN
 				State := 10;
-				_MoveSwitch := FALSE;
+				MoveToPosition := FALSE;
 			END_IF
 		END_IF
 		
 	10:
-		IF NOT moveAbs.Busy THEN
-			IF moveAbs.Done THEN
+		IF NOT iMoveAbs.Busy THEN
+			IF iMoveAbs.Done THEN
 				_Done := TRUE;
-			ELSIF moveAbs.Error THEN
+			ELSIF iMoveAbs.Error THEN
 				_Error := TRUE;
 			END_IF
 			_Busy := FALSE;
-			moveAbs.Execute := FALSE;
+			iMoveAbs.Execute := FALSE;
 			State := 0;
 			Cycle := S_OK;
 		END_IF
@@ -99,32 +121,33 @@ CASE State OF
 		Cycle := E_FAIL;
 END_CASE
 
-moveAbs(Axis := _Axis);]]></ST>
+moveAbs[0](Axis := _Axis);
+moveAbs[1](Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Deceleration" Id="{207379d4-5297-4661-a6b0-70afa1cf5253}">
+    <Property Name="Deceleration" Id="{15394e2a-7137-47ee-a0e9-ae4c783d030d}">
       <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
-      <Get Name="Get" Id="{2b3ec42b-d81e-4e4f-a5e5-4d4d8d1cc1cd}">
+      <Get Name="Get" Id="{b409354e-6bdb-432b-bfed-d7faeda4d824}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Deceleration := moveAbs.Deceleration;]]></ST>
+          <ST><![CDATA[Deceleration := iMoveAbs.Deceleration;]]></ST>
         </Implementation>
       </Get>
-      <Set Name="Set" Id="{c421d552-e5af-44da-9f19-63ad72f26836}">
+      <Set Name="Set" Id="{acdbbe46-8929-47eb-922e-1d284d954e8a}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[moveAbs.Deceleration := Deceleration;]]></ST>
+          <ST><![CDATA[iMoveAbs.Deceleration := Deceleration;]]></ST>
         </Implementation>
       </Set>
     </Property>
-    <Property Name="Done" Id="{03fb8255-039b-454a-b329-0c2121d24eb2}">
+    <Property Name="Done" Id="{2efd6afe-2e1a-4877-9647-5bc5cdd99fbe}">
       <Declaration><![CDATA[PROPERTY Done : BOOL
 ]]></Declaration>
-      <Get Name="Get" Id="{98bc89bd-bc6c-43b4-aec6-075eea67c7b3}">
+      <Get Name="Get" Id="{e37ef1fe-c5a1-4ddb-9b9d-cdaa750d2b2b}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -133,10 +156,10 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="Error" Id="{780892dd-fd19-47af-926f-a732f401392e}">
+    <Property Name="Error" Id="{13f38694-36f8-4930-ab75-64619c3226f8}">
       <Declaration><![CDATA[PROPERTY Error : BOOL
 ]]></Declaration>
-      <Get Name="Get" Id="{b0c83e66-5dc8-4591-bc9b-cf6a1c94a587}">
+      <Get Name="Get" Id="{be92f53e-b6d5-425a-a3c4-51d3f85be2d7}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
@@ -145,7 +168,7 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Method Name="FB_init" Id="{0156f89a-4ccc-4fea-9390-c950d3f5d691}">
+    <Method Name="FB_init" Id="{06c8f2c4-26d3-46f9-a424-5aff24031530}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
@@ -158,26 +181,26 @@ END_VAR
 ]]></ST>
       </Implementation>
     </Method>
-    <Property Name="Jerk" Id="{ad403219-1be7-4bab-be70-39ef22f28e38}">
+    <Property Name="Jerk" Id="{c177883f-4564-4af8-a89b-8c0edf420990}">
       <Declaration><![CDATA[PROPERTY PUBLIC Jerk : mc_lreal]]></Declaration>
-      <Get Name="Get" Id="{d61d7606-d3eb-410b-8474-a2e97b22b31e}">
+      <Get Name="Get" Id="{5a0859c3-34f7-4dae-a686-377d861e0c51}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Jerk := moveAbs.Jerk;]]></ST>
+          <ST><![CDATA[Jerk := iMoveAbs.Jerk;]]></ST>
         </Implementation>
       </Get>
-      <Set Name="Set" Id="{ecb0ed4b-5217-48bc-9bfd-1f75c1a8109f}">
+      <Set Name="Set" Id="{6d085ea2-9832-4224-ada6-3f46c8535aed}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[moveAbs.Jerk := Jerk;]]></ST>
+          <ST><![CDATA[iMoveAbs.Jerk := Jerk;]]></ST>
         </Implementation>
       </Set>
     </Property>
-    <Method Name="MoveTo" Id="{a8cef16b-0fac-4b3b-9508-699ac7e78071}">
+    <Method Name="MoveTo" Id="{094fc655-ef28-4681-8db4-7d4b15208bc6}">
       <Declaration><![CDATA[METHOD MoveTo : BOOL
 VAR_INPUT
 	Position : MC_LREAL;
@@ -186,10 +209,21 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[moveAbs.Position := Position;
-moveAbs.Velocity := Velocity;
-_MoveSwitch := MoveTo := TRUE;
+        <ST><![CDATA[IF iMoveAbs.Execute THEN
+	Abort();
+	IF moveAbsIndex = 0 THEN
+		moveAbsIndex := 1;
+	ELSE
+		moveAbsIndex := 0;
+	END_IF
+	iMoveAbs := moveAbs[moveAbsIndex];
+END_IF
+
+iMoveAbs.Position := Position;
+iMoveAbs.Velocity := Velocity;
+MoveToPosition := MoveTo := TRUE;
 Task := THIS^;
+
 ]]></ST>
       </Implementation>
     </Method>

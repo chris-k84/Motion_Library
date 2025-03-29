@@ -10,7 +10,7 @@ VAR
 	_axis : Tc2_MC2.AXIS_REF;
 	axesEnable : AxisPower(_axis);
 	axesResetCommand : AxesReset(_axis);
-	axesMoveToCommand : Mc2MoveToPosition(_axis);
+	axesMoveToCommand : SimpleMoveToPosition(_axis);
 	axesHaltCommand	: Mc2Halt(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_MoverErrorId: DWORD;
@@ -21,6 +21,8 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
+    <Folder Name="Commands" Id="{07afdc00-d51e-4496-9063-9bd8f62d5829}" />
+    <Folder Name="Status" Id="{91eb89a1-3e50-4f9b-a3c9-6207bfd52c53}" />
     <Method Name="Cycle" Id="{6e2b69ab-f1bf-4962-bdbb-f480f753daf6}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
@@ -35,7 +37,7 @@ Cycle := axesEnable.Cycle();
 axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="DisableAxis" Id="{4ca2c35a-d664-47dd-b699-e212d5be22eb}">
+    <Method Name="DisableAxis" Id="{4ca2c35a-d664-47dd-b699-e212d5be22eb}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD PUBLIC DisableAxis : HRESULT
 VAR_INPUT
 END_VAR
@@ -45,7 +47,7 @@ END_VAR
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="EnableAxis" Id="{a835c18f-6175-4614-a6ac-65491f5fc70d}">
+    <Method Name="EnableAxis" Id="{a835c18f-6175-4614-a6ac-65491f5fc70d}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD PUBLIC EnableAxis : HRESULT
 VAR_INPUT
 END_VAR
@@ -57,7 +59,7 @@ _TraceLogger.Send(Message := 'Axis Enable Commanded');
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="getCurrentPosition" Id="{c887f268-1e61-4e9e-8941-aa0a7b360cf9}">
+    <Method Name="getCurrentPosition" Id="{c887f268-1e61-4e9e-8941-aa0a7b360cf9}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD getCurrentPosition : LREAL
 VAR_INPUT
 END_VAR
@@ -66,7 +68,7 @@ END_VAR
         <ST><![CDATA[getCurrentPosition := _axis.NcToPlc.ActPos;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="HaltAxis" Id="{b5b4d676-a559-4d25-8571-0c2ec9c3c015}">
+    <Method Name="HaltAxis" Id="{b5b4d676-a559-4d25-8571-0c2ec9c3c015}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD PUBLIC HaltAxis : BOOL
 VAR
 	haltResult : HRESULT;
@@ -83,7 +85,7 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="hasError" Id="{ca345aeb-702e-4d9d-ada0-0eb76d61a85d}">
+    <Method Name="hasError" Id="{ca345aeb-702e-4d9d-ada0-0eb76d61a85d}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD hasError : BOOL
 VAR_INPUT
 END_VAR
@@ -92,7 +94,7 @@ END_VAR
         <ST><![CDATA[hasError := _axis.Status.Error;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="isAtPosition" Id="{a3fbba8b-aebd-4df9-9a9b-10d926ce7c0a}">
+    <Method Name="isAtPosition" Id="{a3fbba8b-aebd-4df9-9a9b-10d926ce7c0a}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD isAtPosition : BOOL
 VAR_INPUT
 	position : MC_LREAL;
@@ -108,7 +110,7 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="isEnabled" Id="{460678ae-c472-4e27-a376-f3d29d1278b6}">
+    <Method Name="isEnabled" Id="{460678ae-c472-4e27-a376-f3d29d1278b6}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD isEnabled : BOOL
 VAR_INPUT
 END_VAR
@@ -117,7 +119,7 @@ END_VAR
         <ST><![CDATA[isEnabled := not _axis.Status.Disabled;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="isStationary" Id="{4df49a98-73c3-4028-9049-ecd2a431e2f1}">
+    <Method Name="isStationary" Id="{4df49a98-73c3-4028-9049-ecd2a431e2f1}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD PUBLIC isStationary : BOOL
 VAR_INPUT
 END_VAR
@@ -126,7 +128,7 @@ END_VAR
         <ST><![CDATA[isStationary := _axis.NcToPlc.SetVelo = 0;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="MoveToPosition" Id="{bca42834-4b90-4808-be50-ee67839e4111}">
+    <Method Name="MoveToPosition" Id="{bca42834-4b90-4808-be50-ee67839e4111}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD PUBLIC MoveToPosition : BOOL
 VAR_INPUT
 	Position : MC_LREAL;
@@ -161,7 +163,7 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Reset" Id="{bd5b60f2-6a45-4850-931f-c2efbdee4a44}">
+    <Method Name="Reset" Id="{bd5b60f2-6a45-4850-931f-c2efbdee4a44}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD PUBLIC Reset : HRESULT
 VAR
 	ResetResult : HRESULT;

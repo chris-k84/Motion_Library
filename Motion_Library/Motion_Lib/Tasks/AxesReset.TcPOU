@@ -63,7 +63,6 @@ CASE State OF
 				_ResetMover := FALSE;
 			END_IF
 		END_IF
-	
 	10:
 		IF NOT resetMover.Busy THEN
 			IF resetMover.Done THEN

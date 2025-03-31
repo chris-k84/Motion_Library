@@ -41,7 +41,7 @@ State := 0;]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Acceleration := iMoveAbs.Acceleration;]]></ST>
+          <ST><![CDATA[Acceleration := moveAbs[0].Acceleration;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{dbd4bb19-bac7-45a6-9010-56d55b847137}">
@@ -49,18 +49,19 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[iMoveAbs.Acceleration := Acceleration;]]></ST>
+          <ST><![CDATA[MoveAbs[0].Acceleration := Acceleration;
+MoveAbs[1].Acceleration := Acceleration;]]></ST>
         </Implementation>
       </Set>
     </Property>
-    <Property Name="Blending" Id="{a7c0ed0c-36d3-453f-9975-ca4c3a7e9ba5}">
-      <Declaration><![CDATA[PROPERTY Blending : MC_BufferMode]]></Declaration>
+    <Property Name="BufferMode" Id="{a7c0ed0c-36d3-453f-9975-ca4c3a7e9ba5}">
+      <Declaration><![CDATA[PROPERTY BufferMode : MC_BufferMode]]></Declaration>
       <Get Name="Get" Id="{c282e09e-a818-4264-8f8d-0683a728c165}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Blending := iMoveAbs.BufferMode;]]></ST>
+          <ST><![CDATA[BufferMode := MoveAbs[0].BufferMode;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{3591ccd7-2624-4277-b08d-05bb698ae34e}">
@@ -68,7 +69,8 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[iMoveAbs.BufferMode:= Blending;]]></ST>
+          <ST><![CDATA[MoveAbs[0].BufferMode := BufferMode;
+MoveAbs[1].BufferMode := BufferMode;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -132,7 +134,7 @@ moveAbs[1](Axis := _Axis);]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Deceleration := iMoveAbs.Deceleration;]]></ST>
+          <ST><![CDATA[Deceleration := MoveAbs[0].Deceleration;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{acdbbe46-8929-47eb-922e-1d284d954e8a}">
@@ -140,7 +142,8 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[iMoveAbs.Deceleration := Deceleration;]]></ST>
+          <ST><![CDATA[MoveAbs[0].Deceleration := Deceleration;
+MoveAbs[1].Deceleration := Deceleration;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -177,8 +180,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_Axis REF= axis;
-]]></ST>
+        <ST><![CDATA[_Axis REF= axis;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Jerk" Id="{c177883f-4564-4af8-a89b-8c0edf420990}">
@@ -188,7 +190,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Jerk := iMoveAbs.Jerk;]]></ST>
+          <ST><![CDATA[Jerk := MoveAbs[0].Jerk;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{6d085ea2-9832-4224-ada6-3f46c8535aed}">
@@ -196,7 +198,8 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[iMoveAbs.Jerk := Jerk;]]></ST>
+          <ST><![CDATA[MoveAbs[0].Jerk := Jerk;
+MoveAbs[1].Jerk := Jerk;]]></ST>
         </Implementation>
       </Set>
     </Property>

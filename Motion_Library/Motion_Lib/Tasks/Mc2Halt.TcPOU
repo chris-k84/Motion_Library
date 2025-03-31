@@ -81,6 +81,26 @@ END_CASE
 mcHalt(Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
+    <Property Name="Deceleration" Id="{268ed3d1-2986-429d-85cd-2c570b60d9d7}">
+      <Declaration><![CDATA[PROPERTY Deceleration : MC_LREAL
+]]></Declaration>
+      <Get Name="Get" Id="{907709a1-b0ba-4945-8711-6554db8f1dc0}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Deceleration := mcHalt.Deceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{502b45a2-e349-483e-b36a-b0db162a9224}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcHalt.Deceleration := Deceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="Done" Id="{0d4d59d1-0a33-4a35-91db-70cde82f5006}">
       <Declaration><![CDATA[PROPERTY Done : BOOL
 ]]></Declaration>
@@ -134,5 +154,24 @@ END_VAR
         <ST><![CDATA[_Axis REF= axis;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="Jerk" Id="{bfb39f13-ace3-4f05-9305-e7d3692f5dfa}">
+      <Declaration><![CDATA[PROPERTY Jerk : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{dfdc6efc-8e6e-48e1-a0f4-a06670061327}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Jerk := mcHalt.Jerk;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{9be78a10-cc41-4de6-a2ea-3947cc380f23}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcHalt.Jerk := Jerk;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
   </POU>
 </TcPlcObject>

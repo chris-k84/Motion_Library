@@ -4,9 +4,8 @@
     <Declaration><![CDATA[FUNCTION_BLOCK AxisHaltTestSuite EXTENDS FB_TestSuite<TestSuite_Parameter.MaxTestCount>
 VAR
 	StubAxis : AXIS_REF;
-	StubTask : I_Task;
+	iStubTask : I_Task;
 	TestAxisHalt : Mc2Halt(StubAxis);
-	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -23,8 +22,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := S_FALSE;
-	TestAxisHalt.Execute(StubTask);
-	Actual := TestAxisHalt.Execute(StubTask);
+	TestAxisHalt.Execute(iStubTask);
+	Actual := TestAxisHalt.Execute(iStubTask);
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>
       </Implementation>
@@ -38,7 +37,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := S_FALSE;
-	Actual := TestAxisHalt.Execute(StubTask);
+	Actual := TestAxisHalt.Execute(iStubTask);
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>
       </Implementation>

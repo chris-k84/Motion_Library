@@ -7,10 +7,10 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_axis : Tc2_MC2.AXIS_REF;
+	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
 	axesEnable : AxisPower(_axis);
 	axesResetCommand : AxesReset(_axis);
-	axesMoveToCommand : SimpleMoveToPosition(_axis);
+	axesMoveToCommand : BufferedMoveToPosition(_axis);
 	axesHaltCommand	: Mc2Halt(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_MoverErrorId: DWORD;
@@ -22,7 +22,46 @@ END_VAR]]></Declaration>
       <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
     <Folder Name="Commands" Id="{07afdc00-d51e-4496-9063-9bd8f62d5829}" />
+    <Folder Name="Dynamics" Id="{cb4086e9-6981-4aa8-9a87-7a24dd3c8528}" />
     <Folder Name="Status" Id="{91eb89a1-3e50-4f9b-a3c9-6207bfd52c53}" />
+    <Property Name="Acceleration" Id="{6323273a-3225-4f5a-9181-064e3eedda66}" FolderPath="Dynamics\">
+      <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{34764180-07ec-4ccd-a6b8-92e00db717a8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Acceleration := axesMoveToCommand.Acceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{b780dd24-dc2c-4df0-8817-84480edf7b7e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[axesMoveToCommand.Acceleration := Acceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="BufferMode" Id="{d08e2361-5203-4398-8c61-726e8a84e0a3}" FolderPath="Dynamics\">
+      <Declaration><![CDATA[PROPERTY BufferMode : MC_BufferMode]]></Declaration>
+      <Get Name="Get" Id="{9e81ee1e-088d-4c14-a24d-933fb207a31e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[BufferMode := axesMoveToCommand.BufferMode;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{520c3d3e-0864-445a-a57c-42fec43ce8ec}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[axesMoveToCommand.BufferMode:= BufferMode;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="Cycle" Id="{6e2b69ab-f1bf-4962-bdbb-f480f753daf6}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
@@ -37,6 +76,26 @@ Cycle := axesEnable.Cycle();
 axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);]]></ST>
       </Implementation>
     </Method>
+    <Property Name="Deceleration" Id="{bb54abe4-e56a-4330-9f3c-f7af329a7f17}" FolderPath="Dynamics\">
+      <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{433beca3-2b49-4ba6-9d63-f01118a89332}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Deceleration := axesMoveToCommand.Deceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{28be4d06-067d-435d-89a3-c0ee8fd02e9d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[axesMoveToCommand.Deceleration := Deceleration;
+axesHaltCommand.Deceleration := Deceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="DisableAxis" Id="{4ca2c35a-d664-47dd-b699-e212d5be22eb}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD PUBLIC DisableAxis : HRESULT
 VAR_INPUT
@@ -57,6 +116,25 @@ END_VAR
 
 _TraceLogger.Send(Message := 'Axis Enable Commanded');
 ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_Init" Id="{b79a0e62-0ee6-47b6-874a-a1e2579a6c1b}">
+      <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
+//The return value is not evaluated. For a specific influence, you can also declare the
+//methods explicitly and provide additional code there with the standard initialization
+//code. You can evaluate the return value.
+METHOD FB_Init: BOOL
+VAR_INPUT
+    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change) 
+	Axis : Reference TO AXIS_REF;  
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[axesEnable.FB_init(FALSE, FALSE, axis);
+axesResetCommand.FB_init(FALSE, FALSE, axis);
+axesMoveToCommand.FB_init(FALSE, FALSE, axis);
+axesHaltCommand.FB_init(FALSE, FALSE, axis);
+_axis REF= Axis;]]></ST>
       </Implementation>
     </Method>
     <Method Name="getCurrentPosition" Id="{c887f268-1e61-4e9e-8941-aa0a7b360cf9}" FolderPath="Status\">
@@ -128,8 +206,28 @@ END_VAR
         <ST><![CDATA[isStationary := _axis.NcToPlc.SetVelo = 0;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="Jerk" Id="{79ff8a18-6bf8-46ba-a24c-7f84c4790e08}" FolderPath="Dynamics\">
+      <Declaration><![CDATA[PROPERTY PUBLIC Jerk : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{66a6c61c-9532-41a0-a772-02a7efa824e1}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Jerk := axesMoveToCommand.Jerk;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{fce2a919-a42f-43d2-85c4-9447d205ce29}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[axesMoveToCommand.Jerk := Jerk;
+axesHaltCommand.Jerk := Jerk;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="MoveToPosition" Id="{bca42834-4b90-4808-be50-ee67839e4111}" FolderPath="Commands\">
-      <Declaration><![CDATA[METHOD PUBLIC MoveToPosition : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC MoveToPosition : HRESULT
 VAR_INPUT
 	Position : MC_LREAL;
 	Velocity : MC_LREAL;
@@ -137,12 +235,10 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT isAtPosition(position := Position) THEN
-	IF NOT axesMoveToCommand.Busy THEN
-		axesMoveToCommand.MoveTo(Position,Velocity,CurrentTask);
-		MoveToPosition := TRUE;
-	END_IF
+	axesMoveToCommand.MoveTo(Position,Velocity,CurrentTask);
+	MoveToPosition := 1;
 ELSE
-	MoveToPosition := FALSE;
+	MoveToPosition := -1;
 END_IF
 ]]></ST>
       </Implementation>

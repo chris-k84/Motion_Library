@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <Itf Name="ITF_AxisControl" Id="{67ee2d44-07ee-4a7f-8cf0-2ba796d7942a}">
-    <Declaration><![CDATA[INTERFACE ITF_AxisControl EXTENDS __SYSTEM.IQueryInterface
+  <Itf Name="I_AxisControl" Id="{67ee2d44-07ee-4a7f-8cf0-2ba796d7942a}">
+    <Declaration><![CDATA[INTERFACE I_AxisControl EXTENDS __SYSTEM.IQueryInterface
 ]]></Declaration>
     <Method Name="DisableAxis" Id="{78e4be45-9441-4dfd-be50-a8de43882816}">
       <Declaration><![CDATA[METHOD DisableAxis : HRESULT

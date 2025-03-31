@@ -42,13 +42,13 @@
     <Folder Include="Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Axis Class\ITF_AxisControl.TcIO">
+    <Compile Include="Axis Class\I_AxisControl.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Axis Class\ITF_AxisStatus.TcIO">
+    <Compile Include="Axis Class\I_AxisStatus.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Axis Class\MC2_Axis_Base.TcPOU">
+    <Compile Include="Axis Class\Axis_Base.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Internal\I_MoveAbs.TcIO">
@@ -127,6 +127,12 @@
         <o>
           <v n="Name">"{29BD8D0C-3586-4548-BB48-497B9A01693F}"</v>
           <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
+            <v>Metrics</v>
+            <o>
+              <v n="Name">"Metrics"</v>
+              <d n="SubKeys" t="Hashtable" />
+              <d n="Values" t="Hashtable" />
+            </o>
             <v>NamingConventions</v>
             <o>
               <v n="Name">"NamingConventions"</v>

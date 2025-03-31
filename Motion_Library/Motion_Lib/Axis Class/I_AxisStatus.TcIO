@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <Itf Name="ITF_AxisStatus" Id="{6057db56-1d8d-4c90-8f15-4379a266ab62}">
-    <Declaration><![CDATA[INTERFACE ITF_AxisStatus EXTENDS __SYSTEM.IQueryInterface
+  <Itf Name="I_AxisStatus" Id="{6057db56-1d8d-4c90-8f15-4379a266ab62}">
+    <Declaration><![CDATA[INTERFACE I_AxisStatus EXTENDS __SYSTEM.IQueryInterface
 ]]></Declaration>
     <Method Name="getCurrentPosition" Id="{4fa41b0c-b611-436e-9bd7-2a6e55e87dc6}">
       <Declaration><![CDATA[METHOD getCurrentPosition : LREAL

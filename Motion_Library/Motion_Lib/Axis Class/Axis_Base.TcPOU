@@ -9,9 +9,9 @@ END_VAR
 VAR
 	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
 	axesEnable : AxisPower(_axis);
-	axesResetCommand : AxesReset(_axis);
+	axesResetCommand : AxisReset(_axis);
 	axesMoveToCommand : BufferedMoveToPosition(_axis);
-	axesHaltCommand	: Mc2Halt(_axis);
+	axesHaltCommand	: AxisHalt(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_MoverErrorId: DWORD;
 	_Logger : TcMEssage_Ext_Null;

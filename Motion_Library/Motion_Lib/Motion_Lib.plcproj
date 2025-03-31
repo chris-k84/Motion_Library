@@ -57,13 +57,13 @@
     <Compile Include="Internal\MoveAbs.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\AxesReset.TcPOU">
+    <Compile Include="Tasks\AxisReset.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\AxisPower.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\Mc2Halt.TcPOU">
+    <Compile Include="Tasks\AxisHalt.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\SimpleMoveToPosition.TcPOU">

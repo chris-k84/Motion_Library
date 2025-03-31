@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="AxesReset" Id="{ea00788b-a7e2-4ddb-a987-8527d11bfcf5}" SpecialFunc="None">
+  <POU Name="AxisReset" Id="{ea00788b-a7e2-4ddb-a987-8527d11bfcf5}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK AxesReset IMPLEMENTS I_Task
+FUNCTION_BLOCK AxisReset IMPLEMENTS I_Task
 VAR_INPUT
 END_VAR
 VAR_OUTPUT

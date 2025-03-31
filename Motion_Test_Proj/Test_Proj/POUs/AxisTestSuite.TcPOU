@@ -4,7 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK AxisTestSuite EXTENDS FB_TestSuite<TestSuite_Parameter.MaxTestCount>
 VAR
 	StubAxis : AXIS_REF;
-	TestAxis : MC2_Axis_Base(StubAxis);
+	TestAxis : Axis_Base(StubAxis);
  	DummyLogger : TcMEssage_Ext_Null;
 	Enable: BOOL;
 	MOVETO: BOOL;

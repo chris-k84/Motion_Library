@@ -5,7 +5,7 @@
 VAR
 	_axis : AXIS_REF;
 	StubTask : I_Task;
-	TestAxisReset : AxesReset(_axis);
+	TestAxisReset : AxisReset(_axis);
 END_VAR
 ]]></Declaration>
     <Implementation>

@@ -5,7 +5,7 @@
 VAR
 	StubAxis : AXIS_REF;
 	iStubTask : I_Task;
-	TestAxisHalt : Mc2Halt(StubAxis);
+	TestAxisHalt : AxisHalt(StubAxis);
 END_VAR
 ]]></Declaration>
     <Implementation>

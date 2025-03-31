@@ -3,6 +3,33 @@
   <Itf Name="I_AxisControl" Id="{67ee2d44-07ee-4a7f-8cf0-2ba796d7942a}">
     <Declaration><![CDATA[INTERFACE I_AxisControl EXTENDS __SYSTEM.IQueryInterface
 ]]></Declaration>
+    <Property Name="Acceleration" Id="{6aa38efd-5aab-4e71-a9b5-4601e763ad20}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{2772526e-ce15-4b61-8310-c1fa3f5374d7}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{c4d5c93b-6bb9-430e-bfdc-58ca88aea98e}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="BufferMode" Id="{8a09ec3d-50cb-4ca8-b8b1-13388b194d0f}">
+      <Declaration><![CDATA[PROPERTY BufferMode : MC_BufferMode]]></Declaration>
+      <Get Name="Get" Id="{25d07f96-89ca-4e5a-9a52-920a8faf68e1}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{16124384-c0ca-494a-b3ee-94016c9eddae}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="Deceleration" Id="{f4545876-9890-47b0-a794-487261b1a669}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{61cc8aaf-c6b0-4c2f-b29e-5a00fbd2b6ef}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{cbee0af5-61c7-45cc-aee3-6fc8bb0b9c3f}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
     <Method Name="DisableAxis" Id="{78e4be45-9441-4dfd-be50-a8de43882816}">
       <Declaration><![CDATA[METHOD DisableAxis : HRESULT
 VAR_INPUT
@@ -16,11 +43,20 @@ END_VAR
 ]]></Declaration>
     </Method>
     <Method Name="HaltAxis" Id="{94883e86-e022-461f-9256-2ce498881fb1}">
-      <Declaration><![CDATA[METHOD HaltAxis : BOOL
+      <Declaration><![CDATA[METHOD HaltAxis : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Property Name="Jerk" Id="{0df40572-608e-4996-8cc9-9fa0ad407b16}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Jerk : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{0bff625d-12a6-41b9-9a30-2b50870310c3}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{7c979efc-b6ea-40bb-b0fd-ca613f140f10}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
     <Method Name="MoveToPosition" Id="{c5eac34c-4010-4d8b-8622-96313c7f08cf}">
       <Declaration><![CDATA[METHOD MoveToPosition : HRESULT
 VAR_INPUT

@@ -14,8 +14,8 @@ VAR
 	axesHaltCommand	: AxisHalt(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_MoverErrorId: DWORD;
-	_Logger : TcMEssage_Ext_Null;
-	_TraceLogger : ITcMessage_Ext := _Logger;
+	_Logger : Message_Null;
+	_TraceLogger : I_Message := _Logger;
 	CurrentTask : I_Task;
 END_VAR]]></Declaration>
     <Implementation>
@@ -243,7 +243,7 @@ END_IF
     <Method Name="RegisterLogger" Id="{954d075d-f99c-44c6-9585-ff5758ad051d}">
       <Declaration><![CDATA[METHOD RegisterLogger : HRESULT
 VAR_INPUT
-	MyLogger : ITcMessage_Ext;
+	MyLogger : I_Message;
 END_VAR
 ]]></Declaration>
       <Implementation>

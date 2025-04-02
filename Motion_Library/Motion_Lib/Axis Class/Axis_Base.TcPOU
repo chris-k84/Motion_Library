@@ -8,10 +8,10 @@ VAR_OUTPUT
 END_VAR
 VAR
 	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
-	axesEnable : AxisPower(_axis);
-	axesResetCommand : AxisReset(_axis);
-	axesMoveToCommand : BufferedMoveToPosition(_axis);
-	axesHaltCommand	: AxisHalt(_axis);
+	EnableBehaviour : AxisPower(_axis);
+	DefaultResetBehaviour : AxisReset(_axis);
+	DefaultMoveBehaviour : BufferedMoveToPosition(_axis);
+	HaltBehaviour	: AxisHalt(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_MoverErrorId: DWORD;
 	_Logger : Message_Null;
@@ -21,6 +21,7 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
+    <Folder Name="Behaviours" Id="{98e234d3-576e-4568-9745-07295d3dd041}" />
     <Folder Name="Commands" Id="{07afdc00-d51e-4496-9063-9bd8f62d5829}" />
     <Folder Name="Dynamics" Id="{cb4086e9-6981-4aa8-9a87-7a24dd3c8528}" />
     <Folder Name="Status" Id="{91eb89a1-3e50-4f9b-a3c9-6207bfd52c53}" />
@@ -31,7 +32,7 @@ END_VAR]]></Declaration>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Acceleration := axesMoveToCommand.Acceleration;]]></ST>
+          <ST><![CDATA[Acceleration := DefaultMoveBehaviour.Acceleration;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{b780dd24-dc2c-4df0-8817-84480edf7b7e}">
@@ -39,7 +40,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[axesMoveToCommand.Acceleration := Acceleration;]]></ST>
+          <ST><![CDATA[DefaultMoveBehaviour.Acceleration := Acceleration;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -50,7 +51,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[BufferMode := axesMoveToCommand.BufferMode;]]></ST>
+          <ST><![CDATA[BufferMode := DefaultMoveBehaviour.BufferMode;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{520c3d3e-0864-445a-a57c-42fec43ce8ec}">
@@ -58,7 +59,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[axesMoveToCommand.BufferMode:= BufferMode;]]></ST>
+          <ST><![CDATA[DefaultMoveBehaviour.BufferMode:= BufferMode;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -68,11 +69,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Cycle := axesMoveToCommand.Cycle();
-Cycle := axesHaltCommand.Cycle();
-Cycle := axesResetCommand.Cycle();
+        <ST><![CDATA[Cycle := DefaultMoveBehaviour.Cycle();
+Cycle := HaltBehaviour.Cycle();
+Cycle := DefaultResetBehaviour.Cycle();
 _axis.ReadStatus();
-Cycle := axesEnable.Cycle();
+Cycle := EnableBehaviour.Cycle();
 axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);]]></ST>
       </Implementation>
     </Method>
@@ -83,7 +84,7 @@ axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);]]></
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Deceleration := axesMoveToCommand.Deceleration;]]></ST>
+          <ST><![CDATA[Deceleration := DefaultMoveBehaviour.Deceleration;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{28be4d06-067d-435d-89a3-c0ee8fd02e9d}">
@@ -91,8 +92,8 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[axesMoveToCommand.Deceleration := Deceleration;
-axesHaltCommand.Deceleration := Deceleration;]]></ST>
+          <ST><![CDATA[DefaultMoveBehaviour.Deceleration := Deceleration;
+HaltBehaviour.Deceleration := Deceleration;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -102,7 +103,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[DisableAxis := axesEnable.Disable(CurrentTask);
+        <ST><![CDATA[DisableAxis := EnableBehaviour.Disable(CurrentTask);
 ]]></ST>
       </Implementation>
     </Method>
@@ -112,7 +113,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[EnableAxis := axesEnable.Enable(CurrentTask);
+        <ST><![CDATA[EnableAxis := EnableBehaviour.Enable(CurrentTask);
 
 _TraceLogger.Send(Message := 'Axis Enable Commanded');
 ]]></ST>
@@ -130,10 +131,10 @@ VAR_INPUT
 	Axis : Reference TO AXIS_REF;  
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[axesEnable.FB_init(FALSE, FALSE, axis);
-axesResetCommand.FB_init(FALSE, FALSE, axis);
-axesMoveToCommand.FB_init(FALSE, FALSE, axis);
-axesHaltCommand.FB_init(FALSE, FALSE, axis);
+        <ST><![CDATA[EnableBehaviour.FB_init(FALSE, FALSE, axis);
+DefaultResetBehaviour.FB_init(FALSE, FALSE, axis);
+DefaultMoveBehaviour.FB_init(FALSE, FALSE, axis);
+HaltBehaviour.FB_init(FALSE, FALSE, axis);
 _axis REF= Axis;]]></ST>
       </Implementation>
     </Method>
@@ -152,9 +153,9 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT axesHaltCommand.Busy THEN
-	HaltAxis := axesHaltCommand.Execute(CurrentTask);
-	axesMoveToCommand.Abort();
+        <ST><![CDATA[IF NOT HaltBehaviour.Busy THEN
+	HaltAxis := HaltBehaviour.Execute(CurrentTask);
+	DefaultMoveBehaviour.Abort();
 ELSE 
 	HaltAxis := -1;
 END_IF]]></ST>
@@ -210,7 +211,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Jerk := axesMoveToCommand.Jerk;]]></ST>
+          <ST><![CDATA[Jerk := DefaultMoveBehaviour.Jerk;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{fce2a919-a42f-43d2-85c4-9447d205ce29}">
@@ -218,8 +219,8 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[axesMoveToCommand.Jerk := Jerk;
-axesHaltCommand.Jerk := Jerk;]]></ST>
+          <ST><![CDATA[DefaultMoveBehaviour.Jerk := Jerk;
+HaltBehaviour.Jerk := Jerk;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -232,7 +233,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT isAtPosition(position := Position) THEN
-	axesMoveToCommand.MoveTo(Position,Velocity,CurrentTask);
+	DefaultMoveBehaviour.MoveTo(Position,Velocity,CurrentTask);
 	MoveToPosition := 1;
 ELSE
 	MoveToPosition := -1;
@@ -265,9 +266,9 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[ResetResult := axesResetCommand.Execute(CurrentTask);
-MoveAbortResult := axesMoveToCommand.Abort();
-HaltAbortResult := axesHaltCommand.Abort();
+        <ST><![CDATA[ResetResult := DefaultResetBehaviour.Execute(CurrentTask);
+MoveAbortResult := DefaultMoveBehaviour.Abort();
+HaltAbortResult := HaltBehaviour.Abort();
 IF ResetResult = S_OK AND MoveAbortResult AND HaltAbortResult THEN
 	Reset := 1;
 ELSE

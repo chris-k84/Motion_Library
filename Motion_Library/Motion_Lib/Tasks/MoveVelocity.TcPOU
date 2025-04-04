@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="MoveVelocity" Id="{86fa777b-f5d3-4d7e-bd44-8ee6f4991e5f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK MoveVelocity IMPLEMENTS I_Task
+VAR
+	mcMoveVelo : MC_MoveVelocity;
+	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
+	_MoveAtVelo : BOOL;
+	State: INT;
+	_Done: BOOL;
+	_Error: BOOL;
+	_Busy: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{24ef1d79-00e6-485e-b5bc-96b2e835c968}">
+      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mcMoveVelo.Execute := FALSE;
+_Busy := FALSE;
+_Halt := FALSE;
+Abort := TRUE;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Acceleration" Id="{5690795c-3a83-420b-9da3-878026ded205}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{40d0149e-7955-4b29-bb76-c9562232dbff}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Acceleration := mcMoveVelo.Acceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{7266777e-dab1-408a-acab-1fd1c86a3fb1}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcMoveVelo.Acceleration := Acceleration;
+mcMoveVelo.Acceleration := Acceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Busy" Id="{412e554f-b115-468a-8039-f1c3519a13a0}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{0cd54035-de2e-4540-a890-85dbe5996ff8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := _Busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Cycle" Id="{3a4012ad-a672-409a-903c-5dab8269f3b3}">
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Cycle := S_OK;
+CASE State OF
+	0:
+		IF _MoveAtVelo THEN
+			Cycle := S_PENDING;
+			_Done := FALSE;
+			_Error := FALSE;
+			_Busy := TRUE;
+			mcMoveVelo.Execute := TRUE;
+			IF mcMoveVelo.Busy THEN
+				State := 10;
+				_MoveAtVelo := FALSE;
+			END_IF
+		END_IF
+	
+	10:
+		IF NOT mcMoveVelo.Busy THEN
+			IF mcMoveVelo.InVelocity THEN
+				_Done := TRUE;
+			ELSIF mcMoveVelo.Error THEN
+				_Error := TRUE;
+			END_IF
+			_Busy := FALSE;
+			mcMoveVelo.Execute := FALSE;
+			State := 0;
+			Cycle := S_OK;
+		END_IF
+	ELSE
+		Cycle := E_FAIL;
+END_CASE
+
+mcMoveVelo(Axis := _Axis);]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Deceleration" Id="{3687a92b-814f-4a65-b007-ae191bb9e61e}">
+      <Declaration><![CDATA[PROPERTY Deceleration : MC_LREAL
+]]></Declaration>
+      <Get Name="Get" Id="{fd15208c-b78a-429b-9b89-acf251926f83}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Deceleration := mcMoveVelo.Deceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{086f87de-d583-4d56-b50a-8d0c08599476}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcMoveVelo.Deceleration := Deceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Done" Id="{51dcd633-8b8c-4ebb-bd82-704ceec64f29}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{da58fae3-77f4-4bde-881d-5f11edd1c4f2}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := _Done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{020f061a-cd8f-4d42-86c0-592c671fd6ba}">
+      <Declaration><![CDATA[PROPERTY Error : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{396b9440-fb51-44e4-9398-6c6a1bb2ceb4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := _Error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Jerk" Id="{47d3b6ef-be1c-4ef3-b364-6e63da359318}">
+      <Declaration><![CDATA[PROPERTY Jerk : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{b6612f32-b3b3-4b77-9630-833953175823}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Jerk := mcMoveVelo.Jerk;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{4e83b889-5283-4cde-9447-b4b10940b51e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcMoveVelo.Jerk := Jerk;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="MoveAtVelocity" Id="{1db16ae1-c549-47f3-8cc7-5298e04ee848}">
+      <Declaration><![CDATA[METHOD MoveAtVelocity : HRESULT
+VAR_INPUT
+	Direction : MC_Direction;
+	Velocity : MC_LREAL;
+	Task : REFERENCE TO I_Task;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Velocity = 0 THEN
+	MoveAtVelocity := -1;
+	RETURN;
+END_IF
+
+mcMoveVelo.Direction := Direction;
+mcMoveVelo.Velocity := Velocity;
+_MoveAtVelo := TRUE;
+Task := THIS^;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

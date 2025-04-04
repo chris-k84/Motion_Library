@@ -3,21 +3,26 @@
   <POU Name="MAIN" Id="{0e9c9627-95a3-4f44-9640-070a0428525d}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	PowerTestSuite : AxisPowerTestSuite;
-	ResetTestSuite : AxisResetTestSuite;
-	HaltTestSuite : AxisHaltTestSuite;
-	_AxisTestSuite : AxisTestSuite;
-	arrTestSuites : ARRAY[0..3] OF I_TestSuite := [PowerTestSuite, ResetTestSuite, HaltTestSuite, _AxisTestSuite];
+	Power_TestSuite : AxisPowerTestSuite;
+	Reset_TestSuite : AxisResetTestSuite;
+	Halt_TestSuite : AxisHaltTestSuite;
+	Axis_TestSuite : AxisTestSuite;
+	AxisJog_TestSuite : AxisJogTestSuite;
+	AxisVelo_TestSuite : AxisVelocityTestSuite;
+	arrTestSuites : ARRAY[0..5] OF I_TestSuite := [Power_TestSuite, Reset_TestSuite, Halt_TestSuite, Axis_TestSuite, AxisJog_TestSuite, AxisVelo_TestSuite];
 	ReRun: BOOL;
 	i : INT;
+	Integration_TestSuite : IntegrationTestSuite;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[PowerTestSuite();
-ResetTestSuite();
-HaltTestSuite();
-_AxisTestSuite();
-
+      <ST><![CDATA[Power_TestSuite();
+Reset_TestSuite();
+Halt_TestSuite();
+Axis_TestSuite();
+AxisJog_TestSuite();
+AxisVelo_TestSuite();
+Integration_TestSuite();
 IF ReRun THEN
 	FOR i := 0 TO 3 DO
 		arrTestSuites[i].ReRunTests();

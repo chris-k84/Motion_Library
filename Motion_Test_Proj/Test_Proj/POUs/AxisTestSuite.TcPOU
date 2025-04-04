@@ -6,48 +6,13 @@ VAR
 	StubAxis : AXIS_REF;
 	TestAxis : Axis_Base(StubAxis);
  	DummyLogger : Message_Null;
-	Enable: BOOL;
-	MOVETO: BOOL;
-	MOVETWO: BOOL;
-	DISABLE: BOOL;
-	SETBUFFER: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[AxisPassesEnableRequest_Test();
 AxisAcceptsLogger_Test();
 AxisRejectsNullValueLogger_Test();
-// IF Enable THEN
-// 	IF succeeded( TestAxis.EnableAxis()) THEN
-// 		Enable := FALSE;
-// 	END_IF
-// END_IF
-// 
-// IF MOVETO THEN
-// 	IF SUCCEEDED(TestAxis.MoveToPosition(1000.0,100.0)) THEN
-// 		MOVETO := FALSE;
-// 	END_IF
-// END_IF
-// 
-// IF SETBUFFER THEN
-// 	SETBUFFER := FALSE;
-// 	TestAxis.BufferMode := MC_BufferMode.MC_BlendingLow;
-// 	
-// END_IF
-// 
-// IF MOVETWO THEN
-// 	IF SUCCEEDED(TestAxis.MoveToPosition(1200.0,200.0)) THEN
-// 		MOVETWO := FALSE;
-// 	END_IF
-// END_IF
-// 
-// IF DISABLE THEN
-// 	IF SUCCEEDED(TestAxis.DisableAxis()) THEN
-// 		DISABLE := FALSE;
-// 	END_IF
-// END_IF
-// 
-// TestAxis.Cycle();]]></ST>
+]]></ST>
     </Implementation>
     <Method Name="AxisAcceptsLogger_Test" Id="{ac53cc58-5b0b-4f3e-becc-e559fba8878d}">
       <Declaration><![CDATA[METHOD AxisAcceptsLogger_Test

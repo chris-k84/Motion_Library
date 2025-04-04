@@ -203,9 +203,9 @@ END_VAR
 	ELSE
 		mcJog.JogBackwards := TRUE;
 	END_IF
-	JogFast := 1;
+	JogSlow := 1;
 ELSE
-	JogFast := -1;	
+	JogSlow := -1;	
 END_IF]]></ST>
       </Implementation>
     </Method>

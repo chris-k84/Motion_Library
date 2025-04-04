@@ -24,6 +24,9 @@
     <Compile Include="POUs\AxisHaltTestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\AxisJogTestSuite.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\AxisPowerTestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -33,10 +36,13 @@
     <Compile Include="POUs\AxisTestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\IntegrationTestSuite.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\MoveVelocityTestSuite.TcPOU">
+    <Compile Include="POUs\AxisVelocityTestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\StubTask.TcPOU">

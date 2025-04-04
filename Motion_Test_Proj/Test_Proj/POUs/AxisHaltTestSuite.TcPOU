@@ -15,10 +15,12 @@ END_VAR
 	0:
 		DoesTaskAbortClearBusy_Test();
 		DoesTaskAcceptDeceleration_Test();
+		DoesTaskAcceptJerk_Test();
 		DoesTaskClearInterfaceOnReject_Test();
 		DoesTaskRejectHaltWhenHalting_Test();
 		DoesTaskRejectHaltWhenStationary();
 		DoesTaskRejectNegativeDecel_Test();
+		DoesTaskRejectNegativeJerk_Test();
 		HaltAxisStatusFeedback := 512;
 		IF StubAxis.Status.Moving THEN
 			Cycle := 1;
@@ -82,6 +84,24 @@ END_VAR
 END_IF	]]></ST>
       </Implementation>
     </Method>
+    <Method Name="DoesTaskAcceptJerk_Test" Id="{98050709-162e-4845-bb7b-c45a7c0823c3}">
+      <Declaration><![CDATA[METHOD DoesTaskAcceptJerk_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisHalt.Jerk := 1.0;
+	Actual := TestAxisHalt.Jerk = 1.0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisHalt.Jerk := 0.0;
+	TestAxisHalt.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="DoesTaskClearInterfaceOnReject_Test" Id="{c32b02db-adfd-42b2-aaac-6244d63a16eb}">
       <Declaration><![CDATA[METHOD DoesTaskClearInterfaceOnReject_Test
 VAR_INST
@@ -142,6 +162,22 @@ END_VAR
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisHalt.Deceleration := -1.0;
 	Actual := TestAxisHalt.Deceleration = 0.0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisHalt.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskRejectNegativeJerk_Test" Id="{b3c97203-5864-4bb9-a5e3-eaafca001cfe}">
+      <Declaration><![CDATA[METHOD DoesTaskRejectNegativeJerk_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisHalt.Jerk := -1.0;
+	Actual := TestAxisHalt.jerk = 0.0;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Abort();
 END_IF	]]></ST>

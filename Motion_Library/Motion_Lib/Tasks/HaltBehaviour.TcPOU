@@ -169,7 +169,10 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[mcHalt.Jerk := Jerk;]]></ST>
+          <ST><![CDATA[IF Jerk >= 0.0 THEN
+	mcHalt.Jerk := Jerk;
+END_IF
+]]></ST>
         </Implementation>
       </Set>
     </Property>

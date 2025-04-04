@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="AxisHaltTestSuite" Id="{506c244a-6b71-4d33-aeec-65d4d3cf5d5e}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK AxisHaltTestSuite EXTENDS FB_TestSuite<TestSuite_Parameter.MaxTestCount>
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisHaltTestSuite EXTENDS TestSuite<TestSuiteParameter.MaxTestCount>
 VAR
 	StubAxis : AXIS_REF;
 	iStubTask : I_Task;

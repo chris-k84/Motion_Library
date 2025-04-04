@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="MoveVelocityTestSuite" Id="{6f423009-7ac9-4bbc-9784-ede5e34ea635}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK MoveVelocityTestSuite EXTENDS TestSuite<TestSuiteParameter.MaxTestCount>
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

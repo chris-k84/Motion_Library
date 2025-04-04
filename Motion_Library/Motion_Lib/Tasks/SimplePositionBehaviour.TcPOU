@@ -71,18 +71,11 @@ END_VAR
         <ST><![CDATA[Cycle := S_OK;
 CASE State OF
 	0:
-		IF MoveToPos THEN
-			Cycle := S_PENDING;
-			_Done := FALSE;
-			_Error := FALSE;
-			_Busy := TRUE;
-			moveAbs.Execute := TRUE;
-			IF moveAbs.Busy THEN
-				State := 10;
-				MoveToPos := FALSE;
-			END_IF
+		IF moveAbs.Busy THEN
+			State := 10;
+			MoveToPos := FALSE;
 		END_IF
-		
+	
 	10:
 		IF NOT moveAbs.Busy THEN
 			IF moveAbs.Done THEN
@@ -188,9 +181,12 @@ END_VAR
       <Implementation>
         <ST><![CDATA[moveAbs.Position := Position;
 moveAbs.Velocity := Velocity;
-MoveToPos := MoveTo := TRUE;
+MoveTo := TRUE;
 Task := THIS^;
-]]></ST>
+_Done := FALSE;
+_Error := FALSE;
+_Busy := TRUE;
+moveAbs.Execute := TRUE;]]></ST>
       </Implementation>
     </Method>
   </POU>

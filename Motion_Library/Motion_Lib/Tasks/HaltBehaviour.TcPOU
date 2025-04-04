@@ -50,18 +50,11 @@ END_VAR
         <ST><![CDATA[Cycle := S_OK;
 CASE State OF
 	0:
-		IF _Halt THEN
-			Cycle := S_PENDING;
-			_Done := FALSE;
-			_Error := FALSE;
-			_Busy := TRUE;
-			mcHalt.Execute := TRUE;
-			IF mcHalt.Busy THEN
-				State := 10;
-				_Halt := FALSE;
-			END_IF
+		IF mcHalt.Busy THEN
+			State := 10;
+			_Halt := FALSE;
 		END_IF
-	
+
 	10:
 		IF NOT mcHalt.Busy THEN
 			IF mcHalt.Done THEN
@@ -97,7 +90,11 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[mcHalt.Deceleration := Deceleration;]]></ST>
+          <ST><![CDATA[IF Deceleration >= 0.0 THEN
+	mcHalt.Deceleration := Deceleration;
+END_IF
+
+]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -132,9 +129,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _Axis.Status.Moving AND NOT _Halt THEN
+        <ST><![CDATA[IF _Axis.Status.Moving AND NOT _busy THEN
 	Execute := S_OK;
-	_Halt := TRUE;
+	_Done := FALSE;
+	_Error := FALSE;
+	_Busy := TRUE;
+	mcHalt.Execute := TRUE;
 	Task := THIS^;
 ELSE
 	Execute := S_FALSE;

@@ -52,17 +52,11 @@ END_VAR
         <ST><![CDATA[Cycle := S_OK;
 CASE State OF
 	0:
-		IF _ResetMover THEN
-			Cycle := S_PENDING;
-			_Done := FALSE;
-			_Error := FALSE;
-			_Busy := TRUE;
-			resetMover.Execute := TRUE;
-			IF resetMover.Busy THEN
-				State := 10;
-				_ResetMover := FALSE;
-			END_IF
+		IF resetMover.Busy THEN
+			State := 10;
+			_ResetMover := FALSE;
 		END_IF
+
 	10:
 		IF NOT resetMover.Busy THEN
 			IF resetMover.Done THEN
@@ -113,9 +107,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT _ResetMover THEN
+        <ST><![CDATA[IF NOT _Busy THEN
 	Execute := s_OK;
-	_ResetMover := TRUE;
+	_Done := FALSE;
+	_Error := FALSE;
+	_Busy := TRUE;
+	resetMover.Execute := TRUE;
 	Task := THIS^;
 ELSE
 	Execute := S_FALSE;

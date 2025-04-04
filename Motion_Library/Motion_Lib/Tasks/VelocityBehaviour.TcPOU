@@ -63,16 +63,9 @@ END_VAR
         <ST><![CDATA[Cycle := S_OK;
 CASE State OF
 	0:
-		IF _MoveAtVelo THEN
-			Cycle := S_PENDING;
-			_Done := FALSE;
-			_Error := FALSE;
-			_Busy := TRUE;
-			mcMoveVelo.Execute := TRUE;
-			IF mcMoveVelo.Busy THEN
-				State := 10;
-				_MoveAtVelo := FALSE;
-			END_IF
+		IF mcMoveVelo.Busy THEN
+			State := 10;
+			_MoveAtVelo := FALSE;
 		END_IF
 	
 	10:
@@ -190,7 +183,11 @@ mcMoveVelo.Direction := Direction;
 mcMoveVelo.Velocity := Velocity;
 MoveAtVelocity := 1;
 _MoveAtVelo := TRUE;
-Task := THIS^;]]></ST>
+Task := THIS^;
+_Done := FALSE;
+_Error := FALSE;
+_Busy := TRUE;
+mcMoveVelo.Execute := TRUE;]]></ST>
       </Implementation>
     </Method>
   </POU>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_VelocityAxis" Id="{bdeea844-06c8-4676-b25f-b2c6e73485b3}">
+    <Declaration><![CDATA[INTERFACE I_VelocityAxis
+]]></Declaration>
+    <Method Name="isInVelocity" Id="{c5f75824-8828-4b91-aac7-f6fa700241c4}">
+      <Declaration><![CDATA[METHOD isInVelocity : BOOL
+VAR_INPUT
+	Velocity : MC_LREAL;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="MoveAtVelocity" Id="{56b7b37d-76b7-4396-9126-21e2fa4df7b0}">
+      <Declaration><![CDATA[METHOD MoveAtVelocity : HRESULT
+VAR_INPUT
+	Direction : MC_Direction;
+	Velocity : MC_LREAL;
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

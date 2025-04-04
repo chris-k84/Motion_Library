@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="Axis_Base" Id="{6091fbf5-8563-4c3d-a46f-a871d52562e9}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Axis_Base IMPLEMENTS I_Cyclic, I_AxisControl, I_AxisStatus, I_Resettable
+    <Declaration><![CDATA[FUNCTION_BLOCK Axis_Base IMPLEMENTS I_AxisBase, I_PositionAxis, I_AxisStatus, I_VelocityAxis
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -22,7 +22,6 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
-    <Folder Name="Behaviours" Id="{98e234d3-576e-4568-9745-07295d3dd041}" />
     <Folder Name="Commands" Id="{07afdc00-d51e-4496-9063-9bd8f62d5829}" />
     <Folder Name="Dynamics" Id="{cb4086e9-6981-4aa8-9a87-7a24dd3c8528}" />
     <Folder Name="Status" Id="{91eb89a1-3e50-4f9b-a3c9-6207bfd52c53}" />
@@ -205,9 +204,9 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF _axis.NcToPlc.ActVelo < Velocity + 0.2 AND _axis.NcToPlc.ActVelo > Velocity - 0.2 THEN
-	isAtPosition := TRUE;
+	isInVelocity := TRUE;
 ELSE
-	isAtPosition := FALSE;
+	isInVelocity := FALSE;
 END_IF  
 
 ]]></ST>

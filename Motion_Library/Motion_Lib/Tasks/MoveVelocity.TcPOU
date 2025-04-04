@@ -20,7 +20,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[mcMoveVelo.Execute := FALSE;
 _Busy := FALSE;
-_Halt := FALSE;
+_MoveAtVelo := FALSE;
 Abort := TRUE;
 State := 0;]]></ST>
       </Implementation>

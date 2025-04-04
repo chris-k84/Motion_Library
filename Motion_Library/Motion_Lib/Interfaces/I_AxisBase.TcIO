@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_AxisBase" Id="{0ef07e09-d612-4b35-8507-c5527a9d7e82}">
+    <Declaration><![CDATA[INTERFACE I_AxisBase EXTENDS I_Cyclic
+]]></Declaration>
+    <Method Name="DisableAxis" Id="{9aa78aa4-6937-4925-a0b3-e6b55191b9b8}">
+      <Declaration><![CDATA[METHOD PUBLIC DisableAxis : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="EnableAxis" Id="{1d051842-9ad9-43b4-9c63-942a1b02943c}">
+      <Declaration><![CDATA[METHOD PUBLIC EnableAxis : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="HaltAxis" Id="{f00a986d-e8a1-4ddc-8d6f-7dfd0ff96b72}">
+      <Declaration><![CDATA[METHOD PUBLIC HaltAxis : HRESULT
+VAR
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="hasError" Id="{b463ab8b-6f68-4ef7-aee6-f909cd031bdf}">
+      <Declaration><![CDATA[METHOD hasError : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="isEnabled" Id="{74def401-5519-4834-a231-64b141cc4fba}">
+      <Declaration><![CDATA[METHOD isEnabled : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="Reset" Id="{70c30306-2843-45ea-9390-dee5671086b2}">
+      <Declaration><![CDATA[METHOD PUBLIC Reset : HRESULT
+VAR
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

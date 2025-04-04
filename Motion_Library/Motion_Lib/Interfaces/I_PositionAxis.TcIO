@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <Itf Name="I_AxisControl" Id="{67ee2d44-07ee-4a7f-8cf0-2ba796d7942a}">
-    <Declaration><![CDATA[INTERFACE I_AxisControl EXTENDS __SYSTEM.IQueryInterface
+  <Itf Name="I_PositionAxis" Id="{67ee2d44-07ee-4a7f-8cf0-2ba796d7942a}">
+    <Declaration><![CDATA[INTERFACE I_PositionAxis EXTENDS __SYSTEM.IQueryInterface
 ]]></Declaration>
     <Property Name="Acceleration" Id="{6aa38efd-5aab-4e71-a9b5-4601e763ad20}">
       <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>
@@ -30,20 +30,15 @@
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
-    <Method Name="DisableAxis" Id="{78e4be45-9441-4dfd-be50-a8de43882816}">
-      <Declaration><![CDATA[METHOD DisableAxis : HRESULT
+    <Method Name="isAtPosition" Id="{0795d33e-560d-4636-8a90-52e889bcb73b}">
+      <Declaration><![CDATA[METHOD isAtPosition : BOOL
 VAR_INPUT
+	position : MC_LREAL;
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="EnableAxis" Id="{dc495f2e-73cd-4872-9d3b-75cfe930dc9c}">
-      <Declaration><![CDATA[METHOD EnableAxis : HRESULT
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="HaltAxis" Id="{94883e86-e022-461f-9256-2ce498881fb1}">
-      <Declaration><![CDATA[METHOD HaltAxis : HRESULT
+    <Method Name="isStationary" Id="{cddbd933-61b5-4d6b-a5a0-3c907a5aba73}">
+      <Declaration><![CDATA[METHOD PUBLIC isStationary : BOOL
 VAR_INPUT
 END_VAR
 ]]></Declaration>
@@ -63,12 +58,6 @@ VAR_INPUT
 	Position : MC_LREAL;
 	Velocity : MC_LREAL;
 END_VAR]]></Declaration>
-    </Method>
-    <Method Name="Reset" Id="{fe6c826c-85ca-40eb-8eb2-4dba05c9813a}">
-      <Declaration><![CDATA[METHOD Reset : HRESULT
-VAR_INPUT
-END_VAR
-]]></Declaration>
     </Method>
   </Itf>
 </TcPlcObject>

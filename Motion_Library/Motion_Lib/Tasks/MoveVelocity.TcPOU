@@ -189,6 +189,7 @@ END_IF
 
 mcMoveVelo.Direction := Direction;
 mcMoveVelo.Velocity := Velocity;
+MoveAtVelocity := 1;
 _MoveAtVelo := TRUE;
 Task := THIS^;]]></ST>
       </Implementation>

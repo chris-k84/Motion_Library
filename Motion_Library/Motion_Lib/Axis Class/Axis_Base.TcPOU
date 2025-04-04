@@ -11,6 +11,7 @@ VAR
 	EnableBehaviour : AxisPower(_axis);
 	DefaultResetBehaviour : AxisReset(_axis);
 	DefaultMoveBehaviour : BufferedMoveToPosition(_axis);
+	DefaultVeloBehaviour : MoveVelocity(_axis);
 	HaltBehaviour	: AxisHalt(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_MoverErrorId: DWORD;
@@ -134,6 +135,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[EnableBehaviour.FB_init(FALSE, FALSE, axis);
 DefaultResetBehaviour.FB_init(FALSE, FALSE, axis);
 DefaultMoveBehaviour.FB_init(FALSE, FALSE, axis);
+DefaultVeloBehaviour.FB_Init(FALSE, FALSE, axis);
 HaltBehaviour.FB_init(FALSE, FALSE, axis);
 _axis REF= Axis;]]></ST>
       </Implementation>
@@ -195,6 +197,22 @@ END_VAR
         <ST><![CDATA[isEnabled := not _axis.Status.Disabled;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="isInVelocity" Id="{7ec3b18f-c8fb-413e-b2d4-c16b36d40216}" FolderPath="Status\">
+      <Declaration><![CDATA[METHOD isInVelocity : BOOL
+VAR_INPUT
+	Velocity : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _axis.NcToPlc.ActVelo < Velocity + 0.2 AND _axis.NcToPlc.ActVelo > Velocity - 0.2 THEN
+	isAtPosition := TRUE;
+ELSE
+	isAtPosition := FALSE;
+END_IF  
+
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="isStationary" Id="{4df49a98-73c3-4028-9049-ecd2a431e2f1}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD PUBLIC isStationary : BOOL
 VAR_INPUT
@@ -224,6 +242,21 @@ HaltBehaviour.Jerk := Jerk;]]></ST>
         </Implementation>
       </Set>
     </Property>
+    <Method Name="MoveAtVelocity" Id="{6d3a50a7-ce83-4f3f-b972-fcb26bf76028}" FolderPath="Commands\">
+      <Declaration><![CDATA[METHOD MoveAtVelocity : HRESULT
+VAR_INPUT
+	Direction : MC_Direction;
+	Velocity : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF DefaultVeloBehaviour.MoveAtVelocity(Direction, Velocity, CurrentTask) = 1 THEN
+	MoveAtVelocity := 1;
+ELSE
+	MoveAtVelocity := -1;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="MoveToPosition" Id="{bca42834-4b90-4808-be50-ee67839e4111}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD PUBLIC MoveToPosition : HRESULT
 VAR_INPUT

@@ -139,6 +139,21 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Method Name="FB_Init" Id="{a43ce224-e4a7-43b4-bb34-a8a929700026}">
+      <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
+//The return value is not evaluated. For a specific influence, you can also declare the
+//methods explicitly and provide additional code there with the standard initialization
+//code. You can evaluate the return value.
+METHOD FB_Init: BOOL
+VAR_INPUT
+    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)   
+	axis : reference TO AXIS_REF;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_Axis REF= axis;]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="Jerk" Id="{47d3b6ef-be1c-4ef3-b364-6e63da359318}">
       <Declaration><![CDATA[PROPERTY Jerk : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{b6612f32-b3b3-4b77-9630-833953175823}">

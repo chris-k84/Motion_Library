@@ -18,45 +18,42 @@
     <LibraryReferences>{be0dc230-429d-4598-9bde-35086ecf3a9e}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Manual Testing\IntegrationTestSuite.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\AxisHaltTestSuite.TcPOU">
+    <Compile Include="TestSuites\AxisHaltTestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\AxisJogTestSuite.TcPOU">
+    <Compile Include="TestSuites\AxisJogTestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\AxisPowerTestSuite.TcPOU">
+    <Compile Include="TestSuites\AxisPowerTestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\AxisResetTestSuite.TcPOU">
+    <Compile Include="TestSuites\AxisResetTestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\AxisTestSuite.TcPOU">
+    <Compile Include="TestSuites\AxisTestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\DUT.TcDUT">
+    <Compile Include="TestSuites\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\IntegrationTestSuite.TcPOU">
+    <Compile Include="TestSuites\AxisVelocityTestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\MAIN.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\AxisVelocityTestSuite.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\StubTask.TcPOU">
+    <Compile Include="Stubs\StubTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DUTs" />
-    <Folder Include="GVLs" />
+    <Folder Include="Stubs" />
+    <Folder Include="Manual Testing" />
     <Folder Include="VISUs" />
-    <Folder Include="POUs" />
+    <Folder Include="TestSuites" />
   </ItemGroup>
   <ItemGroup>
     <PlaceholderReference Include="Base Library">

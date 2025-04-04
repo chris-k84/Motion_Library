@@ -4,14 +4,18 @@
     <Declaration><![CDATA[FUNCTION_BLOCK AxisPowerTestSuite EXTENDS TestSuite<TestSuiteParameter.MaxTestCount>
 VAR
 	StubAxis : AXIS_REF;
-	StubTask : I_Task;
+	iStubTask : I_Task;
 	TestAxisPower : EnableBehaviour(StubAxis);
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[DoesAxisAcceptEnable_Test();
-RejectEnableWhenEnabled_Test();
-RejectDisableWhenDisabled_Test();]]></ST>
+DoesTaskClearInterfaceOnDisableReject_Test();
+DoesTaskClearInterfaceOnEnableReject_Test();
+DoesTaskReturnItsInterfaceOnDisable_Test();
+DoesTaskReturnItsInterfaceOnEnable_Test();
+RejectDisableWhenDisabled_Test();
+RejectEnableWhenEnabled_Test();]]></ST>
     </Implementation>
     <Method Name="DoesAxisAcceptEnable_Test" Id="{fe79904b-ba9b-4299-9251-955ef4cd651f}">
       <Declaration><![CDATA[METHOD DoesAxisAcceptEnable_Test : BOOL
@@ -22,9 +26,76 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	Actual := SUCCEEDED(TestAxisPower.Enable(StubTask));
-	TestAxisPower.Disable(StubTask);
+	Actual := SUCCEEDED(TestAxisPower.Enable(iStubTask));
+	TestAxisPower.Disable(iStubTask);
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskClearInterfaceOnDisableReject_Test" Id="{7d8b2f3b-2b27-4c2e-bee3-10cd5677c29e}">
+      <Declaration><![CDATA[METHOD DoesTaskClearInterfaceOnDisableReject_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisPower.Disable(iStubTask);
+	iStubTask := 0;
+	TestAxisPower.Disable(iStubTask);
+	Actual := iStubTask = 0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisPower.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskClearInterfaceOnEnableReject_Test" Id="{3d5cb210-ec24-4396-8afb-8c103a80ab98}">
+      <Declaration><![CDATA[METHOD DoesTaskClearInterfaceOnEnableReject_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisPower.Enable(iStubTask);
+	iStubTask := 0;
+	TestAxisPower.Enable(iStubTask);
+	Actual := iStubTask = 0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisPower.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskReturnItsInterfaceOnDisable_Test" Id="{e0740361-985b-4a21-9c28-fca4797a5e60}">
+      <Declaration><![CDATA[METHOD DoesTaskReturnItsInterfaceOnDisable_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisPower.Enable(iStubTask);
+	iStubTask := 0;
+	TestAxisPower.Disable(iStubTask);
+	Actual := iStubTask <> 0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisPower.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskReturnItsInterfaceOnEnable_Test" Id="{4f6c62d7-8fe9-4f31-8df8-c6c5190cb41b}">
+      <Declaration><![CDATA[METHOD DoesTaskReturnItsInterfaceOnEnable_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	iStubTask := 0;
+	TestAxisPower.Enable(iStubTask);
+	Actual := iStubTask <> 0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisPower.Abort();
 END_IF	]]></ST>
       </Implementation>
     </Method>
@@ -38,7 +109,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := s_false;
-	Actual := TestAxisPower.Disable(StubTask);
+	Actual := TestAxisPower.Disable(iStubTask);
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>
@@ -53,9 +124,9 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisPower.Enable(StubTask);
-	Actual := FAILED(TestAxisPower.Enable(StubTask));
-	TestAxisPower.Disable(StubTask);
+	TestAxisPower.Enable(iStubTask);
+	Actual := FAILED(TestAxisPower.Enable(iStubTask));
+	TestAxisPower.Abort();
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>

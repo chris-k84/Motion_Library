@@ -4,12 +4,16 @@
     <Declaration><![CDATA[FUNCTION_BLOCK AxisResetTestSuite EXTENDS TestSuite<TestSuiteParameter.MaxTestCount>
 VAR
 	_axis : AXIS_REF;
-	StubTask : I_Task;
+	iStubTask : I_Task;
 	TestAxisReset : ResetBehaviour(_axis);
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[DoesAcceptExecute_Test();
+DoesTaskAbortClearBusy_Test();
+DoesTaskAcceptAndSetBusy_Test();
+DoesTaskClearInterfaceOnReject_Test();
+DoesTaskReturnItsInterfaceOnAccept_Test();
 RejectResetWhileResetting_Test();]]></ST>
     </Implementation>
     <Method Name="DoesAcceptExecute_Test" Id="{08513cf5-caba-4c77-9c71-3b8a7a80c814}">
@@ -23,9 +27,73 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := s_OK;
-	Actual := TestAxisReset.Execute(StubTask);
+	Actual := TestAxisReset.Execute(iStubTask);
 	TestAxisReset.Abort();
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskAbortClearBusy_Test" Id="{b4acbce4-731b-4329-9277-0416ac626e31}">
+      <Declaration><![CDATA[METHOD DoesTaskAbortClearBusy_Test
+VAR_INST
+	Expected : BOOL := FALSE;
+	Actual	 : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisReset.Execute(iStubTask);
+	TestAxisReset.Abort();
+	Actual := TestAxisReset.Busy;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskAcceptAndSetBusy_Test" Id="{215a4d80-e8c0-4f6d-808b-dc5958b3620f}">
+      <Declaration><![CDATA[METHOD DoesTaskAcceptAndSetBusy_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : bool;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisReset.Execute(iStubTask);
+	Actual := TestAxisReset.Busy;
+	TestAxisReset.Abort();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskClearInterfaceOnReject_Test" Id="{50e4d835-2346-405f-84a2-7ae80f318546}">
+      <Declaration><![CDATA[METHOD DoesTaskClearInterfaceOnReject_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisReset.Execute(iStubTask);
+	iStubTask := 0;
+	TestAxisReset.Execute(iStubTask);
+	Actual := iStubTask = 0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisReset.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskReturnItsInterfaceOnAccept_Test" Id="{239fffb3-7f3c-4135-95b6-b1a96fe74903}">
+      <Declaration><![CDATA[METHOD DoesTaskReturnItsInterfaceOnAccept_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	iStubTask := 0;
+	TestAxisReset.Execute(iStubTask);
+	Actual := iStubTask <> 0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisReset.Abort();
 END_IF	]]></ST>
       </Implementation>
     </Method>
@@ -39,8 +107,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := S_FALSE;
-	TestAxisReset.Execute(StubTask);
-	Actual := TestAxisReset.Execute(StubTask);
+	TestAxisReset.Execute(iStubTask);
+	Actual := TestAxisReset.Execute(iStubTask);
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>

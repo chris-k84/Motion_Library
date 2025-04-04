@@ -9,9 +9,79 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[DoesTaskRejectHaltWhenStationary();
-DoesTaskRejectHaltWhenHalting_Test();]]></ST>
+      <ST><![CDATA[DoesTaskAbortClearBusy_Test();
+DoesTaskAcceptDeceleration_Test();
+DoesTaskAcceptHaltSettingBusy();
+DoesTaskClearInterfaceOnReject_Test();
+DoesTaskRejectHaltWhenHalting_Test();
+DoesTaskRejectHaltWhenStationary();
+DoesTaskRejectNegativeDecel_Test();
+DoesTaskReturnItsInterfaceOnAccept_Test();]]></ST>
     </Implementation>
+    <Method Name="DoesTaskAbortClearBusy_Test" Id="{396289fc-d1fc-4ad3-a1b2-75290c475f0c}">
+      <Declaration><![CDATA[METHOD DoesTaskAbortClearBusy_Test
+VAR_INST
+	Expected : BOOL := False;
+	Actual	 : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisHalt.Execute(iStubTask);
+	TestAxisHalt.Abort();
+	Actual := TestAxisHalt.Busy;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskAcceptDeceleration_Test" Id="{0b50a50f-eb72-411c-8915-6ad01c86f81a}">
+      <Declaration><![CDATA[METHOD DoesTaskAcceptDeceleration_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisHalt.Deceleration := 1.0;
+	Actual := TestAxisHalt.Deceleration = 1.0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisHalt.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskAcceptHaltSettingBusy" Id="{c1bc0269-ae8d-4f1d-b105-ad0df1227da1}">
+      <Declaration><![CDATA[METHOD DoesTaskAcceptHaltSettingBusy
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisHalt.Execute(iStubTask);
+	Actual := TestAxisHalt.Busy;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisHalt.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskClearInterfaceOnReject_Test" Id="{c32b02db-adfd-42b2-aaac-6244d63a16eb}">
+      <Declaration><![CDATA[METHOD DoesTaskClearInterfaceOnReject_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisHalt.Execute(iStubTask);
+	iStubTask := 0;
+	TestAxisHalt.Execute(iStubTask);
+	Actual := iStubTask = 0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisHalt.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="DoesTaskRejectHaltWhenHalting_Test" Id="{48ddc48e-e466-40b6-8eab-977aa7646793}">
       <Declaration><![CDATA[METHOD DoesTaskRejectHaltWhenHalting_Test : BOOL
 VAR_INST
@@ -25,6 +95,7 @@ END_VAR
 	TestAxisHalt.Execute(iStubTask);
 	Actual := TestAxisHalt.Execute(iStubTask);
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisHalt.Abort();
 END_IF	]]></ST>
       </Implementation>
     </Method>
@@ -39,6 +110,39 @@ END_VAR]]></Declaration>
 	Expected := S_FALSE;
 	Actual := TestAxisHalt.Execute(iStubTask);
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisHalt.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskRejectNegativeDecel_Test" Id="{1b1adc1a-7db5-4792-b8f3-41b347a17820}">
+      <Declaration><![CDATA[METHOD DoesTaskRejectNegativeDecel_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisHalt.Deceleration := -1.0;
+	Actual := TestAxisHalt.Deceleration = 0.0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisHalt.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskReturnItsInterfaceOnAccept_Test" Id="{88753f8e-37a1-4151-948f-d01c3bbcdf32}">
+      <Declaration><![CDATA[METHOD DoesTaskReturnItsInterfaceOnAccept_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	iStubTask := 0;
+	TestAxisHalt.Execute(iStubTask);
+	Actual := iStubTask <> 0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisHalt.Abort();
 END_IF	]]></ST>
       </Implementation>
     </Method>

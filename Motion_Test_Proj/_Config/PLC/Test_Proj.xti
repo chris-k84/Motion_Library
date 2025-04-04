@@ -983,7 +983,7 @@ External Setpoint Generation:
 		</DataType>
 	</DataTypes>
 	<Project GUID="{C01A2072-C155-49BF-9448-3F6D7D8FFDC1}" Name="Test_Proj" PrjFilePath="..\..\Test_Proj\Test_Proj.plcproj" TmcFilePath="..\..\Test_Proj\Test_Proj.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{D3138CA1-0BCE-1D29-A7C9-50AF692E233C}" TmcPath="Test_Proj\Test_Proj.tmc">
+		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{A34BC8C7-9462-CAFB-26B9-8BCD963CB5F7}" TmcPath="Test_Proj\Test_Proj.tmc">
 			<Name>Test_Proj Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 			<Vars VarGrpType="2" AreaNo="1">
@@ -999,6 +999,10 @@ External Setpoint Generation:
 				<Var>
 					<Name>MAIN.Halt_TestSuite.StubAxis.PlcToNc</Name>
 					<Type GUID="{96B75FEB-2D84-43BE-A3EC-D9A681F27D52}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+				</Var>
+				<Var>
+					<Name>MAIN.Halt_TestSuite.HaltAxisStatusFeedback</Name>
+					<Type>DWORD</Type>
 				</Var>
 				<Var>
 					<Name>MAIN.Axis_TestSuite.StubAxis.PlcToNc</Name>
@@ -1056,4 +1060,12 @@ External Setpoint Generation:
 			</TaskPouOids>
 		</Instance>
 	</Project>
+	<Mappings>
+		<OwnerA Name="Test_Proj Instance">
+			<OwnerB Name="TIPC^Test_Proj^Test_Proj Instance">
+				<Link VarA="PlcTask Inputs^MAIN.Halt_TestSuite.StubAxis.NcToPlc^StateDWord" VarB="PlcTask Outputs^MAIN.Halt_TestSuite.HaltAxisStatusFeedback"/>
+				<Link VarA="PlcTask Outputs^MAIN.Halt_TestSuite.HaltAxisStatusFeedback" VarB="PlcTask Inputs^MAIN.Halt_TestSuite.StubAxis.NcToPlc^StateDWord"/>
+			</OwnerB>
+		</OwnerA>
+	</Mappings>
 </TcSmItem>

@@ -3,6 +3,8 @@
   <POU Name="IntegrationTestSuite" Id="{69bc61fe-8999-4914-8ef6-bb0c95ff7655}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK IntegrationTestSuite
 VAR
+	StubAxis : AXIS_REF;
+	TestAxis : Axis_Base(StubAxis);
 	Enable: BOOL;
 	MOVETO: BOOL;
 	MOVETWO: BOOL;
@@ -11,37 +13,37 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// IF Enable THEN
-// 	IF succeeded( TestAxis.EnableAxis()) THEN
-// 		Enable := FALSE;
-// 	END_IF
-// END_IF
-// 
-// IF MOVETO THEN
-// 	IF SUCCEEDED(TestAxis.MoveToPosition(1000.0,100.0)) THEN
-// 		MOVETO := FALSE;
-// 	END_IF
-// END_IF
-// 
-// IF SETBUFFER THEN
-// 	SETBUFFER := FALSE;
-// 	TestAxis.BufferMode := MC_BufferMode.MC_BlendingLow;
-// 	
-// END_IF
-// 
-// IF MOVETWO THEN
-// 	IF SUCCEEDED(TestAxis.MoveToPosition(1200.0,200.0)) THEN
-// 		MOVETWO := FALSE;
-// 	END_IF
-// END_IF
-// 
-// IF DISABLE THEN
-// 	IF SUCCEEDED(TestAxis.DisableAxis()) THEN
-// 		DISABLE := FALSE;
-// 	END_IF
-// END_IF
-// 
-// TestAxis.Cycle();]]></ST>
+      <ST><![CDATA[IF Enable THEN
+	IF succeeded( TestAxis.EnableAxis()) THEN
+		Enable := FALSE;
+	END_IF
+END_IF
+
+IF MOVETO THEN
+	IF SUCCEEDED(TestAxis.MoveToPosition(1000.0,100.0)) THEN
+		MOVETO := FALSE;
+	END_IF
+END_IF
+
+IF SETBUFFER THEN
+	SETBUFFER := FALSE;
+	TestAxis.BufferMode := MC_BufferMode.MC_BlendingLow;
+	
+END_IF
+
+IF MOVETWO THEN
+	IF SUCCEEDED(TestAxis.MoveToPosition(1200.0,200.0)) THEN
+		MOVETWO := FALSE;
+	END_IF
+END_IF
+
+IF DISABLE THEN
+	IF SUCCEEDED(TestAxis.DisableAxis()) THEN
+		DISABLE := FALSE;
+	END_IF
+END_IF
+
+TestAxis.Cycle();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

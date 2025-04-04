@@ -46,11 +46,11 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisHalt.Deceleration := 1.0;
-	Actual := TestAxisHalt.Deceleration = 1.0;
+	TestAxisVelo.Deceleration := 1.0;
+	Actual := TestAxisVelo.Deceleration = 1.0;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
-	TestAxisHalt.Deceleration := 0.0;
-	TestAxisHalt.Abort();
+	TestAxisVelo.Deceleration := 0.0;
+	TestAxisVelo.Abort();
 END_IF	]]></ST>
       </Implementation>
     </Method>
@@ -128,10 +128,10 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisHalt.Deceleration := -1.0;
-	Actual := TestAxisHalt.Deceleration = 0.0;
+	TestAxisVelo.Deceleration := -1.0;
+	Actual := TestAxisVelo.Deceleration = 0.0;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
-	TestAxisHalt.Abort();
+	TestAxisVelo.Abort();
 END_IF	]]></ST>
       </Implementation>
     </Method>

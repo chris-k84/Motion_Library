@@ -9,7 +9,144 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[DoesTaskAcceptAcceleration_Test();
+DoesTaskAcceptDeceleration_Test();
+DoesTaskAcceptJerk_Test();
+DoesTaskAcceptsInch_Test();
+DoesTaskRejectNegativeAccell_Test();
+DoesTaskRejectNegativeDecel_Test();
+DoesTaskRejectNegativeJerk_Test();
+DoesTaskRejectZeroDistanceInch_Test();]]></ST>
     </Implementation>
+    <Method Name="DoesTaskAcceptAcceleration_Test" Id="{97fe4398-d4c0-4835-9bd5-3582499aa884}">
+      <Declaration><![CDATA[METHOD DoesTaskAcceptAcceleration_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisJog.Acceleration := 1.0;
+	Actual := TestAxisJog.Acceleration = 1.0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisJog.Acceleration := 0.0;
+	TestAxisJog.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskAcceptDeceleration_Test" Id="{716e911b-9a6c-4b43-bbeb-ede88198f42d}">
+      <Declaration><![CDATA[METHOD DoesTaskAcceptDeceleration_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisJog.Deceleration := 1.0;
+	Actual := TestAxisJog.Deceleration = 1.0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisJog.Deceleration := 0.0;
+	TestAxisJog.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskAcceptJerk_Test" Id="{79558f02-1c76-467a-a708-5ab8b49e1f27}">
+      <Declaration><![CDATA[METHOD DoesTaskAcceptJerk_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisJog.Jerk := 1.0;
+	Actual := TestAxisJog.Jerk = 1.0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisJog.Jerk := 0.0;
+	TestAxisJog.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskAcceptsInch_Test" Id="{b603a83d-e08e-45f3-86b4-49fa0ebe0e9d}">
+      <Declaration><![CDATA[METHOD DoesTaskAcceptsInch_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	Actual := SUCCEEDED(TestAxisJog.Inch(10.0,TRUE));
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisJog.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskRejectNegativeAccell_Test" Id="{4fe7aa44-c6df-45f2-9ce2-f90ef01c02cd}">
+      <Declaration><![CDATA[METHOD DoesTaskRejectNegativeAccell_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisJog.Acceleration := -1.0;
+	Actual := TestAxisJog.Acceleration = 0.0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisJog.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskRejectNegativeDecel_Test" Id="{2295c37c-d34d-4773-bd8b-50c76e582d1a}">
+      <Declaration><![CDATA[METHOD DoesTaskRejectNegativeDecel_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisJog.Deceleration := -1.0;
+	Actual := TestAxisJog.Deceleration = 0.0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisJog.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskRejectNegativeJerk_Test" Id="{7b320684-ada6-4bef-9fe2-3201a14cc365}">
+      <Declaration><![CDATA[METHOD DoesTaskRejectNegativeJerk_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisJog.Jerk := -1.0;
+	Actual := TestAxisJog.jerk = 0.0;
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisJog.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DoesTaskRejectZeroDistanceInch_Test" Id="{936752e7-1a5f-43db-9d36-dba5840b59e5}">
+      <Declaration><![CDATA[METHOD DoesTaskRejectZeroDistanceInch_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	Actual := FAILED(TestAxisJog.Inch(-10.0,TRUE));
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestAxisJog.Abort();
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
   </POU>
 </TcPlcObject>

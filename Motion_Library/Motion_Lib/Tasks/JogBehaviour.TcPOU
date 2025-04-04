@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="JogBehaviour" Id="{93a24811-ac08-41d3-baf3-1eeddaaca380}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK JogBehaviour IMPLEMENTS I_Task
+    <Declaration><![CDATA[FUNCTION_BLOCK JogBehaviour
 VAR
 	mcJog : MC_Jog;
 	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
@@ -41,21 +41,11 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[mcJog.Acceleration := Acceleration;]]></ST>
+          <ST><![CDATA[IF Acceleration >= 0.0 THEN
+	mcJog.Acceleration := Acceleration;
+END_IF]]></ST>
         </Implementation>
       </Set>
-    </Property>
-    <Property Name="Busy" Id="{68bf64b2-7154-4c09-b4b5-29a0c139c252}">
-      <Declaration><![CDATA[PROPERTY Busy : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{7db99a41-5098-45e7-8a0c-0b315c8ea30d}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Busy := mcJog.Busy;]]></ST>
-        </Implementation>
-      </Get>
     </Property>
     <Method Name="Cycle" Id="{b67d0a54-8b3a-4073-b286-d4573c1b8f3c}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
@@ -85,21 +75,11 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[mcJog.Deceleration := Deceleration;]]></ST>
+          <ST><![CDATA[IF Deceleration >= 0.0 THEN
+	mcJog.Deceleration := Deceleration;
+END_IF]]></ST>
         </Implementation>
       </Set>
-    </Property>
-    <Property Name="Done" Id="{dbb9c800-a9f5-426d-83e7-6a23a947d51b}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{d7e76a60-ad8e-4957-a971-3f43e455de17}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := mcJog.Done;]]></ST>
-        </Implementation>
-      </Get>
     </Property>
     <Property Name="Error" Id="{d44dc283-dd11-4e85-bf58-96cec41957cb}">
       <Declaration><![CDATA[PROPERTY Error : BOOL
@@ -136,7 +116,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT mcJog.Busy THEN
+        <ST><![CDATA[IF Distance > 0.0 AND NOT mcJog.Busy THEN
 	mcJog.Mode := E_JogMode.MC_JOGMODE_INCHING;
 	IF Direction THEN
 		mcJog.JogForward := TRUE;
@@ -164,7 +144,9 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[mcJog.Jerk := Jerk;]]></ST>
+          <ST><![CDATA[IF Jerk >= 0.0 THEN
+	mcJog.Jerk := Jerk;
+END_IF]]></ST>
         </Implementation>
       </Set>
     </Property>

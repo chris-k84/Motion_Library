@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="AxisPower" Id="{9020922a-7816-4155-9202-ac5854f794ea}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK AxisPower IMPLEMENTS I_Task
+  <POU Name="EnableBehaviour" Id="{9020922a-7816-4155-9202-ac5854f794ea}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK EnableBehaviour IMPLEMENTS I_Task
 VAR
 	mcPower : Tc2_MC2.MC_Power;
 	AxisReference : REFERENCE TO Tc2_MC2.AXIS_REF;

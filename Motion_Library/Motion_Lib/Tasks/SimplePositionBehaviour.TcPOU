@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="SimpleMoveToPosition" Id="{28fa9c58-d811-4345-8e27-94422602642f}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK SimpleMoveToPosition IMPLEMENTS I_Task
+  <POU Name="SimplePositionBehaviour" Id="{28fa9c58-d811-4345-8e27-94422602642f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK SimplePositionBehaviour IMPLEMENTS I_Task
 VAR_INPUT
 END_VAR
 VAR_OUTPUT

@@ -52,6 +52,9 @@
     <Compile Include="Interfaces\I_AxisStatus.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Interfaces\I_Jog.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Interfaces\I_MoveAbs.TcIO">
       <SubType>Code</SubType>
     </Compile>
@@ -64,22 +67,25 @@
     <Compile Include="Internal\MoveAbs.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\AxisReset.TcPOU">
+    <Compile Include="Tasks\JogBehaviour.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\AxisPower.TcPOU">
+    <Compile Include="Tasks\ResetBehaviour.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\AxisHalt.TcPOU">
+    <Compile Include="Tasks\EnableBehaviour.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\MoveVelocity.TcPOU">
+    <Compile Include="Tasks\HaltBehaviour.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\SimpleMoveToPosition.TcPOU">
+    <Compile Include="Tasks\VelocityBehaviour.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\BufferedMoveToPosition.TcPOU">
+    <Compile Include="Tasks\SimplePositionBehaviour.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\BufferedPositionBehaviour.TcPOU">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

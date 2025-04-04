@@ -7,7 +7,7 @@ VAR
 	ResetTestSuite : AxisResetTestSuite;
 	HaltTestSuite : AxisHaltTestSuite;
 	_AxisTestSuite : AxisTestSuite;
-	arrTestSuites : ARRAY[0..3] OF ITestSuite := [PowerTestSuite, ResetTestSuite, HaltTestSuite, _AxisTestSuite];
+	arrTestSuites : ARRAY[0..3] OF I_TestSuite := [PowerTestSuite, ResetTestSuite, HaltTestSuite, _AxisTestSuite];
 	ReRun: BOOL;
 	i : INT;
 END_VAR

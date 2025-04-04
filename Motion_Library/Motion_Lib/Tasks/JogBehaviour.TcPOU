@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="JogBehaviour" Id="{93a24811-ac08-41d3-baf3-1eeddaaca380}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK JogBehaviour IMPLEMENTS I_Task
+VAR
+	mcJog : MC_Jog;
+	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
+	_Inch : BOOL;
+	State: INT;
+	_Done: BOOL;
+	_Error: BOOL;
+	_Busy: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{b2b93ebf-662d-44ff-93bc-b7babec2db15}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mcJog.JogBackwards := FALSE;
+mcJog.JogForward := FALSE;
+_Busy := FALSE;
+Abort := TRUE;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Acceleration" Id="{7d07353b-1625-46d1-8a8e-b25a7f2d8ac3}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{e110a53b-02a9-4950-b346-5324f495dff0}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Acceleration := mcJog.Acceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{160db0ef-7254-4c77-ba9a-d8daa1fc733b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcJog.Acceleration := Acceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Busy" Id="{68bf64b2-7154-4c09-b4b5-29a0c139c252}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{7db99a41-5098-45e7-8a0c-0b315c8ea30d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := mcJog.Busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Cycle" Id="{b67d0a54-8b3a-4073-b286-d4573c1b8f3c}">
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mcJog(Axis := _Axis);
+IF mcJog.JogForward OR mcJog.JogBackwards THEN
+	mcJog.JogForward := FALSE;
+	mcJog.JogBackwards := FALSE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Deceleration" Id="{dbba12a0-12c8-4073-9ce7-0dd44d87c4d0}">
+      <Declaration><![CDATA[PROPERTY Deceleration : MC_LREAL
+]]></Declaration>
+      <Get Name="Get" Id="{c4f01bd0-d7d4-4a35-82d0-3718c8e4e3bf}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Deceleration := mcJog.Deceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{56f70526-3b67-42d4-89b8-7d513b789b7f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcJog.Deceleration := Deceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Done" Id="{dbb9c800-a9f5-426d-83e7-6a23a947d51b}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{d7e76a60-ad8e-4957-a971-3f43e455de17}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := mcJog.Done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{d44dc283-dd11-4e85-bf58-96cec41957cb}">
+      <Declaration><![CDATA[PROPERTY Error : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{e6e5962f-3a4b-4e9c-b2b8-f23b1a198e68}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := mcJog.Error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="FB_Init" Id="{d9efeee3-433c-4efc-81ad-3418b1af510d}">
+      <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
+//The return value is not evaluated. For a specific influence, you can also declare the
+//methods explicitly and provide additional code there with the standard initialization
+//code. You can evaluate the return value.
+METHOD FB_Init: BOOL
+VAR_INPUT
+    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)   
+	axis : reference TO AXIS_REF;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_Axis REF= axis;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Inch" Id="{e02c77c7-fbd4-44e8-b8df-19efdb43f112}">
+      <Declaration><![CDATA[METHOD Inch : HRESULT
+VAR_INPUT
+	Distance : MC_LREAL;
+	Direction : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT mcJog.Busy THEN
+	mcJog.Mode := E_JogMode.MC_JOGMODE_INCHING;
+	IF Direction THEN
+		mcJog.JogForward := TRUE;
+	ELSE
+		mcJog.JogBackwards := TRUE;
+	END_IF
+	Inch := 1;
+ELSE
+	Inch := -1;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Jerk" Id="{3d46d99f-6131-4b7c-b21b-3c23e369ab60}">
+      <Declaration><![CDATA[PROPERTY Jerk : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{796d5857-0670-459d-9447-96c04b175892}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Jerk := mcJog.Jerk;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{566a6b80-a040-44f5-8bec-314dea43cf07}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcJog.Jerk := Jerk;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="JogFast" Id="{0e6d03bc-9689-4567-b5e1-cbff9f6d180a}">
+      <Declaration><![CDATA[METHOD JogFast : HRESULT
+VAR_INPUT
+	Direction : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT mcJog.Busy THEN
+	mcJog.Mode := E_JogMode.MC_JOGMODE_STANDARD_FAST;
+	IF Direction THEN
+		mcJog.JogForward := TRUE;
+	ELSE
+		mcJog.JogBackwards := TRUE;
+	END_IF
+	JogFast := 1;
+ELSE
+	JogFast := -1;	
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="JogSlow" Id="{0b9b92fe-bd4d-4e10-b3e0-06572091ed39}">
+      <Declaration><![CDATA[METHOD JogSlow : HRESULT
+VAR_INPUT
+	Direction : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT mcJog.Busy THEN
+	mcJog.Mode := E_JogMode.MC_JOGMODE_STANDARD_SLOW;
+	IF Direction THEN
+		mcJog.JogForward := TRUE;
+	ELSE
+		mcJog.JogBackwards := TRUE;
+	END_IF
+	JogFast := 1;
+ELSE
+	JogFast := -1;	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

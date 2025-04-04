@@ -5,7 +5,7 @@
 VAR
 	StubAxis : AXIS_REF;
 	StubTask : I_Task;
-	TestAxisPower : AxisPower(StubAxis);
+	TestAxisPower : EnableBehaviour(StubAxis);
 END_VAR
 ]]></Declaration>
     <Implementation>

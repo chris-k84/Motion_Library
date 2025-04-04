@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="MoveVelocity" Id="{86fa777b-f5d3-4d7e-bd44-8ee6f4991e5f}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK MoveVelocity IMPLEMENTS I_Task
+  <POU Name="VelocityBehaviour" Id="{86fa777b-f5d3-4d7e-bd44-8ee6f4991e5f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK VelocityBehaviour IMPLEMENTS I_Task
 VAR
 	mcMoveVelo : MC_MoveVelocity;
 	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
@@ -40,8 +40,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[mcMoveVelo.Acceleration := Acceleration;
-mcMoveVelo.Acceleration := Acceleration;]]></ST>
+          <ST><![CDATA[mcMoveVelo.Acceleration := Acceleration;]]></ST>
         </Implementation>
       </Set>
     </Property>

@@ -5,7 +5,7 @@
 VAR
 	StubAxis : AXIS_REF;
 	TestAxis : Axis_Base(StubAxis);
- 	DummyLogger : TcMEssage_Ext_Null;
+ 	DummyLogger : Message_Null;
 	Enable: BOOL;
 	MOVETO: BOOL;
 	MOVETWO: BOOL;

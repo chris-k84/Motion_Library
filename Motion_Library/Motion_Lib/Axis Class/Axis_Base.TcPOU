@@ -1,18 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="Axis_Base" Id="{6091fbf5-8563-4c3d-a46f-a871d52562e9}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Axis_Base IMPLEMENTS I_AxisBase, I_PositionAxis, I_AxisStatus, I_VelocityAxis
+    <Declaration><![CDATA[FUNCTION_BLOCK Axis_Base IMPLEMENTS I_AxisBase, I_PositionAxis, I_AxisStatus, I_VelocityAxis, I_Jog
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
 	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
-	EnableBehaviour : AxisPower(_axis);
-	DefaultResetBehaviour : AxisReset(_axis);
-	DefaultMoveBehaviour : BufferedMoveToPosition(_axis);
-	DefaultVeloBehaviour : MoveVelocity(_axis);
-	HaltBehaviour	: AxisHalt(_axis);
+	EnableBehaviour : EnableBehaviour(_axis);
+	DefaultResetBehaviour : ResetBehaviour(_axis);
+	DefaultMoveBehaviour : BufferedPositionBehaviour(_axis);
+	DefaultVeloBehaviour : VelocityBehaviour(_axis);
+	DefaultJogBehaviour : JogBehaviour(_axis);
+	HaltBehaviour	: HaltBehaviour(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_MoverErrorId: DWORD;
 	_Logger : Message_Null;
@@ -135,6 +136,7 @@ END_VAR]]></Declaration>
 DefaultResetBehaviour.FB_init(FALSE, FALSE, axis);
 DefaultMoveBehaviour.FB_init(FALSE, FALSE, axis);
 DefaultVeloBehaviour.FB_Init(FALSE, FALSE, axis);
+DefaultJogBehaviour.FB_Init(FALSE, FALSE, axis);
 HaltBehaviour.FB_init(FALSE, FALSE, axis);
 _axis REF= Axis;]]></ST>
       </Implementation>
@@ -169,6 +171,19 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[hasError := _axis.Status.Error;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Inch" Id="{a8ecae9a-5934-4e49-93bc-ed8a7c89528c}" FolderPath="Commands\">
+      <Declaration><![CDATA[METHOD Inch : HRESULT
+VAR_INPUT
+	Distance : MC_LREAL;
+	Direction : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF FAILED( DefaultJogBehaviour.Inch(Distance, Direction)) THEN
+	Inch := -1;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="isAtPosition" Id="{a3fbba8b-aebd-4df9-9a9b-10d926ce7c0a}" FolderPath="Status\">
@@ -241,6 +256,30 @@ HaltBehaviour.Jerk := Jerk;]]></ST>
         </Implementation>
       </Set>
     </Property>
+    <Method Name="JogFast" Id="{95cc0a16-a1bd-4e7f-963c-68820a459e0a}" FolderPath="Commands\">
+      <Declaration><![CDATA[METHOD JogFast : HRESULT
+VAR_INPUT
+	Direction : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF FAILED(DefaultJogBehaviour.JogFast(Direction)) THEN
+	JogFast := -1;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="JogSlow" Id="{6f896ef2-e375-4b54-96df-82c467e4828a}" FolderPath="Commands\">
+      <Declaration><![CDATA[METHOD JogSlow : HRESULT
+VAR_INPUT
+	Direction : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF FAILED(DefaultJogBehaviour.JogSlow(Direction)) THEN
+	JogSlow := -1;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="MoveAtVelocity" Id="{6d3a50a7-ce83-4f3f-b972-fcb26bf76028}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD MoveAtVelocity : HRESULT
 VAR_INPUT

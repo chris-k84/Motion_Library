@@ -10,6 +10,10 @@ VAR
 	MOVETWO: BOOL;
 	DISABLE: BOOL;
 	SETBUFFER: BOOL;
+	CONVEYOR: BOOL;
+	JOGSLOW: BOOL;
+	JOGFAST: BOOL;
+	HALT: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -37,10 +41,30 @@ IF MOVETWO THEN
 	END_IF
 END_IF
 
+IF HALT THEN
+	IF SUCCEEDED(TestAxis.HaltAxis()) THEN
+		HALT := FALSE;
+	END_IF
+END_IF
+
 IF DISABLE THEN
 	IF SUCCEEDED(TestAxis.DisableAxis()) THEN
 		DISABLE := FALSE;
 	END_IF
+END_IF
+
+IF CONVEYOR THEN
+	IF SUCCEEDED(TestAxis.MoveAtVelocity(MC_Direction.MC_Positive_Direction, 100.0)) THEN
+		CONVEYOR := FALSE;
+	END_IF
+END_IF
+
+IF JOGSLOW THEN
+	TestAxis.JogSlow(FALSE);
+END_IF
+
+IF JOGFAST THEN
+	TestAxis.JogFast(TRUE);
 END_IF
 
 TestAxis.Cycle();]]></ST>

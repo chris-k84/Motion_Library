@@ -70,11 +70,13 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Cycle := DefaultMoveBehaviour.Cycle();
-Cycle := HaltBehaviour.Cycle();
-Cycle := DefaultResetBehaviour.Cycle();
+        <ST><![CDATA[EnableBehaviour.Cycle();
+DefaultMoveBehaviour.Cycle();
+HaltBehaviour.Cycle();
+DefaultResetBehaviour.Cycle();
+DefaultVeloBehaviour.Cycle();
+DefaultJogBehaviour.Cycle();
 _axis.ReadStatus();
-Cycle := EnableBehaviour.Cycle();
 axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);]]></ST>
       </Implementation>
     </Method>

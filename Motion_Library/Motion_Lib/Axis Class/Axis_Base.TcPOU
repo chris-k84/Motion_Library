@@ -15,7 +15,7 @@ VAR
 	DefaultJogBehaviour : JogBehaviour(_axis);
 	HaltBehaviour	: HaltBehaviour(_axis);
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
-	_MoverErrorId: DWORD;
+	_ErrorId: DWORD;
 	_Logger : Message_Null;
 	_TraceLogger : I_Message := _Logger;
 	CurrentTask : I_Task;
@@ -77,7 +77,7 @@ DefaultResetBehaviour.Cycle();
 DefaultVeloBehaviour.Cycle();
 DefaultJogBehaviour.Cycle();
 _axis.ReadStatus();
-axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _MoverErrorId);]]></ST>
+axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _ErrorId);]]></ST>
       </Implementation>
     </Method>
     <Property Name="Deceleration" Id="{bb54abe4-e56a-4330-9f3c-f7af329a7f17}" FolderPath="Dynamics\">
@@ -150,6 +150,15 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[getCurrentPosition := _axis.NcToPlc.ActPos;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetErrorId" Id="{c8c8fb1e-3132-40a5-bb74-f66710995f3e}" FolderPath="Status\">
+      <Declaration><![CDATA[METHOD GetErrorId : DWORD
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetErrorId := _ErrorId;]]></ST>
       </Implementation>
     </Method>
     <Method Name="HaltAxis" Id="{b5b4d676-a559-4d25-8571-0c2ec9c3c015}" FolderPath="Commands\">

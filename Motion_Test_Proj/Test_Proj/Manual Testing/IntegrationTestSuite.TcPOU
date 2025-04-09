@@ -5,6 +5,11 @@
 VAR
 	StubAxis : AXIS_REF;
 	TestAxis : Axis_Base(StubAxis);
+	iAxisBase : I_AxisBase := TestAxis;
+	iJog : I_Jog := TestAxis;
+	iAxisStatus : I_AxisStatus := TestAxis;
+	iPosition : I_PositionAxis := TestAxis;
+	iVelo : I_VelocityAxis := TestAxis;
 	Enable: BOOL;
 	MOVETO: BOOL;
 	MOVETWO: BOOL;
@@ -18,13 +23,13 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF Enable THEN
-	IF succeeded( TestAxis.EnableAxis()) THEN
+	IF succeeded(iAxisBase.EnableAxis()) THEN
 		Enable := FALSE;
 	END_IF
 END_IF
 
 IF MOVETO THEN
-	IF SUCCEEDED(TestAxis.MoveToPosition(1000.0,100.0)) THEN
+	IF SUCCEEDED(iPosition.MoveToPosition(1000.0,100.0)) THEN
 		MOVETO := FALSE;
 	END_IF
 END_IF
@@ -36,35 +41,35 @@ IF SETBUFFER THEN
 END_IF
 
 IF MOVETWO THEN
-	IF SUCCEEDED(TestAxis.MoveToPosition(1200.0,200.0)) THEN
+	IF SUCCEEDED(iPosition.MoveToPosition(1200.0,200.0)) THEN
 		MOVETWO := FALSE;
 	END_IF
 END_IF
 
 IF HALT THEN
-	IF SUCCEEDED(TestAxis.HaltAxis()) THEN
+	IF SUCCEEDED(iAxisBase.HaltAxis()) THEN
 		HALT := FALSE;
 	END_IF
 END_IF
 
 IF DISABLE THEN
-	IF SUCCEEDED(TestAxis.DisableAxis()) THEN
+	IF SUCCEEDED(iAxisBase.DisableAxis()) THEN
 		DISABLE := FALSE;
 	END_IF
 END_IF
 
 IF CONVEYOR THEN
-	IF SUCCEEDED(TestAxis.MoveAtVelocity(MC_Direction.MC_Positive_Direction, 100.0)) THEN
+	IF SUCCEEDED(iVelo.MoveAtVelocity(MC_Direction.MC_Positive_Direction, 100.0)) THEN
 		CONVEYOR := FALSE;
 	END_IF
 END_IF
 
 IF JOGSLOW THEN
-	TestAxis.JogSlow(FALSE);
+	iJog.JogSlow(FALSE);
 END_IF
 
 IF JOGFAST THEN
-	TestAxis.JogFast(TRUE);
+	iJog.JogFast(TRUE);
 END_IF
 
 TestAxis.Cycle();]]></ST>

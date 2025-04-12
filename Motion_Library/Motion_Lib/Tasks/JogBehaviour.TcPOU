@@ -10,6 +10,8 @@ VAR
 	_Done: BOOL;
 	_Error: BOOL;
 	_Busy: BOOL;
+	JogToggle : BOOL;
+	PreviousToggle : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -52,10 +54,11 @@ END_IF]]></ST>
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[mcJog(Axis := _Axis);
-IF mcJog.JogForward OR mcJog.JogBackwards THEN
+IF mcJog.JogBackwards OR mcJog.JogForward THEN
 	mcJog.JogForward := FALSE;
 	mcJog.JogBackwards := FALSE;
 END_IF
+
 ]]></ST>
       </Implementation>
     </Method>
@@ -157,18 +160,13 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT mcJog.Busy THEN
-	mcJog.Mode := E_JogMode.MC_JOGMODE_STANDARD_FAST;
-	IF Direction THEN
-		mcJog.JogForward := TRUE;
-	ELSE
-		mcJog.JogBackwards := TRUE;
-	END_IF
-	JogFast := 1;
+        <ST><![CDATA[mcJog.Mode := E_JogMode.MC_JOGMODE_STANDARD_FAST;
+IF Direction THEN
+	mcJog.JogForward := TRUE;
 ELSE
-	JogFast := -1;	
+	mcJog.JogBackwards := TRUE;
 END_IF
-]]></ST>
+JogFast := 1;]]></ST>
       </Implementation>
     </Method>
     <Method Name="JogSlow" Id="{0b9b92fe-bd4d-4e10-b3e0-06572091ed39}">
@@ -178,17 +176,13 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT mcJog.Busy THEN
-	mcJog.Mode := E_JogMode.MC_JOGMODE_STANDARD_SLOW;
-	IF Direction THEN
-		mcJog.JogForward := TRUE;
-	ELSE
-		mcJog.JogBackwards := TRUE;
-	END_IF
-	JogSlow := 1;
+        <ST><![CDATA[mcJog.Mode := E_JogMode.MC_JOGMODE_STANDARD_SLOW;
+IF Direction THEN
+	mcJog.JogForward := TRUE;
 ELSE
-	JogSlow := -1;	
-END_IF]]></ST>
+	mcJog.JogBackwards := TRUE;
+END_IF
+JogSlow := 1;]]></ST>
       </Implementation>
     </Method>
   </POU>

@@ -10,8 +10,6 @@ VAR
 	_Done: BOOL;
 	_Error: BOOL;
 	_Busy: BOOL;
-	JogToggle : BOOL;
-	PreviousToggle : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>

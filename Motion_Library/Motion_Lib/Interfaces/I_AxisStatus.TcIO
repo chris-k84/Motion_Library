@@ -9,22 +9,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="HasError" Id="{e7471b4a-08a6-46c7-9890-534c8ede1daa}">
-      <Declaration><![CDATA[METHOD HasError : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
     <Method Name="isAtPosition" Id="{b1b2fe74-f8e0-4241-b0e9-3e1b63b14a12}">
       <Declaration><![CDATA[METHOD isAtPosition : BOOL
 VAR_INPUT
 	position : MC_LREAL;
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="isEnabled" Id="{206658e1-36fc-414b-a92b-edd9aceba017}">
-      <Declaration><![CDATA[METHOD isEnabled : BOOL
-VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>

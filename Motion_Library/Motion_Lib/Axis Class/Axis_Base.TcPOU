@@ -170,6 +170,7 @@ END_VAR
         <ST><![CDATA[IF NOT HaltBehaviour.Busy THEN
 	HaltAxis := HaltBehaviour.Execute(CurrentTask);
 	DefaultMoveBehaviour.Abort();
+	DefaultVeloBehaviour.Abort();
 ELSE 
 	HaltAxis := -1;
 END_IF]]></ST>

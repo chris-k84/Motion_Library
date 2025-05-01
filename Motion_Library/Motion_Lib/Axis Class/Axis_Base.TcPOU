@@ -12,6 +12,7 @@ VAR
 	DefaultResetBehaviour : ResetBehaviour(_axis);
 	DefaultMoveBehaviour : BufferedPositionBehaviour(_axis);
 	DefaultRelBehaviour : BufferedRelativeBehaviour(_axis);
+	DefaultModBehaviour : BufferedModuloBehaviour(_axis);
 	DefaultVeloBehaviour : VelocityBehaviour(_axis);
 	DefaultJogBehaviour : JogBehaviour(_axis);
 	HaltBehaviour	: HaltBehaviour(_axis);
@@ -61,7 +62,9 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[DefaultMoveBehaviour.BufferMode:= BufferMode;]]></ST>
+          <ST><![CDATA[DefaultMoveBehaviour.BufferMode:= BufferMode;
+DefaultRelBehaviour.BufferMode := BufferMode;
+DefaultModBehaviour.BufferMode := BufferMode;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -74,6 +77,7 @@ END_VAR
         <ST><![CDATA[EnableBehaviour.Cycle();
 DefaultMoveBehaviour.Cycle();
 DefaultRelBehaviour.Cycle();
+DefaultModBehaviour.Cycle();
 HaltBehaviour.Cycle();
 DefaultResetBehaviour.Cycle();
 DefaultVeloBehaviour.Cycle();
@@ -142,6 +146,7 @@ DefaultMoveBehaviour.FB_init(FALSE, FALSE, axis);
 DefaultVeloBehaviour.FB_Init(FALSE, FALSE, axis);
 DefaultJogBehaviour.FB_Init(FALSE, FALSE, axis);
 DefaultRelBehaviour.FB_init(FALSE, FALSE, axis);
+DefaultModBehaviour.FB_init(FALSE, FALSE, axis);
 HaltBehaviour.FB_init(FALSE, FALSE, axis);
 _axis REF= Axis;]]></ST>
       </Implementation>
@@ -326,6 +331,23 @@ ELSE
 	MoveByDistance := -1;
 END_IF
 
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoveToModuloPosition" Id="{470f0d21-ab3e-4d10-948f-9938775e223b}" FolderPath="Commands\">
+      <Declaration><![CDATA[METHOD MoveToModuloPosition : HRESULT
+VAR_INPUT
+	Position : MC_LREAL;
+	Velocity : MC_LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT isAtPosition(position := Position) THEN
+	DefaultModBehaviour.MoveTo(Position,Velocity,CurrentTask);
+	MoveToModuloPosition := 1;
+ELSE
+	MoveToModuloPosition := -1;
+END_IF
 ]]></ST>
       </Implementation>
     </Method>

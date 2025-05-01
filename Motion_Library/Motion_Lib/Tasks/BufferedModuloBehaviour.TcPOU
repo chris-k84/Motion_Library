@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="BufferedModuloBehaviour" Id="{4b2a6eba-d243-4928-a062-e7cd28555504}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK BufferedModuloBehaviour IMPLEMENTS I_Task
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	moveMod : ARRAY[0..1] OF MoveMod;
+	iMoveMod : I_MoveMod := moveMod[0];
+	moveIndex : INT;
+	_Axis : REFERENCE TO AXIS_REF;
+	MoveToPosition : BOOL;
+	State: INT;
+	_Done: BOOL;
+	_Error: BOOL;
+	_Busy: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[{analysis -2}]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{c7361e47-825a-4abf-80d8-120a1089eb55}">
+      <Declaration><![CDATA[METHOD Abort : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[iMoveMod.Execute := FALSE;
+iMoveMod.Position := 0;
+iMoveMod.Velocity := 0;
+MoveToPosition := FALSE;
+_Busy := FALSE;
+Abort := TRUE;
+State := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Acceleration" Id="{5efba23d-e011-4405-bb55-4e323feb331c}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{c59f034a-cceb-4ed8-8aab-3c5f5a02ef2e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Acceleration := moveMod[0].Acceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{863f9e81-0ee1-4ab5-a000-bad8a139bc40}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[moveMod[0].Acceleration := Acceleration;
+moveMod[1].Acceleration := Acceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="BufferMode" Id="{3a851acd-463e-40fc-bf96-3c652482e4ea}">
+      <Declaration><![CDATA[PROPERTY BufferMode : MC_BufferMode]]></Declaration>
+      <Get Name="Get" Id="{4e94b10e-2706-49b6-b69f-941eea27fa0d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[BufferMode := moveMod[0].BufferMode;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{6d18da47-b58f-4a7b-b9ec-f9b84956776c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[moveMod[0].BufferMode := BufferMode;
+moveMod[1].BufferMode := BufferMode;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Busy" Id="{71dc2aa8-13a9-464c-ae6c-6a0ef690d265}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{55198a9d-10e7-416f-9f6e-02e939f58bd0}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := _Busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Cycle" Id="{a8f35d36-fc74-4dc1-ba67-2c3da0b93a4d}">
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Cycle := S_OK;
+CASE State OF
+	0:
+		IF iMoveMod.Busy THEN
+			State := 10;
+			MoveToPosition := FALSE;
+		END_IF
+		
+	10:
+		IF NOT iMoveMod.Busy THEN
+			IF iMoveMod.Done THEN
+				_Done := TRUE;
+			ELSIF iMoveMod.Error THEN
+				_Error := TRUE;
+			END_IF
+			_Busy := FALSE;
+			iMoveMod.Execute := FALSE;
+			State := 0;
+			Cycle := S_OK;
+		END_IF
+	ELSE
+		Cycle := E_FAIL;
+END_CASE
+
+moveMod[0](Axis := _Axis);
+moveMod[1](Axis := _Axis);]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Deceleration" Id="{6d02c74d-5efe-4114-8b61-963907ffd237}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{6ee02382-78a0-4785-9f0f-2f7ac3e2769b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Deceleration := moveMod[0].Deceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{82f305d4-2b4d-4600-ace9-46181cacd5af}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[moveMod[0].Deceleration := Deceleration;
+moveMod[1].Deceleration := Deceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Done" Id="{fd95a047-97a1-4855-8ba0-86a4e6cafd6c}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{8d51d253-1849-408d-a8da-62d012e438aa}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := _Done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{c8501715-2c3e-4ab3-ae6d-77e3c674856d}">
+      <Declaration><![CDATA[PROPERTY Error : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{26f40dfb-3f26-474b-91d0-d3de1ce3a419}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := _Error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="FB_init" Id="{bd56b8d8-d22b-40c4-9a07-7c558ef6e614}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	axis : reference TO AXIS_REF;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_Axis REF= axis;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Jerk" Id="{4b55462e-f2be-488a-9111-a7fa1551fac5}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Jerk : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{01a93546-1f9d-4e0d-bb42-3d1be86ea75c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Jerk := moveMod[0].Jerk;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{16f31369-4a52-425d-931f-893db11e6179}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[moveMod[0].Jerk := Jerk;
+moveMod[1].Jerk := Jerk;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="MoveTo" Id="{9207e690-5364-4b6a-bd08-6224adaefb6a}">
+      <Declaration><![CDATA[METHOD MoveTo : BOOL
+VAR_INPUT
+	Position : MC_LREAL;
+	Velocity : MC_LREAL;
+	Task : REFERENCE TO I_Task;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF iMoveMod.Execute THEN
+	Abort();
+	IF moveIndex = 0 THEN
+		moveIndex := 1;
+	ELSE
+		moveIndex := 0;
+	END_IF
+	iMoveMod := moveMod[moveIndex];
+END_IF
+
+iMoveMod.Position := Position;
+iMoveMod.Velocity := Velocity;
+MoveTo := TRUE;
+Task := THIS^;
+
+_Done := FALSE;
+_Error := FALSE;
+_Busy := TRUE;
+iMoveMod.Execute := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

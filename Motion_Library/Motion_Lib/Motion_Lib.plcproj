@@ -79,6 +79,9 @@
     <Compile Include="Internal\MoveRel.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tasks\BufferedModuloBehaviour.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tasks\BufferedRelativeBehaviour.TcPOU">
       <SubType>Code</SubType>
     </Compile>

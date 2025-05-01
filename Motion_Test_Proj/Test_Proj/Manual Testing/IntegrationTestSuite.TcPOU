@@ -20,8 +20,10 @@ VAR
 	JOGSLOW: BOOL;
 	JOGFAST: BOOL;
 	HALT: BOOL;
+	MODULO : BOOL;
 	VelocityDemand : LREAL := 100.0;
 	Pos_Dist : LREAL := 10.0;
+	Mod_Pos : LREAL := 230.0;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -44,7 +46,7 @@ IF SETBUFFER THEN
 END_IF
 
 IF MOVETWO THEN
-	IF SUCCEEDED(iPosition.MoveToPosition(Pos_Dist,VelocityDemand)) THEN
+	IF SUCCEEDED(iPosition.MoveToPosition(1200.0,VelocityDemand)) THEN
 		MOVETWO := FALSE;
 	END_IF
 END_IF
@@ -52,6 +54,12 @@ END_IF
 IF MOVEREL THEN
 	IF succeeded(iPosition.MoveByDistance(Pos_Dist,VelocityDemand)) THEN
 		MOVEREL := FALSE;
+	END_IF
+END_IF
+
+IF MODULO THEN
+	IF SUCCEEDED(iPosition.MoveToModuloPosition(Mod_Pos,VelocityDemand)) THEN
+		MODULO := FALSE;
 	END_IF
 END_IF
 

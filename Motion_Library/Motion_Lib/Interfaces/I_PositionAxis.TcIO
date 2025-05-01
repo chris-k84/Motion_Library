@@ -61,6 +61,14 @@ END_VAR
 
 ]]></Declaration>
     </Method>
+    <Method Name="MoveToModuloPosition" Id="{41ccc185-4245-4d0a-9e77-77dc1b4d301f}">
+      <Declaration><![CDATA[METHOD MoveToModuloPosition : HRESULT
+VAR_INPUT
+	Position : MC_LREAL;
+	Velocity : MC_LREAL;
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="MoveToPosition" Id="{c5eac34c-4010-4d8b-8622-96313c7f08cf}">
       <Declaration><![CDATA[METHOD MoveToPosition : HRESULT
 VAR_INPUT

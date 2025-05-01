@@ -58,6 +58,9 @@
     <Compile Include="Interfaces\I_MoveAbs.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Interfaces\I_MoveMod.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Interfaces\I_MoveRel.TcIO">
       <SubType>Code</SubType>
     </Compile>
@@ -68,6 +71,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Internal\MoveAbs.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internal\MoveMod.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Internal\MoveRel.TcPOU">

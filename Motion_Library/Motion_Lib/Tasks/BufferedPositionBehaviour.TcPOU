@@ -9,7 +9,7 @@ END_VAR
 VAR
 	moveAbs : ARRAY[0..1] OF MoveAbs;
 	iMoveAbs : I_MoveAbs := MoveAbs[0];
-	moveAbsIndex : INT;
+	moveIndex : INT;
 	_Axis : REFERENCE TO AXIS_REF;
 	MoveToPosition : BOOL;
 	State: INT;
@@ -207,12 +207,12 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF iMoveAbs.Execute THEN
 	Abort();
-	IF moveAbsIndex = 0 THEN
-		moveAbsIndex := 1;
+	IF moveIndex = 0 THEN
+		moveIndex := 1;
 	ELSE
-		moveAbsIndex := 0;
+		moveIndex := 0;
 	END_IF
-	iMoveAbs := moveAbs[moveAbsIndex];
+	iMoveAbs := moveAbs[moveIndex];
 END_IF
 
 iMoveAbs.Position := Position;

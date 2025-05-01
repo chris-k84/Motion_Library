@@ -13,6 +13,7 @@ VAR
 	Enable: BOOL;
 	MOVETO: BOOL;
 	MOVETWO: BOOL;
+	MOVEREL : BOOL;
 	DISABLE: BOOL;
 	SETBUFFER: BOOL;
 	CONVEYOR: BOOL;
@@ -20,6 +21,7 @@ VAR
 	JOGFAST: BOOL;
 	HALT: BOOL;
 	VelocityDemand : LREAL := 100.0;
+	Pos_Dist : LREAL := 10.0;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -42,8 +44,14 @@ IF SETBUFFER THEN
 END_IF
 
 IF MOVETWO THEN
-	IF SUCCEEDED(iPosition.MoveToPosition(1200.0,200.0)) THEN
+	IF SUCCEEDED(iPosition.MoveToPosition(Pos_Dist,VelocityDemand)) THEN
 		MOVETWO := FALSE;
+	END_IF
+END_IF
+
+IF MOVEREL THEN
+	IF succeeded(iPosition.MoveByDistance(Pos_Dist,VelocityDemand)) THEN
+		MOVEREL := FALSE;
 	END_IF
 END_IF
 

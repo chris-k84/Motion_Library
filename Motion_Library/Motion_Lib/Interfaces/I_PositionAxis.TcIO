@@ -52,6 +52,15 @@ END_VAR
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
+    <Method Name="MoveByDistance" Id="{a5b81455-a8f6-4114-80eb-0d55f77596a7}">
+      <Declaration><![CDATA[METHOD MoveByDistance : HRESULT
+VAR_INPUT
+	Distance : MC_LREAL;
+	Velocity : MC_LREAL;
+END_VAR
+
+]]></Declaration>
+    </Method>
     <Method Name="MoveToPosition" Id="{c5eac34c-4010-4d8b-8622-96313c7f08cf}">
       <Declaration><![CDATA[METHOD MoveToPosition : HRESULT
 VAR_INPUT

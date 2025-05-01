@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_MoveRel" Id="{b1496155-5bda-4c91-8619-1dd28831e6da}">
+    <Declaration><![CDATA[INTERFACE I_MoveRel
+]]></Declaration>
+    <Property Name="Acceleration" Id="{a733dd4f-079f-4e60-b27f-a63df5b4ce7c}">
+      <Declaration><![CDATA[PROPERTY Acceleration : MC_LREAL
+]]></Declaration>
+      <Get Name="Get" Id="{369f7289-dd69-4e50-ab4d-7de03e09b8c6}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{731bc629-0259-41d9-880d-1145bef31a99}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="BufferMode" Id="{a7b0188c-d52e-4dbb-bb25-8b7e0b97c944}">
+      <Declaration><![CDATA[PROPERTY BufferMode : MC_Buffermode]]></Declaration>
+      <Get Name="Get" Id="{10955590-9bfb-4ffd-b5ff-6d7b63ecbc27}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{be3e2fba-e1d6-427b-b6e6-1b3b87f205ca}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="Busy" Id="{861dbd37-ba6f-44e5-9137-d278f5fa944d}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL]]></Declaration>
+      <Get Name="Get" Id="{3e1ee1fd-04a6-429f-9a7c-6a31adbd866e}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="Deceleration" Id="{733a537f-0245-4fe7-8338-6b07cec10753}">
+      <Declaration><![CDATA[PROPERTY Deceleration : MC_LREAL
+]]></Declaration>
+      <Get Name="Get" Id="{46a153ac-e218-48fd-9311-b5ccda7127cf}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{f13dd235-b31d-4790-a236-f7e67e5697fe}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="Distance" Id="{c4ac7b06-6dec-48ad-b169-76621e834714}">
+      <Declaration><![CDATA[PROPERTY Distance : MC_LREAL
+]]></Declaration>
+      <Get Name="Get" Id="{45d5c5ff-5450-436a-9e3e-07c35dfd64ee}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{a238f1c5-5dd8-4081-9c66-9902e5c33ebb}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="Done" Id="{940ad0ab-f368-4a96-b168-78337cf28298}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL]]></Declaration>
+      <Get Name="Get" Id="{2a304557-adc8-4698-abab-8c812e24d9dd}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{d782dafb-fca1-4930-9c5e-3295204dc52d}">
+      <Declaration><![CDATA[PROPERTY Error : BOOL]]></Declaration>
+      <Get Name="Get" Id="{5a9ee5a1-4d8a-4843-bf48-5073517f6bae}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="Execute" Id="{532bab7f-4cca-4008-b58c-eeebbce95bfe}">
+      <Declaration><![CDATA[PROPERTY Execute : BOOL]]></Declaration>
+      <Get Name="Get" Id="{86b14c7f-2510-492c-a6f4-4aff8d8a6978}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{8f469b48-9823-473d-8b9a-d3419166b3cb}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="Jerk" Id="{25031b41-72bc-412e-adad-e0c36f1e578b}">
+      <Declaration><![CDATA[PROPERTY Jerk : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{b7f5d7c2-40b7-4961-963b-7a57b841ba39}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{e0eb68a7-e7d2-4e92-b0b8-707ddcb9df42}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="Velocity" Id="{65fcaed5-6e91-4435-9c3e-d300bacb4a87}">
+      <Declaration><![CDATA[PROPERTY Velocity : MC_LREAL
+]]></Declaration>
+      <Get Name="Get" Id="{4fa9b7e5-0bed-44b1-ad3b-d38e548eea6a}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{0e74610f-c449-4cce-aab4-864a1342d32d}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+  </Itf>
+</TcPlcObject>

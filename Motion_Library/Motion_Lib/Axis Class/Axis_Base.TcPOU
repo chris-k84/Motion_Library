@@ -11,6 +11,7 @@ VAR
 	EnableBehaviour : EnableBehaviour(_axis);
 	DefaultResetBehaviour : ResetBehaviour(_axis);
 	DefaultMoveBehaviour : BufferedPositionBehaviour(_axis);
+	DefaultRelBehaviour : BufferedRelativeBehaviour(_axis);
 	DefaultVeloBehaviour : VelocityBehaviour(_axis);
 	DefaultJogBehaviour : JogBehaviour(_axis);
 	HaltBehaviour	: HaltBehaviour(_axis);
@@ -72,6 +73,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[EnableBehaviour.Cycle();
 DefaultMoveBehaviour.Cycle();
+DefaultRelBehaviour.Cycle();
 HaltBehaviour.Cycle();
 DefaultResetBehaviour.Cycle();
 DefaultVeloBehaviour.Cycle();
@@ -139,6 +141,7 @@ DefaultResetBehaviour.FB_init(FALSE, FALSE, axis);
 DefaultMoveBehaviour.FB_init(FALSE, FALSE, axis);
 DefaultVeloBehaviour.FB_Init(FALSE, FALSE, axis);
 DefaultJogBehaviour.FB_Init(FALSE, FALSE, axis);
+DefaultRelBehaviour.FB_init(FALSE, FALSE, axis);
 HaltBehaviour.FB_init(FALSE, FALSE, axis);
 _axis REF= Axis;]]></ST>
       </Implementation>
@@ -305,6 +308,25 @@ END_VAR
 ELSE
 	MoveAtVelocity := -1;
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MoveByDistance" Id="{957d5870-8bcd-44f2-a483-ac5c3f32f182}" FolderPath="Commands\">
+      <Declaration><![CDATA[METHOD MoveByDistance : HRESULT
+VAR_INPUT
+	Distance : MC_LREAL;
+	Velocity : MC_LREAL;
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF ABS(Distance) > 0 THEN
+	DefaultRelBehaviour.MoveBy(Distance,Velocity,CurrentTask);
+	MoveByDistance := 1;
+ELSE
+	MoveByDistance := -1;
+END_IF
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="MoveToPosition" Id="{bca42834-4b90-4808-be50-ee67839e4111}" FolderPath="Commands\">

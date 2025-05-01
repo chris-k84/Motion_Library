@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="MoveRel" Id="{9ca1e6f1-5c27-40c7-9f76-999c535b3f26}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK MoveRel IMPLEMENTS I_MoveRel
+VAR
+	mcMoveRel : MC_MoveRelative;
+END_VAR
+VAR_IN_OUT
+	Axis : AXIS_REF;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[mcMoveRel(Axis := Axis);]]></ST>
+    </Implementation>
+    <Property Name="Acceleration" Id="{7ecc5ab3-15ae-4024-a4ef-a8f5ac0b8b93}">
+      <Declaration><![CDATA[PROPERTY Acceleration : MC_LREAL
+]]></Declaration>
+      <Get Name="Get" Id="{72d76dae-a4d9-43ce-b149-b49bae071284}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Acceleration := mcMoveRel.Acceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{278cec4c-3132-4aaa-b447-b81c4c7f10c8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcMoveRel.Acceleration := Acceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="BufferMode" Id="{5915dfae-a5ae-4d40-b309-4b53a8d3982f}">
+      <Declaration><![CDATA[PROPERTY BufferMode : MC_Buffermode]]></Declaration>
+      <Get Name="Get" Id="{2f23724a-8cea-4b53-9823-3bd430970efe}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[BufferMode := mcMoveRel.BufferMode;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{d9f89a99-81f8-457c-8e22-facc958ceb06}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcMoveRel.BufferMode := BufferMode;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Busy" Id="{7c23e43e-bc2f-4735-b223-4adec3827db5}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL]]></Declaration>
+      <Get Name="Get" Id="{73cce52d-291c-4327-aa1e-2a73f5d42bf4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := mcMoveRel.Busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Deceleration" Id="{4fb840b1-7736-4a60-b91a-afe7bfc85c3c}">
+      <Declaration><![CDATA[PROPERTY Deceleration : MC_LREAL
+]]></Declaration>
+      <Get Name="Get" Id="{a206fc7d-d2d3-47a9-a20a-db58787edcad}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Deceleration := mcMoveRel.Deceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{e818e475-6fed-45a0-905f-23ed767cbcac}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcMoveRel.Deceleration := Deceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Distance" Id="{be786d34-ebd2-4f73-8b06-f39f08222532}">
+      <Declaration><![CDATA[PROPERTY Distance : MC_LREAL
+]]></Declaration>
+      <Get Name="Get" Id="{02cce890-a4b2-4b99-866b-a04a978b19bc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Distance := mcMoveRel.Distance;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{4ca77e39-a9fe-4fb1-b5b3-414adb6d732d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcMoveRel.Distance := Distance;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Done" Id="{6c125584-0b98-4f70-9a46-06087d551624}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL]]></Declaration>
+      <Get Name="Get" Id="{7bad797f-f078-4525-a2c5-345ba5a7ed7a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := mcMoveRel.Done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{cdfdf972-5601-440e-8469-8be8334b5d4a}">
+      <Declaration><![CDATA[PROPERTY Error : BOOL]]></Declaration>
+      <Get Name="Get" Id="{4c5f9990-6836-4ced-8980-0bc120364fca}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := mcMoveRel.Error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Execute" Id="{13bbac01-af0a-4c88-9b13-5f106b671973}">
+      <Declaration><![CDATA[PROPERTY Execute : BOOL]]></Declaration>
+      <Get Name="Get" Id="{1b7cce1d-f7f7-4dca-ad61-cba6d312219c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Execute := mcMoveRel.Execute;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{267e852f-b7b1-4a72-8f58-813b8b3f7500}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcMoveRel.Execute := Execute;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Jerk" Id="{000417e2-abe0-48ae-8e70-6f4397424a06}">
+      <Declaration><![CDATA[PROPERTY Jerk : MC_LREAL]]></Declaration>
+      <Get Name="Get" Id="{1eac950f-6cd1-4236-b538-a6ac1547a731}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Jerk := mcMoveRel.Jerk;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{82ca6325-50a3-43d0-a691-58593405761e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcMoveRel.Jerk := Jerk;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Velocity" Id="{b60bb925-7261-4bcc-a818-57fca7c480c8}">
+      <Declaration><![CDATA[PROPERTY Velocity : MC_LREAL
+]]></Declaration>
+      <Get Name="Get" Id="{4fd17538-7f44-4607-8fff-0627ca88fc6c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Velocity := mcMoveRel.Velocity;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{2e3242a1-18b3-469f-b955-e9a6a6b3e657}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcMoveRel.Velocity := Velocity;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+  </POU>
+</TcPlcObject>

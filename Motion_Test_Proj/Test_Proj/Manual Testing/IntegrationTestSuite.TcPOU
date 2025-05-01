@@ -19,6 +19,7 @@ VAR
 	JOGSLOW: BOOL;
 	JOGFAST: BOOL;
 	HALT: BOOL;
+	VelocityDemand : LREAL := 100.0;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -59,7 +60,7 @@ IF DISABLE THEN
 END_IF
 
 IF CONVEYOR THEN
-	IF SUCCEEDED(iVelo.MoveAtVelocity(MC_Direction.MC_Positive_Direction, 100.0)) THEN
+	IF SUCCEEDED(iVelo.MoveAtVelocity(MC_Direction.MC_Positive_Direction, VelocityDemand)) THEN
 		CONVEYOR := FALSE;
 	END_IF
 END_IF

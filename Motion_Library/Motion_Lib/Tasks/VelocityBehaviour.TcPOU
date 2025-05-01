@@ -71,17 +71,16 @@ CASE State OF
 		END_IF
 	
 	10:
-		IF NOT mcMoveVelo.Busy THEN
-			IF mcMoveVelo.InVelocity THEN
-				_Done := TRUE;
-			ELSIF mcMoveVelo.Error THEN
-				_Error := TRUE;
-			END_IF
-			_Busy := FALSE;
-			mcMoveVelo.Execute := FALSE;
-			State := 0;
-			Cycle := S_OK;
+		IF mcMoveVelo.InVelocity THEN
+			_Done := TRUE;
+		ELSIF mcMoveVelo.Error THEN
+			_Error := TRUE;
 		END_IF
+		_Busy := FALSE;
+		mcMoveVelo.Execute := FALSE;
+		State := 0;
+		Cycle := S_OK;
+
 	ELSE
 		Cycle := E_FAIL;
 END_CASE

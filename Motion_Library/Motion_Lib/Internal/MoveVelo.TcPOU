@@ -101,17 +101,6 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
-    <Property Name="Done" Id="{e156641a-9883-416e-a2d0-8afd589f5314}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL]]></Declaration>
-      <Get Name="Get" Id="{5fab4201-6235-4c95-afb7-40a863c5ef72}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[Done := mcMoveVelo.Done;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Property Name="Error" Id="{a4d11270-a859-477d-84e9-ce4a7be77c0d}">
       <Declaration><![CDATA[PROPERTY Error : BOOL]]></Declaration>
       <Get Name="Get" Id="{c799216e-fed2-4058-a638-99da86f6fb4b}">

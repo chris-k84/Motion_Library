@@ -47,12 +47,6 @@
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
-    <Property Name="Done" Id="{ef030b49-4137-4c41-9e14-206d7a6d95b7}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL]]></Declaration>
-      <Get Name="Get" Id="{20c0d3a7-9957-46da-b990-4f102361c801}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-    </Property>
     <Property Name="Error" Id="{f8823bc0-59f3-4afa-8bac-650825464243}">
       <Declaration><![CDATA[PROPERTY Error : BOOL]]></Declaration>
       <Get Name="Get" Id="{42f9a81b-ebe2-43cc-b0a9-28bf984ea94e}">

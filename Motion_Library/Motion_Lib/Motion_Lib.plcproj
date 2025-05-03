@@ -82,7 +82,7 @@
     <Compile Include="Tasks\MoveModTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\BufferedRelativeBehaviour.TcPOU">
+    <Compile Include="Tasks\MoveRelTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\JogBehaviour.TcPOU">

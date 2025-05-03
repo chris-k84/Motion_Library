@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="BufferedRelativeBehaviour" Id="{9eeb8deb-fc58-4589-95fc-3a316553e694}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK BufferedRelativeBehaviour IMPLEMENTS I_Task
+  <POU Name="MoveRelTask" Id="{9eeb8deb-fc58-4589-95fc-3a316553e694}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK MoveRelTask IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -22,16 +22,12 @@ END_VAR
       <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{5d9d42da-e6ca-4abc-b54e-bfea1580b285}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
+      <Declaration><![CDATA[METHOD Abort : HRESULT
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[iMoveRel.Execute := FALSE;
 iMoveRel.Distance := 0;
-iMoveRel.Velocity := 0;
-MoveToPosition := FALSE;
-_Busy := FALSE;
-Abort := TRUE;
-State := 0;]]></ST>
+iMoveRel.Velocity := 0;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Acceleration" Id="{a23ee4b8-9357-484a-98f0-b6aa4ea24693}">
@@ -51,6 +47,26 @@ END_VAR
         <Implementation>
           <ST><![CDATA[moveRel[0].Acceleration := Acceleration;
 moveRel[1].Acceleration := Acceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="AxisRef" Id="{3e10fd18-85ac-4ef8-baab-e494e64c837f}">
+      <Declaration><![CDATA[PROPERTY AxisRef : reference to Axis_Ref]]></Declaration>
+      <Get Name="Get" Id="{331e276a-5561-4eae-af01-2bb655b4dda8}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AxisRef REF= _Axis;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{c0a58a9a-54af-4087-9bb1-be7542818dc2}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_Axis REF= AxisRef;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -82,7 +98,7 @@ moveRel[1].BufferMode := BufferMode;]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Busy := _Busy;]]></ST>
+          <ST><![CDATA[Busy := iMoveRel.Busy;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -92,32 +108,10 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Cycle := S_OK;
-CASE State OF
-	0:
-		IF iMoveRel.Busy THEN
-			State := 10;
-			MoveToPosition := FALSE;
-		END_IF
-		
-	10:
-		IF NOT iMoveRel.Busy THEN
-			IF iMoveRel.Done THEN
-				_Done := TRUE;
-			ELSIF iMoveRel.Error THEN
-				_Error := TRUE;
-			END_IF
-			_Busy := FALSE;
-			iMoveRel.Execute := FALSE;
-			State := 0;
-			Cycle := S_OK;
-		END_IF
-	ELSE
-		Cycle := E_FAIL;
-END_CASE
+        <ST><![CDATA[moveRel[0](Axis := _Axis);
+moveRel[1](Axis := _Axis);
 
-moveRel[0](Axis := _Axis);
-moveRel[1](Axis := _Axis);]]></ST>
+iMoveRel.Execute := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Deceleration" Id="{4721e18f-9d69-4b7b-878c-9993c19a39fa}">
@@ -148,7 +142,7 @@ moveRel[1].Deceleration := Deceleration;]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Done := _Done;]]></ST>
+          <ST><![CDATA[Done := iMoveRel.Done;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -160,22 +154,10 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Error := _Error;]]></ST>
+          <ST><![CDATA[Error := iMoveRel.Error;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Method Name="FB_init" Id="{0f8dd382-f222-4eaf-902e-eca4b8d97966}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	axis : reference TO AXIS_REF;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[_Axis REF= axis;]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="Jerk" Id="{d33d3654-e025-41f7-9209-cb6619cbbdeb}">
       <Declaration><![CDATA[PROPERTY PUBLIC Jerk : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{b22ce009-0a7f-418f-aa61-2be62926e49e}">
@@ -201,29 +183,31 @@ moveRel[1].Jerk := Jerk;]]></ST>
 VAR_INPUT
 	Distance : MC_LREAL;
 	Velocity : MC_LREAL;
-	Task : REFERENCE TO I_Task;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF iMoveRel.Execute THEN
-	Abort();
-	IF moveIndex = 0 THEN
-		moveIndex := 1;
-	ELSE
-		moveIndex := 0;
-	END_IF
-	iMoveRel := moveRel[moveIndex];
+        <ST><![CDATA[Abort();
+IF moveIndex = 0 THEN
+	moveIndex := 1;
+ELSE
+	moveIndex := 0;
 END_IF
-
+iMoveRel := moveRel[moveIndex];
 iMoveRel.Distance := Distance;
 iMoveRel.Velocity := Velocity;
-MoveBy := TRUE;
-Task := THIS^;
-
-_Done := FALSE;
-_Error := FALSE;
-_Busy := TRUE;
 iMoveRel.Execute := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RegisterWithParent" Id="{cc43a688-d666-4ba6-8ca0-5f0df818dca9}">
+      <Declaration><![CDATA[METHOD RegisterWithParent
+VAR_INPUT
+	Runner	: I_HostObjects;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Runner.RegisterAbortable(THIS^);
+Runner.RegisterCyclic(THIS^);
+Runner.RegisterTask(THIS^);]]></ST>
       </Implementation>
     </Method>
   </POU>

@@ -12,7 +12,7 @@ VAR
 	DefaultResetBehaviour : ResetBehaviour(_axis);
 	DefaultMoveBehaviour : MoveAbsTask;
 	DefaultRelBehaviour : BufferedRelativeBehaviour(_axis);
-	DefaultModBehaviour : MoveModTask(_axis);
+	DefaultModBehaviour : MoveModTask;
 	DefaultVeloBehaviour : VelocityBehaviour(_axis);
 	DefaultJogBehaviour : JogBehaviour(_axis);
 	HaltBehaviour	: HaltBehaviour(_axis);
@@ -148,10 +148,11 @@ DefaultMoveBehaviour.AxisRef REF= axis;
 DefaultVeloBehaviour.FB_Init(FALSE, FALSE, axis);
 DefaultJogBehaviour.FB_Init(FALSE, FALSE, axis);
 DefaultRelBehaviour.FB_init(FALSE, FALSE, axis);
-DefaultModBehaviour.FB_init(FALSE, FALSE, axis);
+DefaultModBehaviour.AxisRef REF= axis;
 HaltBehaviour.FB_init(FALSE, FALSE, axis);
 _axis REF= Axis;
-TaskCollection.RegisterModule(DefaultMoveBehaviour);]]></ST>
+TaskCollection.RegisterModule(DefaultMoveBehaviour);
+TaskCollection.RegisterModule(DefaultModBehaviour);]]></ST>
       </Implementation>
     </Method>
     <Method Name="getCurrentPosition" Id="{c887f268-1e61-4e9e-8941-aa0a7b360cf9}" FolderPath="Status\">

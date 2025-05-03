@@ -16,13 +16,12 @@ END_VAR
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{b2b93ebf-662d-44ff-93bc-b7babec2db15}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
+      <Declaration><![CDATA[METHOD Abort : HRESULT
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[mcJog.JogBackwards := FALSE;
 mcJog.JogForward := FALSE;
 _Busy := FALSE;
-Abort := TRUE;
 State := 0;]]></ST>
       </Implementation>
     </Method>

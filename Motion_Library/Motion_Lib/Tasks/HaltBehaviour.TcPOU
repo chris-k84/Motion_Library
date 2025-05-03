@@ -15,7 +15,7 @@ END_VAR
       <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{628339b1-4bd1-432e-8277-d60f3e75db0d}">
-      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
+      <Declaration><![CDATA[METHOD Abort : HRESULT]]></Declaration>
       <Implementation>
         <ST><![CDATA[mcHalt.Execute := FALSE;]]></ST>
       </Implementation>
@@ -112,17 +112,12 @@ END_VAR
     <Method Name="Execute" Id="{020a5dad-2d55-4c66-8489-dc08945209ce}">
       <Declaration><![CDATA[METHOD Execute : HRESULT
 VAR_INPUT
-	Task : REFERENCE TO I_Task;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _Axis.Status.Moving AND NOT _busy THEN
+        <ST><![CDATA[IF _Axis.Status.Moving AND NOT mcHalt.Busy THEN
 	Execute := S_OK;
-	_Done := FALSE;
-	_Error := FALSE;
-	_Busy := TRUE;
 	mcHalt.Execute := TRUE;
-	Task := THIS^;
 ELSE
 	Execute := S_FALSE;
 END_IF

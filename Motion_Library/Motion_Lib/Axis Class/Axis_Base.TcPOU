@@ -107,7 +107,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[DisableAxis := EnableBehaviour.Disable(CurrentTask);
+        <ST><![CDATA[DisableAxis := EnableBehaviour.Disable();
 ]]></ST>
       </Implementation>
     </Method>
@@ -117,7 +117,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[EnableAxis := EnableBehaviour.Enable(CurrentTask);
+        <ST><![CDATA[EnableAxis := EnableBehaviour.Enable();
 
 _TraceLogger.Send(Message := 'Axis Enable Commanded');
 ]]></ST>

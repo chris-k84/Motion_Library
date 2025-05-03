@@ -1,30 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="EnableBehaviour" Id="{9020922a-7816-4155-9202-ac5854f794ea}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK EnableBehaviour IMPLEMENTS I_Task
+    <Declaration><![CDATA[FUNCTION_BLOCK EnableBehaviour IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable
 VAR
 	mcPower : Tc2_MC2.MC_Power;
-	AxisReference : REFERENCE TO Tc2_MC2.AXIS_REF;
-	EnableAxis : BOOL;
-	State: INT;
-	_Done: BOOL;
-	_Error: BOOL;
-	_Busy: BOOL;
+	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
+	_InhibitPos : BOOL := FALSE;
+	_InhibitNeg : BOOL := FALSE;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{93bd9e75-34cf-4a99-8cdf-c273723a870d}">
-      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
+      <Declaration><![CDATA[METHOD Abort : HRESULT]]></Declaration>
       <Implementation>
-        <ST><![CDATA[mcPower.Enable := mcPower.Enable_Negative := mcPower.Enable_Positive := FALSE;
-_Busy := FALSE;
-EnableAxis := FALSE;
-Abort := TRUE;
-State := 0;]]></ST>
+        <ST><![CDATA[mcPower.Enable := FALSE;
+mcPower.Enable_Negative := FALSE;
+mcPower.Enable_Positive := FALSE;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="AxisRef" Id="{4f69ca7b-ca74-4b65-bdce-7eb1296f6878}">
+      <Declaration><![CDATA[PROPERTY AxisRef : reference to Axis_Ref]]></Declaration>
+      <Get Name="Get" Id="{ac8e833e-ec0c-44ce-9087-839c459ac896}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AxisRef REF= _Axis;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{244ac82c-e273-4291-b98b-549fb47607b8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_Axis REF= AxisRef;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="Busy" Id="{c798d0d0-97d0-4d53-b519-da00d5dccc4f}">
       <Declaration><![CDATA[PROPERTY Busy : BOOL
 ]]></Declaration>
@@ -33,7 +48,7 @@ State := 0;]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
+          <ST><![CDATA[Busy := mcPower.Busy;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -43,63 +58,17 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Cycle := S_OK;
-CASE State OF
-	0:
-		IF EnableAxis THEN
-			Cycle := S_PENDING;
-			_Done := FALSE;
-			_Error := FALSE;
-			_Busy := TRUE;
-			mcPower.Enable := mcPower.Enable_Negative := mcPower.Enable_Positive := TRUE;
-			mcPower.Override := 100;
-			State := 10;
-		END_IF
-	
-	10:
-		IF mcPower.Status THEN
-			_Busy := FALSE;
-			_Done := TRUE;
-			State := 20;
-			Cycle := S_OK;
-		END_IF
-	
-	20:
-		IF NOT EnableAxis THEN
-			_Done := FALSE;
-			_Busy := TRUE;
-			mcPower.Enable := mcPower.Enable_Negative := mcPower.Enable_Positive := FALSE;
-			State := 30;
-			Cycle := S_PENDING;
-		END_IF
-	30:
-		IF NOT mcPower.Status THEN
-			_Busy := FALSE;
-			_Done := TRUE;
-			State := 0;
-			Cycle := S_OK;
-		END_IF
-	ELSE
-		Cycle := E_FAIL;
-END_CASE
-
-mcPower(Axis := AxisReference);]]></ST>
+        <ST><![CDATA[mcPower(Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Disable" Id="{0a54e8c6-7456-4747-8eeb-b97b9078e709}">
       <Declaration><![CDATA[METHOD Disable : HRESULT
 VAR_INPUT
-	Task : REFERENCE TO I_Task;
+
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT EnableAxis THEN
-	Disable := S_FALSE;
-ELSE
-	Disable := S_OK;
-	Task := THIS^;
-	EnableAxis := FALSE;
-END_IF
+        <ST><![CDATA[mcPower.Enable := FALSE;
 ]]></ST>
       </Implementation>
     </Method>
@@ -111,24 +80,19 @@ END_IF
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Done := _Done;]]></ST>
+          <ST><![CDATA[Done := NOT mcPower.Busy;]]></ST>
         </Implementation>
       </Get>
     </Property>
     <Method Name="Enable" Id="{afe5d65c-4532-4d19-b244-08cfed3445ed}">
       <Declaration><![CDATA[METHOD Enable : HRESULT
 VAR_INPUT
-	Task : REFERENCE TO I_Task;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF EnableAxis THEN
-	Enable := -1;
-ELSE
-	Task := THIS^;
-	EnableAxis := TRUE;
-	Enable := 1;
-END_IF]]></ST>
+        <ST><![CDATA[mcPower.Enable := TRUE;
+mcPower.Enable_Negative := _InhibitNeg;
+mcPower.Enable_Positive := _InhibitPos;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Error" Id="{518ce1d0-c80e-419e-af03-bf594c64bec9}">
@@ -139,7 +103,7 @@ END_IF]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Error := _Error;]]></ST>
+          <ST><![CDATA[Error := mcPower.Error;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -152,7 +116,57 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[AxisReference REF= axis;]]></ST>
+        <ST><![CDATA[_Axis REF= axis;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="InhibitNegative" Id="{dc288d3e-02f1-4405-a301-d619e78f06f3}">
+      <Declaration><![CDATA[PROPERTY InhibitNegative : BOOL]]></Declaration>
+      <Get Name="Get" Id="{0424fba8-b630-4cde-9947-0bd6ec5b0728}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[InhibitNegative := _InhibitNeg;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{acc383d4-6fb0-4c6a-91e8-44a029dd8dfe}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_InhibitNeg := InhibitNegative;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="InhibitPositive" Id="{610d9724-51d9-4637-ac8e-5c718072673e}">
+      <Declaration><![CDATA[PROPERTY InhibitPositive : BOOL]]></Declaration>
+      <Get Name="Get" Id="{726bca85-749b-4131-8cb6-fe4c20afdfd9}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[InhibitPositive := _InhibitPos;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{b3374342-2590-4bb5-9407-5b6a52700a4b}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_InhibitPos := InhibitPositive;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="RegisterWithParent" Id="{a33ff5bc-abb9-465a-9880-0802eec356db}">
+      <Declaration><![CDATA[METHOD RegisterWithParent
+VAR_INPUT
+	Runner	: I_HostObjects;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Runner.RegisterAbortable(THIS^);
+Runner.RegisterCyclic(THIS^);
+Runner.RegisterTask(THIS^);]]></ST>
       </Implementation>
     </Method>
   </POU>

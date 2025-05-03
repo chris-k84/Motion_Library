@@ -59,6 +59,17 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Property Name="Busy" Id="{15f8b960-8d57-4b2f-86a0-b2ac2382d399}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL]]></Declaration>
+      <Get Name="Get" Id="{4fc11eba-9650-45b9-9dbd-2f6528b0bee8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := mcJog.Busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="Cycle" Id="{b67d0a54-8b3a-4073-b286-d4573c1b8f3c}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
 ]]></Declaration>
@@ -93,6 +104,17 @@ END_VAR
 END_IF]]></ST>
         </Implementation>
       </Set>
+    </Property>
+    <Property Name="Done" Id="{d9fafd8d-59a9-4987-8290-f0674ad6d813}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL]]></Declaration>
+      <Get Name="Get" Id="{47160c81-c561-4f5e-870e-92d291ea6820}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := mcJog.Done;]]></ST>
+        </Implementation>
+      </Get>
     </Property>
     <Property Name="Error" Id="{d44dc283-dd11-4e85-bf58-96cec41957cb}">
       <Declaration><![CDATA[PROPERTY Error : BOOL

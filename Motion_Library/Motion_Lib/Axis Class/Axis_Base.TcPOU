@@ -76,7 +76,6 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[EnableBehaviour.Cycle();
-DefaultResetBehaviour.Cycle();
 _axis.ReadStatus();
 axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _ErrorId);
 TaskCollection.Cycle();]]></ST>
@@ -396,8 +395,7 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[ResetResult := DefaultResetBehaviour.Execute(CurrentTask);
-TaskCollection.Reset();
+        <ST><![CDATA[TaskCollection.Reset();
 TaskCollection.Abort();]]></ST>
       </Implementation>
     </Method>

@@ -58,7 +58,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[mcHalt(Axis := _Axis);]]></ST>
+        <ST><![CDATA[mcHalt(Axis := _Axis);
+mcHalt.Execute := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Deceleration" Id="{268ed3d1-2986-429d-85cd-2c570b60d9d7}">

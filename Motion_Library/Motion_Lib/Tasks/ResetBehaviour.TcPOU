@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="ResetBehaviour" Id="{ea00788b-a7e2-4ddb-a987-8527d11bfcf5}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK ResetBehaviour IMPLEMENTS I_Task
+    <Declaration><![CDATA[FUNCTION_BLOCK ResetBehaviour IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable, I_Abortable, I_Resettable
 VAR
 	mcReset : Tc2_MC2.MC_Reset;
 	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
@@ -11,7 +11,7 @@ END_VAR
       <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{175585a1-cdb8-4dd4-9630-03b10e9f2656}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
+      <Declaration><![CDATA[METHOD Abort : HRESULT
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[mcReset.Execute := FALSE;]]></ST>
@@ -83,15 +83,6 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Method Name="Execute" Id="{3351ec6f-5e58-4cce-afac-76b6f35f5e04}">
-      <Declaration><![CDATA[METHOD Execute : HRESULT
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[mcReset.Execute := TRUE;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="RegisterWithParent" Id="{ac903c7a-36cd-4508-9b6b-75b99dd2293c}">
       <Declaration><![CDATA[METHOD RegisterWithParent
 VAR_INPUT
@@ -102,6 +93,15 @@ END_VAR
         <ST><![CDATA[Runner.RegisterAbortable(THIS^);
 Runner.RegisterCyclic(THIS^);
 Runner.RegisterTask(THIS^);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Reset" Id="{3351ec6f-5e58-4cce-afac-76b6f35f5e04}">
+      <Declaration><![CDATA[METHOD Reset : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mcReset.Execute := TRUE;]]></ST>
       </Implementation>
     </Method>
   </POU>

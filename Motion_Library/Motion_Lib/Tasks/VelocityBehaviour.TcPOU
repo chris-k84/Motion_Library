@@ -1,15 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="VelocityBehaviour" Id="{86fa777b-f5d3-4d7e-bd44-8ee6f4991e5f}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK VelocityBehaviour IMPLEMENTS I_Task
+    <Declaration><![CDATA[FUNCTION_BLOCK VelocityBehaviour IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable
 VAR
-	mcMoveVelo : MC_MoveVelocity;
-	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
-	_MoveAtVelo : BOOL;
-	State: INT;
-	_Done: BOOL;
-	_Error: BOOL;
-	_Busy: BOOL;
+	mcMoveVelo : ARRAY[0..1] OF MoveVelo;
+	iMoveVelo : I_MoveVelo := mcMoveVelo[0];
+	moveIndex : INT;
+	_Axis : REFERENCE TO AXIS_REF;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -18,11 +15,9 @@ END_VAR
     <Method Name="Abort" Id="{24ef1d79-00e6-485e-b5bc-96b2e835c968}">
       <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
       <Implementation>
-        <ST><![CDATA[mcMoveVelo.Execute := FALSE;
-_Busy := FALSE;
-_MoveAtVelo := FALSE;
-Abort := TRUE;
-State := 0;]]></ST>
+        <ST><![CDATA[iMoveVelo.Execute := FALSE;
+iMoveVelo.Velocity := 0;
+]]></ST>
       </Implementation>
     </Method>
     <Property Name="Acceleration" Id="{5690795c-3a83-420b-9da3-878026ded205}">
@@ -46,6 +41,26 @@ END_IF]]></ST>
         </Implementation>
       </Set>
     </Property>
+    <Property Name="AxisRef" Id="{52a9b2c0-70e7-4902-b00a-98ce3a0b5f25}">
+      <Declaration><![CDATA[PROPERTY AxisRef : reference to Axis_Ref]]></Declaration>
+      <Get Name="Get" Id="{256c64ad-4768-4cf6-959a-41e50853ecf6}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AxisRef REF= _Axis;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{9adc4821-13d9-46e5-af61-e64639435e66}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_Axis REF= AxisRef;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="Busy" Id="{412e554f-b115-468a-8039-f1c3519a13a0}">
       <Declaration><![CDATA[PROPERTY Busy : BOOL
 ]]></Declaration>
@@ -62,30 +77,10 @@ END_VAR
       <Declaration><![CDATA[METHOD Cycle : HRESULT
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Cycle := S_OK;
-CASE State OF
-	0:
-		IF mcMoveVelo.Busy THEN
-			State := 10;
-			_MoveAtVelo := FALSE;
-		END_IF
-	
-	10:
-		IF mcMoveVelo.InVelocity THEN
-			_Done := TRUE;
-		ELSIF mcMoveVelo.Error THEN
-			_Error := TRUE;
-		END_IF
-		_Busy := FALSE;
-		mcMoveVelo.Execute := FALSE;
-		State := 0;
-		Cycle := S_OK;
+        <ST><![CDATA[mcMoveVelo[0](Axis := _Axis);
+mcMoveVelo[1](Axis := _Axis);
 
-	ELSE
-		Cycle := E_FAIL;
-END_CASE
-
-mcMoveVelo(Axis := _Axis);]]></ST>
+iMoveVelo.Execute := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Deceleration" Id="{3687a92b-814f-4a65-b007-ae191bb9e61e}">
@@ -134,21 +129,6 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Method Name="FB_Init" Id="{a43ce224-e4a7-43b4-bb34-a8a929700026}">
-      <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
-//The return value is not evaluated. For a specific influence, you can also declare the
-//methods explicitly and provide additional code there with the standard initialization
-//code. You can evaluate the return value.
-METHOD FB_Init: BOOL
-VAR_INPUT
-    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
-    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)   
-	axis : reference TO AXIS_REF;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[_Axis REF= axis;]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="Jerk" Id="{47d3b6ef-be1c-4ef3-b364-6e63da359318}">
       <Declaration><![CDATA[PROPERTY Jerk : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{b6612f32-b3b3-4b77-9630-833953175823}">
@@ -175,24 +155,24 @@ END_IF]]></ST>
 VAR_INPUT
 	Direction : MC_Direction;
 	Velocity : MC_LREAL;
-	Task : REFERENCE TO I_Task;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Velocity >= 0 AND _MoveAtVelo THEN
+        <ST><![CDATA[IF Velocity >= 0 THEN
 	MoveAtVelocity := -1;
 	RETURN;
 END_IF
 
-mcMoveVelo.Direction := Direction;
-mcMoveVelo.Velocity := Velocity;
-MoveAtVelocity := 1;
-_MoveAtVelo := TRUE;
-Task := THIS^;
-_Done := FALSE;
-_Error := FALSE;
-_Busy := TRUE;
-mcMoveVelo.Execute := TRUE;]]></ST>
+Abort();
+IF moveIndex = 0 THEN
+	moveIndex := 1;
+ELSE
+	moveIndex := 0;
+END_IF
+iMoveVelo := moveRel[moveIndex];
+iMoveVelo.Direction := Direction;
+iMoveVelo.Velocity := Velocity;
+iMoveVelo.Execute := TRUE;]]></ST>
       </Implementation>
     </Method>
   </POU>

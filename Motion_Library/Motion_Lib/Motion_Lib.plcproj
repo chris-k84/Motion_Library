@@ -55,19 +55,22 @@
     <Compile Include="Interfaces\I_Jog.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Interfaces\I_MoveAbs.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Interfaces\I_MoveMod.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Interfaces\I_MoveRel.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Interfaces\I_PositionAxis.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Interfaces\I_VelocityAxis.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internal\I_MoveAbs.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internal\I_MoveMod.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internal\I_MoveRel.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internal\I_MoveVelo.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Internal\MoveAbs.TcPOU">
@@ -77,6 +80,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Internal\MoveRel.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Internal\MoveVelo.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\MoveModTask.TcPOU">

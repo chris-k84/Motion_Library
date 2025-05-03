@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="BufferedPositionBehaviour" Id="{f623c473-a640-4427-8dfd-9222a646d8bd}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK BufferedPositionBehaviour IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable
+  <POU Name="MoveAbsTask" Id="{f623c473-a640-4427-8dfd-9222a646d8bd}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK MoveAbsTask IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable
 VAR_INPUT
 END_VAR
 VAR_OUTPUT

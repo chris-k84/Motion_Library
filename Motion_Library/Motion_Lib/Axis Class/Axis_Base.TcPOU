@@ -10,7 +10,7 @@ VAR
 	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
 	EnableBehaviour : EnableBehaviour(_axis);
 	DefaultResetBehaviour : ResetBehaviour(_axis);
-	DefaultMoveBehaviour : BufferedPositionBehaviour;
+	DefaultMoveBehaviour : MoveAbsTask;
 	DefaultRelBehaviour : BufferedRelativeBehaviour(_axis);
 	DefaultModBehaviour : BufferedModuloBehaviour(_axis);
 	DefaultVeloBehaviour : VelocityBehaviour(_axis);

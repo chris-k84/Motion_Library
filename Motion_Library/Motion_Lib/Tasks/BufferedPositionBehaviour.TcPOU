@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="BufferedPositionBehaviour" Id="{f623c473-a640-4427-8dfd-9222a646d8bd}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK BufferedPositionBehaviour IMPLEMENTS I_Task
+    <Declaration><![CDATA[FUNCTION_BLOCK BufferedPositionBehaviour IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -16,8 +16,8 @@ END_VAR
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
-    <Method Name="Abort" Id="{9045061b-9962-4607-8807-e07e05404656}">
-      <Declaration><![CDATA[METHOD Abort : BOOL
+    <Method Name="Abort" Id="{8b24167d-3de8-4038-a0ad-20669890299c}">
+      <Declaration><![CDATA[METHOD Abort : HRESULT
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[iMoveAbs.Execute := FALSE;
@@ -191,6 +191,18 @@ iMoveAbs := moveAbs[moveIndex];
 iMoveAbs.Execute := TRUE;
 iMoveAbs.Position := Position;
 iMoveAbs.Velocity := Velocity;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RegisterWithParent" Id="{1d7ba18a-ff6f-404d-87d7-05ac14b202f6}">
+      <Declaration><![CDATA[METHOD RegisterWithParent
+VAR_INPUT
+	Runner	: I_HostObjects;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Runner.RegisterAbortable(THIS^);
+Runner.RegisterCyclic(THIS^);
+Runner.RegisterTask(THIS^);]]></ST>
       </Implementation>
     </Method>
   </POU>

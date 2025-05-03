@@ -16,6 +16,7 @@ VAR
 	DefaultVeloBehaviour : VelocityBehaviour(_axis);
 	DefaultJogBehaviour : JogBehaviour(_axis);
 	HaltBehaviour	: HaltBehaviour(_axis);
+	TaskCollection : ObjectRunner;
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_ErrorId: DWORD;
 	_Logger : Message_Null;
@@ -75,7 +76,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[EnableBehaviour.Cycle();
-DefaultMoveBehaviour.Cycle();
+
 DefaultRelBehaviour.Cycle();
 DefaultModBehaviour.Cycle();
 HaltBehaviour.Cycle();
@@ -83,7 +84,8 @@ DefaultResetBehaviour.Cycle();
 DefaultVeloBehaviour.Cycle();
 DefaultJogBehaviour.Cycle();
 _axis.ReadStatus();
-axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _ErrorId);]]></ST>
+axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _ErrorId);
+TaskCollection.Cycle();]]></ST>
       </Implementation>
     </Method>
     <Property Name="Deceleration" Id="{bb54abe4-e56a-4330-9f3c-f7af329a7f17}" FolderPath="Dynamics\">
@@ -148,7 +150,8 @@ DefaultJogBehaviour.FB_Init(FALSE, FALSE, axis);
 DefaultRelBehaviour.FB_init(FALSE, FALSE, axis);
 DefaultModBehaviour.FB_init(FALSE, FALSE, axis);
 HaltBehaviour.FB_init(FALSE, FALSE, axis);
-_axis REF= Axis;]]></ST>
+_axis REF= Axis;
+TaskCollection.RegisterModule(DefaultMoveBehaviour);]]></ST>
       </Implementation>
     </Method>
     <Method Name="getCurrentPosition" Id="{c887f268-1e61-4e9e-8941-aa0a7b360cf9}" FolderPath="Status\">
@@ -360,7 +363,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT isAtPosition(position := Position) THEN
-	DefaultMoveBehaviour.MoveTo(Position,Velocity,CurrentTask);
+	DefaultMoveBehaviour.MoveTo(Position,Velocity);
 	MoveToPosition := 1;
 ELSE
 	MoveToPosition := -1;
@@ -394,7 +397,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[ResetResult := DefaultResetBehaviour.Execute(CurrentTask);
-MoveAbortResult := DefaultMoveBehaviour.Abort();
+TaskCollection.Reset();
 HaltAbortResult := HaltBehaviour.Abort();
 IF ResetResult = S_OK AND MoveAbortResult AND HaltAbortResult THEN
 	Reset := 1;

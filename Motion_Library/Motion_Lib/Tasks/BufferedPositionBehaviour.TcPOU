@@ -11,11 +11,6 @@ VAR
 	iMoveAbs : I_MoveAbs := MoveAbs[0];
 	moveIndex : INT;
 	_Axis : REFERENCE TO AXIS_REF;
-	MoveToPosition : BOOL;
-	State: INT;
-	_Done: BOOL;
-	_Error: BOOL;
-	_Busy: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -27,11 +22,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[iMoveAbs.Execute := FALSE;
 iMoveAbs.Position := 0;
-iMoveAbs.Velocity := 0;
-MoveToPosition := FALSE;
-_Busy := FALSE;
-Abort := TRUE;
-State := 0;]]></ST>
+iMoveAbs.Velocity := 0;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Acceleration" Id="{341f2499-163a-45c5-b240-f5c5cb02dff1}">
@@ -113,7 +104,9 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[moveAbs[0](Axis := _Axis);
-moveAbs[1](Axis := _Axis);]]></ST>
+moveAbs[1](Axis := _Axis);
+
+iMoveAbs.Execute := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Deceleration" Id="{15394e2a-7137-47ee-a0e9-ae4c783d030d}">
@@ -185,26 +178,19 @@ MoveAbs[1].Jerk := Jerk;]]></ST>
 VAR_INPUT
 	Position : MC_LREAL;
 	Velocity : MC_LREAL;
-	Task : REFERENCE TO I_Task;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF iMoveAbs.Execute THEN
-	Abort();
-	IF moveIndex = 0 THEN
-		moveIndex := 1;
-	ELSE
-		moveIndex := 0;
-	END_IF
-	iMoveAbs := moveAbs[moveIndex];
+        <ST><![CDATA[Abort();
+IF moveIndex = 0 THEN
+	moveIndex := 1;
+ELSE
+	moveIndex := 0;
 END_IF
-
+iMoveAbs := moveAbs[moveIndex];
+iMoveAbs.Execute := TRUE;
 iMoveAbs.Position := Position;
-iMoveAbs.Velocity := Velocity;
-MoveTo := TRUE;
-Task := THIS^;
-
-iMoveAbs.Execute := TRUE;]]></ST>
+iMoveAbs.Velocity := Velocity;]]></ST>
       </Implementation>
     </Method>
   </POU>

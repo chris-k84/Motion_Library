@@ -10,7 +10,7 @@ VAR
 	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
 	EnableBehaviour : EnableBehaviour(_axis);
 	DefaultResetBehaviour : ResetBehaviour(_axis);
-	DefaultMoveBehaviour : BufferedPositionBehaviour(_axis);
+	DefaultMoveBehaviour : BufferedPositionBehaviour;
 	DefaultRelBehaviour : BufferedRelativeBehaviour(_axis);
 	DefaultModBehaviour : BufferedModuloBehaviour(_axis);
 	DefaultVeloBehaviour : VelocityBehaviour(_axis);
@@ -142,7 +142,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[EnableBehaviour.FB_init(FALSE, FALSE, axis);
 DefaultResetBehaviour.FB_init(FALSE, FALSE, axis);
-DefaultMoveBehaviour.FB_init(FALSE, FALSE, axis);
+DefaultMoveBehaviour.AxisRef REF= axis;
 DefaultVeloBehaviour.FB_Init(FALSE, FALSE, axis);
 DefaultJogBehaviour.FB_Init(FALSE, FALSE, axis);
 DefaultRelBehaviour.FB_init(FALSE, FALSE, axis);

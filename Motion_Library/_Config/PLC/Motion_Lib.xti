@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
-<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4026.14" ClassName="CNestedPlcProjDef">
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4026.15" ClassName="CNestedPlcProjDef">
 	<Project GUID="{D8B80D32-3495-4A99-8484-A832513B50D2}" Name="Motion_Lib" PrjFilePath="..\..\Motion_Lib\Motion_Lib.plcproj" TmcFilePath="..\..\Motion_Lib\Motion_Lib.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e"/>
 </TcSmItem>

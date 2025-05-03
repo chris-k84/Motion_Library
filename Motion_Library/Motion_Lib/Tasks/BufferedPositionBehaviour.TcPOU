@@ -54,6 +54,26 @@ MoveAbs[1].Acceleration := Acceleration;]]></ST>
         </Implementation>
       </Set>
     </Property>
+    <Property Name="AxisRef" Id="{e141f12b-9dd5-4395-b585-4b5173740d32}">
+      <Declaration><![CDATA[PROPERTY AxisRef : reference to Axis_Ref]]></Declaration>
+      <Get Name="Get" Id="{1d6daee9-b5ff-4fb4-b2be-74788b77406f}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AxisRef REF= _Axis;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{9274845b-c3a7-44be-aeb2-ebbc6ead7d6a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_Axis REF= AxisRef;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="BufferMode" Id="{a7c0ed0c-36d3-453f-9975-ca4c3a7e9ba5}">
       <Declaration><![CDATA[PROPERTY BufferMode : MC_BufferMode]]></Declaration>
       <Get Name="Get" Id="{c282e09e-a818-4264-8f8d-0683a728c165}">
@@ -82,7 +102,7 @@ MoveAbs[1].BufferMode := BufferMode;]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Busy := _Busy;]]></ST>
+          <ST><![CDATA[Busy := iMoveAbs.Busy;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -92,31 +112,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Cycle := S_OK;
-CASE State OF
-	0:
-		IF iMoveAbs.Busy THEN
-			State := 10;
-			MoveToPosition := FALSE;
-		END_IF
-		
-	10:
-		IF NOT iMoveAbs.Busy THEN
-			IF iMoveAbs.Done THEN
-				_Done := TRUE;
-			ELSIF iMoveAbs.Error THEN
-				_Error := TRUE;
-			END_IF
-			_Busy := FALSE;
-			iMoveAbs.Execute := FALSE;
-			State := 0;
-			Cycle := S_OK;
-		END_IF
-	ELSE
-		Cycle := E_FAIL;
-END_CASE
-
-moveAbs[0](Axis := _Axis);
+        <ST><![CDATA[moveAbs[0](Axis := _Axis);
 moveAbs[1](Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
@@ -148,7 +144,7 @@ MoveAbs[1].Deceleration := Deceleration;]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Done := _Done;]]></ST>
+          <ST><![CDATA[Done := iMoveAbs.Done;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -160,22 +156,10 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Error := _Error;]]></ST>
+          <ST><![CDATA[Error := iMoveAbs.Error;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Method Name="FB_init" Id="{06c8f2c4-26d3-46f9-a424-5aff24031530}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	axis : reference TO AXIS_REF;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[_Axis REF= axis;]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="Jerk" Id="{c177883f-4564-4af8-a89b-8c0edf420990}">
       <Declaration><![CDATA[PROPERTY PUBLIC Jerk : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{5a0859c3-34f7-4dae-a686-377d861e0c51}">
@@ -220,9 +204,6 @@ iMoveAbs.Velocity := Velocity;
 MoveTo := TRUE;
 Task := THIS^;
 
-_Done := FALSE;
-_Error := FALSE;
-_Busy := TRUE;
 iMoveAbs.Execute := TRUE;]]></ST>
       </Implementation>
     </Method>

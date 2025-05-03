@@ -12,7 +12,7 @@ VAR
 	DefaultResetBehaviour : ResetBehaviour(_axis);
 	DefaultMoveBehaviour : MoveAbsTask;
 	DefaultRelBehaviour : BufferedRelativeBehaviour(_axis);
-	DefaultModBehaviour : BufferedModuloBehaviour(_axis);
+	DefaultModBehaviour : MoveModTask(_axis);
 	DefaultVeloBehaviour : VelocityBehaviour(_axis);
 	DefaultJogBehaviour : JogBehaviour(_axis);
 	HaltBehaviour	: HaltBehaviour(_axis);

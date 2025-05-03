@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="VelocityBehaviour" Id="{86fa777b-f5d3-4d7e-bd44-8ee6f4991e5f}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK VelocityBehaviour IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable
+  <POU Name="MoveVeloTask" Id="{86fa777b-f5d3-4d7e-bd44-8ee6f4991e5f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK MoveVeloTask IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable
 VAR
 	mcMoveVelo : ARRAY[0..1] OF MoveVelo;
 	iMoveVelo : I_MoveVelo := mcMoveVelo[0];
@@ -13,7 +13,7 @@ END_VAR
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="Abort" Id="{24ef1d79-00e6-485e-b5bc-96b2e835c968}">
-      <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
+      <Declaration><![CDATA[METHOD Abort : HRESULT]]></Declaration>
       <Implementation>
         <ST><![CDATA[iMoveVelo.Execute := FALSE;
 iMoveVelo.Velocity := 0;
@@ -27,7 +27,7 @@ iMoveVelo.Velocity := 0;
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Acceleration := mcMoveVelo.Acceleration;]]></ST>
+          <ST><![CDATA[Acceleration := mcMoveVelo[0].Acceleration;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{7266777e-dab1-408a-acab-1fd1c86a3fb1}">
@@ -36,7 +36,8 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[IF Acceleration >= 0.0 THEN
-	mcMoveVelo.Acceleration := Acceleration;
+	mcMoveVelo[0].Acceleration := Acceleration;
+	mcMoveVelo[1].Acceleration := Acceleration;
 END_IF]]></ST>
         </Implementation>
       </Set>
@@ -61,6 +62,26 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Property Name="BufferMode" Id="{e36b090c-dbea-4516-9b10-4df419260f2b}">
+      <Declaration><![CDATA[PROPERTY BufferMode : MC_BufferMode]]></Declaration>
+      <Get Name="Get" Id="{68219154-7be2-4152-b745-155ea9fcd716}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[BufferMode := mcMoveVelo[0].BufferMode;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{e1563ac0-ab52-4fe1-a548-9f6641d03a3e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcMoveVelo[0].BufferMode := BufferMode;
+mcMoveVelo[1].BufferMode := BufferMode;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="Busy" Id="{412e554f-b115-468a-8039-f1c3519a13a0}">
       <Declaration><![CDATA[PROPERTY Busy : BOOL
 ]]></Declaration>
@@ -69,7 +90,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Busy := _Busy;]]></ST>
+          <ST><![CDATA[Busy := iMoveVelo.Busy;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -91,7 +112,7 @@ iMoveVelo.Execute := FALSE;]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Deceleration := mcMoveVelo.Deceleration;]]></ST>
+          <ST><![CDATA[Deceleration := mcMoveVelo[0].Deceleration;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{086f87de-d583-4d56-b50a-8d0c08599476}">
@@ -100,20 +121,20 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[IF Deceleration >= 0.0 THEN
-	mcMoveVelo.Deceleration := Deceleration;
+	mcMoveVelo[0].Deceleration := Deceleration;
+	mcMoveVelo[1].Deceleration := Deceleration;
 END_IF]]></ST>
         </Implementation>
       </Set>
     </Property>
-    <Property Name="Done" Id="{51dcd633-8b8c-4ebb-bd82-704ceec64f29}">
-      <Declaration><![CDATA[PROPERTY Done : BOOL
-]]></Declaration>
-      <Get Name="Get" Id="{da58fae3-77f4-4bde-881d-5f11edd1c4f2}">
+    <Property Name="Done" Id="{3ecf6fb3-1ae6-4448-aad0-afb518c7933c}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL]]></Declaration>
+      <Get Name="Get" Id="{8cff00c8-4878-4f74-949d-973af443bfa1}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Done := _Done;]]></ST>
+          <ST><![CDATA[Done := NOT iMoveVelo.Busy;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -125,7 +146,18 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Error := _Error;]]></ST>
+          <ST><![CDATA[Error := iMoveVelo.Error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="InVelocity" Id="{d537f510-fcb4-4376-8b78-369cb4d73fa1}">
+      <Declaration><![CDATA[PROPERTY InVelocity : BOOL]]></Declaration>
+      <Get Name="Get" Id="{bc0cfcbc-6562-454f-9183-87c3bfdcb866}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[InVelocity := iMoveVelo.InVelocity;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -136,7 +168,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Jerk := mcMoveVelo.Jerk;]]></ST>
+          <ST><![CDATA[Jerk := mcMoveVelo[0].Jerk;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{4e83b889-5283-4cde-9447-b4b10940b51e}">
@@ -145,7 +177,8 @@ END_VAR
 ]]></Declaration>
         <Implementation>
           <ST><![CDATA[IF Jerk >= 0.0 THEN
-	mcMoveVelo.Jerk := Jerk;
+	mcMoveVelo[0].Jerk := Jerk;
+	mcMoveVelo[1].Jerk := Jerk;
 END_IF]]></ST>
         </Implementation>
       </Set>
@@ -169,10 +202,22 @@ IF moveIndex = 0 THEN
 ELSE
 	moveIndex := 0;
 END_IF
-iMoveVelo := moveRel[moveIndex];
+iMoveVelo := mcMoveVelo[moveIndex];
 iMoveVelo.Direction := Direction;
 iMoveVelo.Velocity := Velocity;
 iMoveVelo.Execute := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RegisterWithParent" Id="{e88a0bca-a469-4320-bba9-b086b1f4a1a6}">
+      <Declaration><![CDATA[METHOD RegisterWithParent
+VAR_INPUT
+	Runner	: I_HostObjects;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Runner.RegisterAbortable(THIS^);
+Runner.RegisterCyclic(THIS^);
+Runner.RegisterTask(THIS^);]]></ST>
       </Implementation>
     </Method>
   </POU>

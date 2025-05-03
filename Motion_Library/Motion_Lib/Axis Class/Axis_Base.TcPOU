@@ -11,11 +11,11 @@ VAR
 	EnableBehaviour : EnableBehaviour(_axis);
 	DefaultResetBehaviour : ResetBehaviour(_axis);
 	DefaultMoveBehaviour : MoveAbsTask;
-	DefaultRelBehaviour : MoveRelTask(_axis);
+	DefaultRelBehaviour : MoveRelTask;
 	DefaultModBehaviour : MoveModTask;
-	DefaultVeloBehaviour : VelocityBehaviour(_axis);
+	DefaultVeloBehaviour : MoveVeloTask;
 	DefaultJogBehaviour : JogBehaviour(_axis);
-	HaltBehaviour	: HaltBehaviour(_axis);
+	HaltBehaviour	: HaltBehaviour;
 	TaskCollection : ObjectRunner;
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_ErrorId: DWORD;
@@ -77,7 +77,6 @@ END_VAR
       <Implementation>
         <ST><![CDATA[EnableBehaviour.Cycle();
 DefaultResetBehaviour.Cycle();
-DefaultVeloBehaviour.Cycle();
 DefaultJogBehaviour.Cycle();
 _axis.ReadStatus();
 axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _ErrorId);
@@ -141,7 +140,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[EnableBehaviour.FB_init(FALSE, FALSE, axis);
 DefaultResetBehaviour.FB_init(FALSE, FALSE, axis);
 DefaultMoveBehaviour.AxisRef REF= axis;
-DefaultVeloBehaviour.FB_Init(FALSE, FALSE, axis);
+DefaultVeloBehaviour.AxisRef REF= axis;
 DefaultJogBehaviour.FB_Init(FALSE, FALSE, axis);
 DefaultRelBehaviour.AxisRef REF= axis;
 DefaultModBehaviour.AxisRef REF= axis;
@@ -150,7 +149,8 @@ _axis REF= Axis;
 TaskCollection.RegisterModule(DefaultMoveBehaviour);
 TaskCollection.RegisterModule(DefaultModBehaviour);
 TaskCollection.RegisterModule(DefaultRelBehaviour);
-TaskCollection.RegisterModule(HaltBehaviour);]]></ST>
+TaskCollection.RegisterModule(HaltBehaviour);
+TaskCollection.RegisterModule(DefaultVeloBehaviour);]]></ST>
       </Implementation>
     </Method>
     <Method Name="getCurrentPosition" Id="{c887f268-1e61-4e9e-8941-aa0a7b360cf9}" FolderPath="Status\">
@@ -178,7 +178,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT HaltBehaviour.Busy THEN
-	HaltAxis := HaltBehaviour.Execute(CurrentTask);
+	HaltAxis := HaltBehaviour.Execute();
 	DefaultMoveBehaviour.Abort();
 	DefaultVeloBehaviour.Abort();
 ELSE 
@@ -310,7 +310,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF DefaultVeloBehaviour.MoveAtVelocity(Direction, Velocity, CurrentTask) = 1 THEN
+        <ST><![CDATA[IF DefaultVeloBehaviour.MoveAtVelocity(Direction, Velocity) = 1 THEN
 	MoveAtVelocity := 1;
 ELSE
 	MoveAtVelocity := -1;
@@ -327,7 +327,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF ABS(Distance) > 0 THEN
-	DefaultRelBehaviour.MoveBy(Distance,Velocity,CurrentTask);
+	DefaultRelBehaviour.MoveBy(Distance,Velocity);
 	MoveByDistance := 1;
 ELSE
 	MoveByDistance := -1;
@@ -345,7 +345,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT isAtPosition(position := Position) THEN
-	DefaultModBehaviour.MoveTo(Position,Velocity,CurrentTask);
+	DefaultModBehaviour.MoveTo(Position,Velocity);
 	MoveToModuloPosition := 1;
 ELSE
 	MoveToModuloPosition := -1;
@@ -397,12 +397,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[ResetResult := DefaultResetBehaviour.Execute(CurrentTask);
 TaskCollection.Reset();
-HaltAbortResult := HaltBehaviour.Abort();
-IF ResetResult = S_OK AND MoveAbortResult AND HaltAbortResult THEN
-	Reset := 1;
-ELSE
-	Reset := -1;
-END_IF]]></ST>
+TaskCollection.Abort();]]></ST>
       </Implementation>
     </Method>
   </POU>

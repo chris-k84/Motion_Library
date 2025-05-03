@@ -106,9 +106,6 @@
     <Compile Include="Tasks\MoveVeloTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\SimplePositionBehaviour.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Tasks\MoveAbsTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>

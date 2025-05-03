@@ -1,20 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="ResetBehaviour" Id="{ea00788b-a7e2-4ddb-a987-8527d11bfcf5}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK ResetBehaviour IMPLEMENTS I_Task
-VAR_INPUT
-END_VAR
-VAR_OUTPUT
-END_VAR
+    <Declaration><![CDATA[FUNCTION_BLOCK ResetBehaviour IMPLEMENTS I_Task
 VAR
-	resetMover : Tc2_MC2.MC_Reset;
+	mcReset : Tc2_MC2.MC_Reset;
 	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
-	_ResetMover : BOOL;
-	State: INT;
-	_Done: BOOL;
-	_Error: BOOL;
-	_Busy: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -24,13 +14,29 @@ END_VAR
       <Declaration><![CDATA[METHOD Abort : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[resetMover.Execute := FALSE;
-_Busy := FALSE;
-_ResetMover := FALSE;
-Abort := TRUE;
-State := 0;]]></ST>
+        <ST><![CDATA[mcReset.Execute := FALSE;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="AxisRef" Id="{b3b662e8-3ce3-48c8-a8d0-fc2d4bd302cd}">
+      <Declaration><![CDATA[PROPERTY AxisRef : reference to Axis_Ref]]></Declaration>
+      <Get Name="Get" Id="{23224859-c01c-495b-a166-81f774c86dc0}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AxisRef REF= _Axis;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{378228be-d0bf-44b9-a6ef-d5a5e53194bf}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_Axis REF= AxisRef;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="Busy" Id="{6fd13692-80ad-4e8c-b6fa-bf24745db6e9}">
       <Declaration><![CDATA[PROPERTY Busy : BOOL
 ]]></Declaration>
@@ -39,7 +45,7 @@ State := 0;]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Busy := _busy;]]></ST>
+          <ST><![CDATA[Busy := mcReset.Busy;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -49,31 +55,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Cycle := S_OK;
-CASE State OF
-	0:
-		IF resetMover.Busy THEN
-			State := 10;
-			_ResetMover := FALSE;
-		END_IF
-
-	10:
-		IF NOT resetMover.Busy THEN
-			IF resetMover.Done THEN
-				_Done := TRUE;
-			ELSIF resetMover.Error THEN
-				_Error := TRUE;
-			END_IF
-			_Busy := FALSE;
-			resetMover.Execute := FALSE;
-			State := 0;
-			Cycle := S_OK;
-		END_IF
-	ELSE
-		Cycle := E_FAIL;
-END_CASE
-
-resetMover(Axis := _Axis);]]></ST>
+        <ST><![CDATA[mcReset(Axis := _Axis);
+mcReset.Execute := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Done" Id="{b2c4b57c-337f-40bd-8e81-565ad6a269f2}">
@@ -84,7 +67,7 @@ resetMover(Axis := _Axis);]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Done := _done;]]></ST>
+          <ST><![CDATA[Done := mcReset.Done;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -96,39 +79,29 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Error := _error;]]></ST>
+          <ST><![CDATA[Error := mcReset.Error;]]></ST>
         </Implementation>
       </Get>
     </Property>
     <Method Name="Execute" Id="{3351ec6f-5e58-4cce-afac-76b6f35f5e04}">
       <Declaration><![CDATA[METHOD Execute : HRESULT
 VAR_INPUT
-	Task : REFERENCE TO I_Task;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT _Busy THEN
-	Execute := s_OK;
-	_Done := FALSE;
-	_Error := FALSE;
-	_Busy := TRUE;
-	resetMover.Execute := TRUE;
-	Task := THIS^;
-ELSE
-	Execute := S_FALSE;
-END_IF;]]></ST>
+        <ST><![CDATA[mcReset.Execute := TRUE;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="FB_init" Id="{9a079dc9-6267-424b-87ad-35fb5655339d}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
+    <Method Name="RegisterWithParent" Id="{ac903c7a-36cd-4508-9b6b-75b99dd2293c}">
+      <Declaration><![CDATA[METHOD RegisterWithParent
 VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	axis : reference TO AXIS_REF;
+	Runner	: I_HostObjects;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_Axis REF= axis;]]></ST>
+        <ST><![CDATA[Runner.RegisterAbortable(THIS^);
+Runner.RegisterCyclic(THIS^);
+Runner.RegisterTask(THIS^);]]></ST>
       </Implementation>
     </Method>
   </POU>

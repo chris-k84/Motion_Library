@@ -9,12 +9,12 @@ END_VAR
 VAR
 	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
 	EnableBehaviour : EnableBehaviour(_axis);
-	DefaultResetBehaviour : ResetBehaviour(_axis);
+	DefaultResetBehaviour : ResetBehaviour;
 	DefaultMoveBehaviour : MoveAbsTask;
 	DefaultRelBehaviour : MoveRelTask;
 	DefaultModBehaviour : MoveModTask;
 	DefaultVeloBehaviour : MoveVeloTask;
-	DefaultJogBehaviour : JogBehaviour(_axis);
+	DefaultJogBehaviour : JogBehaviour;
 	HaltBehaviour	: HaltBehaviour;
 	TaskCollection : ObjectRunner;
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
@@ -77,7 +77,6 @@ END_VAR
       <Implementation>
         <ST><![CDATA[EnableBehaviour.Cycle();
 DefaultResetBehaviour.Cycle();
-DefaultJogBehaviour.Cycle();
 _axis.ReadStatus();
 axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _ErrorId);
 TaskCollection.Cycle();]]></ST>
@@ -138,10 +137,10 @@ VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[EnableBehaviour.FB_init(FALSE, FALSE, axis);
-DefaultResetBehaviour.FB_init(FALSE, FALSE, axis);
+DefaultResetBehaviour.AxisRef REF= axis;
 DefaultMoveBehaviour.AxisRef REF= axis;
 DefaultVeloBehaviour.AxisRef REF= axis;
-DefaultJogBehaviour.FB_Init(FALSE, FALSE, axis);
+DefaultJogBehaviour.AxisRef REF= axis;
 DefaultRelBehaviour.AxisRef REF= axis;
 DefaultModBehaviour.AxisRef REF= axis;
 HaltBehaviour.AxisRef REF= axis;
@@ -150,7 +149,9 @@ TaskCollection.RegisterModule(DefaultMoveBehaviour);
 TaskCollection.RegisterModule(DefaultModBehaviour);
 TaskCollection.RegisterModule(DefaultRelBehaviour);
 TaskCollection.RegisterModule(HaltBehaviour);
-TaskCollection.RegisterModule(DefaultVeloBehaviour);]]></ST>
+TaskCollection.RegisterModule(DefaultVeloBehaviour);
+TaskCollection.RegisterModule(HaltBehaviour);
+TaskCollection.RegisterModule(DefaultResetBehaviour);]]></ST>
       </Implementation>
     </Method>
     <Method Name="getCurrentPosition" Id="{c887f268-1e61-4e9e-8941-aa0a7b360cf9}" FolderPath="Status\">

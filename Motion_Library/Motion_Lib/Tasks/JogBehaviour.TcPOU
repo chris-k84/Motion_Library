@@ -1,15 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="JogBehaviour" Id="{93a24811-ac08-41d3-baf3-1eeddaaca380}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK JogBehaviour
+    <Declaration><![CDATA[FUNCTION_BLOCK JogBehaviour IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable
 VAR
 	mcJog : MC_Jog;
 	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
-	_Inch : BOOL;
-	State: INT;
-	_Done: BOOL;
-	_Error: BOOL;
-	_Busy: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -20,9 +15,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[mcJog.JogBackwards := FALSE;
-mcJog.JogForward := FALSE;
-_Busy := FALSE;
-State := 0;]]></ST>
+mcJog.JogForward := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Acceleration" Id="{7d07353b-1625-46d1-8a8e-b25a7f2d8ac3}">
@@ -43,6 +36,26 @@ END_VAR
           <ST><![CDATA[IF Acceleration >= 0.0 THEN
 	mcJog.Acceleration := Acceleration;
 END_IF]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="AxisRef" Id="{9ed87404-80ed-468d-b5a9-aaa283dda691}">
+      <Declaration><![CDATA[PROPERTY AxisRef : reference to Axis_Ref]]></Declaration>
+      <Get Name="Get" Id="{dc1862ac-81d0-451c-9bc6-68895bdc9472}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AxisRef REF= _Axis;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{222a7c38-bb1e-47d8-a03c-22fd28b51553}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_Axis REF= AxisRef;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -93,21 +106,6 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Method Name="FB_Init" Id="{d9efeee3-433c-4efc-81ad-3418b1af510d}">
-      <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
-//The return value is not evaluated. For a specific influence, you can also declare the
-//methods explicitly and provide additional code there with the standard initialization
-//code. You can evaluate the return value.
-METHOD FB_Init: BOOL
-VAR_INPUT
-    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
-    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)   
-	axis : reference TO AXIS_REF;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[_Axis REF= axis;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="Inch" Id="{e02c77c7-fbd4-44e8-b8df-19efdb43f112}">
       <Declaration><![CDATA[METHOD Inch : HRESULT
 VAR_INPUT
@@ -180,6 +178,18 @@ ELSE
 	mcJog.JogBackwards := TRUE;
 END_IF
 JogSlow := 1;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RegisterWithParent" Id="{77064e75-9866-4201-98fe-2845bd642a22}">
+      <Declaration><![CDATA[METHOD RegisterWithParent
+VAR_INPUT
+	Runner	: I_HostObjects;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Runner.RegisterAbortable(THIS^);
+Runner.RegisterCyclic(THIS^);
+Runner.RegisterTask(THIS^);]]></ST>
       </Implementation>
     </Method>
   </POU>

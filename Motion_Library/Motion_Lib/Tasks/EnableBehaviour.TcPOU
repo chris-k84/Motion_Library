@@ -91,8 +91,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[mcPower.Enable := TRUE;
-mcPower.Enable_Negative := _InhibitNeg;
-mcPower.Enable_Positive := _InhibitPos;]]></ST>
+mcPower.Enable_Negative := NOT _InhibitNeg;
+mcPower.Enable_Positive := NOT _InhibitPos;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Error" Id="{518ce1d0-c80e-419e-af03-bf594c64bec9}">
@@ -107,18 +107,6 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Method Name="FB_init" Id="{03d72923-bd2d-4684-847b-d6b404bc945a}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	axis : reference TO AXIS_REF;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[_Axis REF= axis;]]></ST>
-      </Implementation>
-    </Method>
     <Property Name="InhibitNegative" Id="{dc288d3e-02f1-4405-a301-d619e78f06f3}">
       <Declaration><![CDATA[PROPERTY InhibitNegative : BOOL]]></Declaration>
       <Get Name="Get" Id="{0424fba8-b630-4cde-9947-0bd6ec5b0728}">

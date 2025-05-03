@@ -28,7 +28,7 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF Enable THEN
-	IF succeeded(iAxisBase.EnableAxis()) THEN
+	IF succeeded(iAxisBase.EnableAxis(FALSE, FALSE)) THEN
 		Enable := FALSE;
 	END_IF
 END_IF

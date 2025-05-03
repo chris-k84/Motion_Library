@@ -8,7 +8,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
-	EnableBehaviour : EnableBehaviour(_axis);
+	EnableBehaviour : EnableBehaviour;
 	DefaultResetBehaviour : ResetBehaviour;
 	DefaultMoveBehaviour : MoveAbsTask;
 	DefaultRelBehaviour : MoveRelTask;
@@ -75,8 +75,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[EnableBehaviour.Cycle();
-_axis.ReadStatus();
+        <ST><![CDATA[_axis.ReadStatus();
 axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _ErrorId);
 TaskCollection.Cycle();]]></ST>
       </Implementation>
@@ -114,10 +113,14 @@ END_VAR
     <Method Name="EnableAxis" Id="{a835c18f-6175-4614-a6ac-65491f5fc70d}" FolderPath="Commands\">
       <Declaration><![CDATA[METHOD PUBLIC EnableAxis : HRESULT
 VAR_INPUT
+	InhibitPositive : BOOL;
+	InhibitNegative : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[EnableAxis := EnableBehaviour.Enable();
+        <ST><![CDATA[EnableBehaviour.InhibitNegative := InhibitNegative;
+EnableBehaviour.InhibitPositive := InhibitPositive;
+EnableAxis := EnableBehaviour.Enable();
 
 _TraceLogger.Send(Message := 'Axis Enable Commanded');
 ]]></ST>
@@ -135,7 +138,7 @@ VAR_INPUT
 	Axis : Reference TO AXIS_REF;  
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[EnableBehaviour.FB_init(FALSE, FALSE, axis);
+        <ST><![CDATA[EnableBehaviour.AxisRef REF= axis;
 DefaultResetBehaviour.AxisRef REF= axis;
 DefaultMoveBehaviour.AxisRef REF= axis;
 DefaultVeloBehaviour.AxisRef REF= axis;
@@ -147,10 +150,11 @@ _axis REF= Axis;
 TaskCollection.RegisterModule(DefaultMoveBehaviour);
 TaskCollection.RegisterModule(DefaultModBehaviour);
 TaskCollection.RegisterModule(DefaultRelBehaviour);
-TaskCollection.RegisterModule(HaltBehaviour);
+TaskCollection.RegisterModule(DefaultJogBehaviour);
 TaskCollection.RegisterModule(DefaultVeloBehaviour);
 TaskCollection.RegisterModule(HaltBehaviour);
-TaskCollection.RegisterModule(DefaultResetBehaviour);]]></ST>
+TaskCollection.RegisterModule(DefaultResetBehaviour);
+TaskCollection.RegisterModule(EnableBehaviour);]]></ST>
       </Implementation>
     </Method>
     <Method Name="getCurrentPosition" Id="{c887f268-1e61-4e9e-8941-aa0a7b360cf9}" FolderPath="Status\">

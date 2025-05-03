@@ -12,6 +12,8 @@ END_VAR
     <Method Name="EnableAxis" Id="{1d051842-9ad9-43b4-9c63-942a1b02943c}">
       <Declaration><![CDATA[METHOD PUBLIC EnableAxis : HRESULT
 VAR_INPUT
+	InhibitPositive : BOOL;
+	InhibitNegative : BOOL;
 END_VAR
 ]]></Declaration>
     </Method>

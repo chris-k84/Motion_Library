@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="HaltBehaviour" Id="{8f902aee-94bf-4385-bdcf-ca790f894752}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK HaltBehaviour IMPLEMENTS I_Task
+    <Declaration><![CDATA[FUNCTION_BLOCK HaltBehaviour IMPLEMENTS I_Task, I_Cyclic, I_Abortable, I_Object
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -9,11 +9,6 @@ END_VAR
 VAR
 	mcHalt : Tc2_MC2.MC_Halt;
 	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
-	_Halt : BOOL;
-	State: INT;
-	_Done: BOOL;
-	_Error: BOOL;
-	_Busy: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -22,13 +17,29 @@ END_VAR
     <Method Name="Abort" Id="{628339b1-4bd1-432e-8277-d60f3e75db0d}">
       <Declaration><![CDATA[METHOD Abort : BOOL]]></Declaration>
       <Implementation>
-        <ST><![CDATA[mcHalt.Execute := FALSE;
-_Busy := FALSE;
-_Halt := FALSE;
-Abort := TRUE;
-State := 0;]]></ST>
+        <ST><![CDATA[mcHalt.Execute := FALSE;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="AxisRef" Id="{1eac54a6-2798-4751-837f-d3da316af4f3}">
+      <Declaration><![CDATA[PROPERTY AxisRef : reference to Axis_Ref]]></Declaration>
+      <Get Name="Get" Id="{b1c4cfd8-893a-485e-bd47-04ef2d23093f}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AxisRef REF= _Axis;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{4a81d8e2-63e1-4eb7-82a1-2f62a4d2f98c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_Axis REF= AxisRef;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Property Name="Busy" Id="{372dcfaa-8cbd-4cb0-a70e-bb4041d8e255}">
       <Declaration><![CDATA[PROPERTY Busy : BOOL
 ]]></Declaration>
@@ -37,7 +48,7 @@ State := 0;]]></ST>
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Busy := _Busy;]]></ST>
+          <ST><![CDATA[Busy := mcHalt.Busy;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -47,31 +58,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Cycle := S_OK;
-CASE State OF
-	0:
-		IF mcHalt.Busy THEN
-			State := 10;
-			_Halt := FALSE;
-		END_IF
-
-	10:
-		IF NOT mcHalt.Busy THEN
-			IF mcHalt.Done THEN
-				_Done := TRUE;
-			ELSIF mcHalt.Error THEN
-				_Error := TRUE;
-			END_IF
-			_Busy := FALSE;
-			mcHalt.Execute := FALSE;
-			State := 0;
-			Cycle := S_OK;
-		END_IF
-	ELSE
-		Cycle := E_FAIL;
-END_CASE
-
-mcHalt(Axis := _Axis);]]></ST>
+        <ST><![CDATA[mcHalt(Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
     <Property Name="Deceleration" Id="{268ed3d1-2986-429d-85cd-2c570b60d9d7}">
@@ -106,7 +93,7 @@ END_IF
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Done := _Done;]]></ST>
+          <ST><![CDATA[Done := mcHalt.Done;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -118,7 +105,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Error := _Error;]]></ST>
+          <ST><![CDATA[Error := mcHalt.Error;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -140,18 +127,6 @@ ELSE
 	Execute := S_FALSE;
 END_IF
 ]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="FB_init" Id="{1d755e0d-6917-492a-87c8-d14e7bb31076}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	axis : reference TO AXIS_REF;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[_Axis REF= axis;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Jerk" Id="{bfb39f13-ace3-4f05-9305-e7d3692f5dfa}">
@@ -176,5 +151,17 @@ END_IF
         </Implementation>
       </Set>
     </Property>
+    <Method Name="RegisterWithParent" Id="{761e717a-0349-45b2-b11d-2954748efbaa}">
+      <Declaration><![CDATA[METHOD RegisterWithParent
+VAR_INPUT
+	Runner	: I_HostObjects;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Runner.RegisterAbortable(THIS^);
+Runner.RegisterCyclic(THIS^);
+Runner.RegisterTask(THIS^);]]></ST>
+      </Implementation>
+    </Method>
   </POU>
 </TcPlcObject>

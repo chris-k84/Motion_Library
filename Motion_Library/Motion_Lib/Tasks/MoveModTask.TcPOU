@@ -11,11 +11,6 @@ VAR
 	iMoveMod : I_MoveMod := moveMod[0];
 	moveIndex : INT;
 	_Axis : REFERENCE TO AXIS_REF;
-	MoveToPosition : BOOL;
-	State: INT;
-	_Done: BOOL;
-	_Error: BOOL;
-	_Busy: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>

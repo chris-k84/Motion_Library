@@ -76,10 +76,6 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[EnableBehaviour.Cycle();
-
-DefaultRelBehaviour.Cycle();
-DefaultModBehaviour.Cycle();
-HaltBehaviour.Cycle();
 DefaultResetBehaviour.Cycle();
 DefaultVeloBehaviour.Cycle();
 DefaultJogBehaviour.Cycle();
@@ -147,12 +143,14 @@ DefaultResetBehaviour.FB_init(FALSE, FALSE, axis);
 DefaultMoveBehaviour.AxisRef REF= axis;
 DefaultVeloBehaviour.FB_Init(FALSE, FALSE, axis);
 DefaultJogBehaviour.FB_Init(FALSE, FALSE, axis);
-DefaultRelBehaviour.FB_init(FALSE, FALSE, axis);
+DefaultRelBehaviour.AxisRef REF= axis;
 DefaultModBehaviour.AxisRef REF= axis;
-HaltBehaviour.FB_init(FALSE, FALSE, axis);
+HaltBehaviour.AxisRef REF= axis;
 _axis REF= Axis;
 TaskCollection.RegisterModule(DefaultMoveBehaviour);
-TaskCollection.RegisterModule(DefaultModBehaviour);]]></ST>
+TaskCollection.RegisterModule(DefaultModBehaviour);
+TaskCollection.RegisterModule(DefaultRelBehaviour);
+TaskCollection.RegisterModule(HaltBehaviour);]]></ST>
       </Implementation>
     </Method>
     <Method Name="getCurrentPosition" Id="{c887f268-1e61-4e9e-8941-aa0a7b360cf9}" FolderPath="Status\">

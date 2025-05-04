@@ -134,7 +134,7 @@ END_IF
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[]]></ST>
+          <ST><![CDATA[InGear := mcGearIn.InGear AND _Axis.Status.Coupled;]]></ST>
         </Implementation>
       </Get>
     </Property>

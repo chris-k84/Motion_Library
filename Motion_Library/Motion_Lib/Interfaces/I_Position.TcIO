@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <Itf Name="I_PositionAxis" Id="{67ee2d44-07ee-4a7f-8cf0-2ba796d7942a}">
-    <Declaration><![CDATA[INTERFACE I_PositionAxis EXTENDS __SYSTEM.IQueryInterface
+  <Itf Name="I_Position" Id="{67ee2d44-07ee-4a7f-8cf0-2ba796d7942a}">
+    <Declaration><![CDATA[INTERFACE I_Position EXTENDS __SYSTEM.IQueryInterface
 ]]></Declaration>
     <Method Name="isAtPosition" Id="{0795d33e-560d-4636-8a90-52e889bcb73b}">
       <Declaration><![CDATA[METHOD isAtPosition : BOOL

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <Itf Name="I_VelocityAxis" Id="{bdeea844-06c8-4676-b25f-b2c6e73485b3}">
-    <Declaration><![CDATA[INTERFACE I_VelocityAxis
+  <Itf Name="I_Velocity" Id="{bdeea844-06c8-4676-b25f-b2c6e73485b3}">
+    <Declaration><![CDATA[INTERFACE I_Velocity
 ]]></Declaration>
     <Method Name="isInVelocity" Id="{c5f75824-8828-4b91-aac7-f6fa700241c4}">
       <Declaration><![CDATA[METHOD isInVelocity : BOOL

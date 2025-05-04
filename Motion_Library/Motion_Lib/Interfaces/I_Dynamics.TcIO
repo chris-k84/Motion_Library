@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <Itf Name="I_AxisDynamics" Id="{f3908ec5-f9cc-47a8-9ad5-05c8b414800b}">
-    <Declaration><![CDATA[INTERFACE I_AxisDynamics EXTENDS __SYSTEM.IQueryInterface
+  <Itf Name="I_Dynamics" Id="{f3908ec5-f9cc-47a8-9ad5-05c8b414800b}">
+    <Declaration><![CDATA[INTERFACE I_Dynamics EXTENDS __SYSTEM.IQueryInterface
 ]]></Declaration>
     <Property Name="Acceleration" Id="{72d27c44-987d-44ce-a99c-48cb32673553}">
       <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>

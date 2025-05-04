@@ -46,22 +46,22 @@
     <Compile Include="Axis Class\Axis_Base.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Interfaces\I_AxisBase.TcIO">
+    <Compile Include="Interfaces\I_Axis.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Interfaces\I_AxisStatus.TcIO">
+    <Compile Include="Interfaces\I_Status.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Interfaces\I_Jog.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Interfaces\I_PositionAxis.TcIO">
+    <Compile Include="Interfaces\I_Position.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Interfaces\I_AxisDynamics.TcIO">
+    <Compile Include="Interfaces\I_Dynamics.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Interfaces\I_VelocityAxis.TcIO">
+    <Compile Include="Interfaces\I_Velocity.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Internal\I_MoveAbs.TcIO">

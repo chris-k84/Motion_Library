@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="Axis_Base" Id="{6091fbf5-8563-4c3d-a46f-a871d52562e9}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Axis_Base IMPLEMENTS I_AxisBase, I_PositionAxis, I_AxisStatus, I_VelocityAxis, I_Jog
+    <Declaration><![CDATA[FUNCTION_BLOCK Axis_Base IMPLEMENTS I_Axis, I_Position, I_Status, I_Velocity, I_Jog
 VAR_INPUT
 END_VAR
 VAR_OUTPUT

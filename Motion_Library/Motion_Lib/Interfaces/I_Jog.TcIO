@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <Itf Name="I_Jog" Id="{8e49aba1-c725-4b7a-a4e0-47b9b3e8e5b3}">
-    <Declaration><![CDATA[INTERFACE I_Jog EXTENDS I_AxisBase
+    <Declaration><![CDATA[INTERFACE I_Jog EXTENDS I_Axis
 ]]></Declaration>
     <Method Name="Inch" Id="{281576ff-057a-4763-8087-52cdeebb4e0f}">
       <Declaration><![CDATA[METHOD Inch : HRESULT

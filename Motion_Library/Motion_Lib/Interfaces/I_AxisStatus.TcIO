@@ -9,6 +9,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="hasError" Id="{23e382f3-1098-4e53-9da1-56fa9b45c233}">
+      <Declaration><![CDATA[METHOD hasError : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="isAtPosition" Id="{b1b2fe74-f8e0-4241-b0e9-3e1b63b14a12}">
       <Declaration><![CDATA[METHOD isAtPosition : BOOL
 VAR_INPUT

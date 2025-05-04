@@ -58,6 +58,9 @@
     <Compile Include="Interfaces\I_PositionAxis.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Interfaces\I_AxisDynamics.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Interfaces\I_VelocityAxis.TcIO">
       <SubType>Code</SubType>
     </Compile>

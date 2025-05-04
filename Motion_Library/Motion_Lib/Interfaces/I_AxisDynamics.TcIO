@@ -12,15 +12,6 @@
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
-    <Property Name="BufferMode" Id="{ced436f6-287e-418d-af69-e4b848d62760}">
-      <Declaration><![CDATA[PROPERTY BufferMode : MC_BufferMode]]></Declaration>
-      <Get Name="Get" Id="{0f0cbae8-b515-46ff-8f32-af99ff57dd92}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-      <Set Name="Set" Id="{17cb71bf-508b-4dc2-9600-83c2f4af678e}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
-    </Property>
     <Property Name="Deceleration" Id="{5ef3957c-6644-426d-8ede-03dbef11af09}">
       <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{bffc68c4-d0c8-4caa-bb08-1acb04f5a311}">

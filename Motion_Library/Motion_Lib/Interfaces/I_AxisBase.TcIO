@@ -3,6 +3,15 @@
   <Itf Name="I_AxisBase" Id="{0ef07e09-d612-4b35-8507-c5527a9d7e82}">
     <Declaration><![CDATA[INTERFACE I_AxisBase EXTENDS I_Cyclic
 ]]></Declaration>
+    <Property Name="BufferMode" Id="{84cb34ca-cf7c-44e5-808a-d05b61db3bfb}">
+      <Declaration><![CDATA[PROPERTY BufferMode : MC_BufferMode]]></Declaration>
+      <Get Name="Get" Id="{9281d6e3-005d-411b-9675-57d36646c8ee}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{9446d1c2-9a48-41b1-ba0a-d81d5dd2668a}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
     <Method Name="DisableAxis" Id="{9aa78aa4-6937-4925-a0b3-e6b55191b9b8}">
       <Declaration><![CDATA[METHOD PUBLIC DisableAxis : HRESULT
 VAR_INPUT

@@ -3,33 +3,6 @@
   <Itf Name="I_PositionAxis" Id="{67ee2d44-07ee-4a7f-8cf0-2ba796d7942a}">
     <Declaration><![CDATA[INTERFACE I_PositionAxis EXTENDS __SYSTEM.IQueryInterface
 ]]></Declaration>
-    <Property Name="Acceleration" Id="{6aa38efd-5aab-4e71-a9b5-4601e763ad20}">
-      <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>
-      <Get Name="Get" Id="{2772526e-ce15-4b61-8310-c1fa3f5374d7}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-      <Set Name="Set" Id="{c4d5c93b-6bb9-430e-bfdc-58ca88aea98e}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
-    </Property>
-    <Property Name="BufferMode" Id="{8a09ec3d-50cb-4ca8-b8b1-13388b194d0f}">
-      <Declaration><![CDATA[PROPERTY BufferMode : MC_BufferMode]]></Declaration>
-      <Get Name="Get" Id="{25d07f96-89ca-4e5a-9a52-920a8faf68e1}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-      <Set Name="Set" Id="{16124384-c0ca-494a-b3ee-94016c9eddae}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
-    </Property>
-    <Property Name="Deceleration" Id="{f4545876-9890-47b0-a794-487261b1a669}">
-      <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
-      <Get Name="Get" Id="{61cc8aaf-c6b0-4c2f-b29e-5a00fbd2b6ef}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-      <Set Name="Set" Id="{cbee0af5-61c7-45cc-aee3-6fc8bb0b9c3f}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
-    </Property>
     <Method Name="isAtPosition" Id="{0795d33e-560d-4636-8a90-52e889bcb73b}">
       <Declaration><![CDATA[METHOD isAtPosition : BOOL
 VAR_INPUT
@@ -43,15 +16,6 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Property Name="Jerk" Id="{0df40572-608e-4996-8cc9-9fa0ad407b16}">
-      <Declaration><![CDATA[PROPERTY PUBLIC Jerk : mc_lreal]]></Declaration>
-      <Get Name="Get" Id="{0bff625d-12a6-41b9-9a30-2b50870310c3}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Get>
-      <Set Name="Set" Id="{7c979efc-b6ea-40bb-b0fd-ca613f140f10}">
-        <Declaration><![CDATA[]]></Declaration>
-      </Set>
-    </Property>
     <Method Name="MoveByDistance" Id="{a5b81455-a8f6-4114-80eb-0d55f77596a7}">
       <Declaration><![CDATA[METHOD MoveByDistance : HRESULT
 VAR_INPUT

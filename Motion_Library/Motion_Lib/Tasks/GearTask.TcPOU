@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="GearTask" Id="{c68427ee-fbb2-4955-87f7-236eb5ca7453}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK GearTask IMPLEMENTS I_Task, I_Object, I_Abortable, I_Cyclic
+VAR
+	mcGearIn : MC_GearIn;
+	mcGearOut : MC_GearOut;
+	_AxisMaster : REFERENCE TO Tc2_MC2.AXIS_REF;
+	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{b070cc04-b789-4192-a434-c23424a575ce}">
+      <Declaration><![CDATA[METHOD Abort : Base_Library.HRESULT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mcGearIn.Execute := FALSE;
+mcGearOut.Execute := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Acceleration" Id="{f01bc33a-2696-4e8f-90b9-30cdb8f4dd2d}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{b978d70b-e2e1-4621-bbee-98b107797754}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Acceleration := mcGearIn.Acceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{bf531977-c15d-49ee-be06-c4bf1afca554}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcGearIn.Acceleration := Acceleration;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Busy" Id="{ebe05db7-1dd0-4727-938c-463df03890a3}">
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{c269a663-4580-4d6d-be8e-3ee03a475cea}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := mcGearIn.Busy OR mcGearOut.Busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Cycle" Id="{f8090c6e-65b8-4fad-b206-c4a3dca766fd}">
+      <Declaration><![CDATA[METHOD Cycle : Base_Library.HRESULT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[mcGearIn(Master := _AxisMaster, Slave := _Axis);
+mcGearOut(Slave := _Axis);]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Deceleration" Id="{92ba61af-a15e-46bf-86f4-eb6ef3fa3283}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{45a7a481-b87c-432c-a695-4c0b2d6b9967}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Deceleration := mcGearIn.Deceleration;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{1fdb4b60-2615-4d67-b857-06b44d7e0ea7}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcGearIn.Deceleration := Deceleration;
+]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Done" Id="{c8b5b359-573b-4583-94ce-5502687bec74}">
+      <Declaration><![CDATA[PROPERTY Done : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{b17160ab-4958-4a0a-b824-243078353120}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := not mcGearIn.Busy OR NOT mcGearOut.Busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{17bc1a67-dcb6-4a2a-987a-a0a1c3b242d6}">
+      <Declaration><![CDATA[PROPERTY Error : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{5afed4c0-6112-40ef-95fe-e23898a97ab5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := mcGearIn.Error OR mcGearOut.Error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="GearIn" Id="{a71fc049-0a78-4bbd-8c6d-e1cd8c076d5d}">
+      <Declaration><![CDATA[METHOD GearIn : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _Axis.Status.NotMoving AND NOT _Axis.Status.Coupled THEN
+	mcGearIn.Execute := TRUE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GearOut" Id="{7cc81acd-0a8f-4d8a-a325-58c9914d04f1}">
+      <Declaration><![CDATA[METHOD GearOut : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _Axis.Status.NotMoving AND _Axis.Status.Coupled THEN
+	mcGearOut.Execute := TRUE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="InGear" Id="{7b9c5c0a-d5e8-485c-a913-d9dcff95acaf}">
+      <Declaration><![CDATA[PROPERTY InGear : BOOL]]></Declaration>
+      <Get Name="Get" Id="{90c2ce14-3a80-48f2-ac71-a190f78ea8d7}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Jerk" Id="{3001f9ac-1396-4b6a-8b5d-39fab90248cf}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Jerk : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{5e91fa52-0fff-43a5-91c7-7cdc52f5efad}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Jerk := mcGearIn.Jerk;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{b62bf38e-8455-4580-a928-54ae97acf0ef}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[mcGearIn.Jerk := Jerk;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="RegisterWithParent" Id="{3aa8e96a-b079-418b-b42d-30714fde13ef}">
+      <Declaration><![CDATA[METHOD RegisterWithParent
+VAR_INPUT
+	Runner	: Base_Library.I_HostObjects;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Runner.RegisterAbortable(THIS^);
+Runner.RegisterCyclic(THIS^);
+Runner.RegisterTask(This^);]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

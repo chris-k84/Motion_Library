@@ -85,6 +85,9 @@
     <Compile Include="Internal\MoveVelo.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tasks\GearTask.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tasks\MoveModTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>

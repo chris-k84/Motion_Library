@@ -5,11 +5,11 @@
 VAR
 	StubAxis : AXIS_REF;
 	TestAxis : Axis_Base(StubAxis);
-	iAxisBase : I_AxisBase := TestAxis;
+	iAxisBase : I_Axis := TestAxis;
 	iJog : I_Jog := TestAxis;
-	iAxisStatus : I_AxisStatus := TestAxis;
-	iPosition : I_PositionAxis := TestAxis;
-	iVelo : I_VelocityAxis := TestAxis;
+	iAxisStatus : I_Status := TestAxis;
+	iPosition : I_Position := TestAxis;
+	iVelo : I_Velocity := TestAxis;
 	Enable: BOOL;
 	MOVETO: BOOL;
 	MOVETWO: BOOL;

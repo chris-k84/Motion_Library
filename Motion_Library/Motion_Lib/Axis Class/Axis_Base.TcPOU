@@ -228,6 +228,13 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="IsCoupled" Id="{c0712c94-ae98-4f0c-8c14-f5255c4aa801}" FolderPath="Status\">
+      <Declaration><![CDATA[METHOD isCoupled : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[isCoupled := _axis.Status.Coupled;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="isEnabled" Id="{460678ae-c472-4e27-a376-f3d29d1278b6}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD isEnabled : BOOL
 VAR_INPUT

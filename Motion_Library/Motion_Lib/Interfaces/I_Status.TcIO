@@ -22,6 +22,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="isCoupled" Id="{3a64e49f-8ff5-45ad-8a05-18f9af926126}">
+      <Declaration><![CDATA[METHOD isCoupled : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="isInVelocity" Id="{3b580483-8069-42c2-961f-3563b2202ac4}">
       <Declaration><![CDATA[METHOD isInVelocity : BOOL
 VAR_INPUT

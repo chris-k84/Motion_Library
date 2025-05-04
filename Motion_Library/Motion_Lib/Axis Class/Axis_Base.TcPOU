@@ -26,9 +26,12 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
     </Implementation>
-    <Folder Name="Commands" Id="{07afdc00-d51e-4496-9063-9bd8f62d5829}" />
+    <Folder Name="Base" Id="{bc93d43c-3186-404b-ac84-315fffe3aac4}" />
     <Folder Name="Dynamics" Id="{cb4086e9-6981-4aa8-9a87-7a24dd3c8528}" />
+    <Folder Name="Manual" Id="{9d120552-2d62-4889-ac32-0f0c4ddbbd86}" />
+    <Folder Name="Position" Id="{b9c6e694-8906-4efb-bd9d-8fd3dc8e33ad}" />
     <Folder Name="Status" Id="{91eb89a1-3e50-4f9b-a3c9-6207bfd52c53}" />
+    <Folder Name="Velocity" Id="{d6f72365-77a8-427b-9fe5-df2e73a6c92a}" />
     <Property Name="Acceleration" Id="{6323273a-3225-4f5a-9181-064e3eedda66}" FolderPath="Dynamics\">
       <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{34764180-07ec-4ccd-a6b8-92e00db717a8}">
@@ -100,7 +103,7 @@ HaltBehaviour.Deceleration := Deceleration;]]></ST>
         </Implementation>
       </Set>
     </Property>
-    <Method Name="DisableAxis" Id="{4ca2c35a-d664-47dd-b699-e212d5be22eb}" FolderPath="Commands\">
+    <Method Name="DisableAxis" Id="{4ca2c35a-d664-47dd-b699-e212d5be22eb}" FolderPath="Base\">
       <Declaration><![CDATA[METHOD PUBLIC DisableAxis : HRESULT
 VAR_INPUT
 END_VAR
@@ -110,7 +113,7 @@ END_VAR
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="EnableAxis" Id="{a835c18f-6175-4614-a6ac-65491f5fc70d}" FolderPath="Commands\">
+    <Method Name="EnableAxis" Id="{a835c18f-6175-4614-a6ac-65491f5fc70d}" FolderPath="Base\">
       <Declaration><![CDATA[METHOD PUBLIC EnableAxis : HRESULT
 VAR_INPUT
 	InhibitPositive : BOOL;
@@ -175,7 +178,7 @@ END_VAR
         <ST><![CDATA[GetErrorId := _ErrorId;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="HaltAxis" Id="{b5b4d676-a559-4d25-8571-0c2ec9c3c015}" FolderPath="Commands\">
+    <Method Name="HaltAxis" Id="{b5b4d676-a559-4d25-8571-0c2ec9c3c015}" FolderPath="Base\">
       <Declaration><![CDATA[METHOD PUBLIC HaltAxis : HRESULT
 VAR
 END_VAR
@@ -199,7 +202,7 @@ END_VAR
         <ST><![CDATA[hasError := _axis.Status.Error;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Inch" Id="{a8ecae9a-5934-4e49-93bc-ed8a7c89528c}" FolderPath="Commands\">
+    <Method Name="Inch" Id="{a8ecae9a-5934-4e49-93bc-ed8a7c89528c}" FolderPath="Manual\">
       <Declaration><![CDATA[METHOD Inch : HRESULT
 VAR_INPUT
 	Distance : MC_LREAL;
@@ -289,7 +292,7 @@ HaltBehaviour.Jerk := Jerk;]]></ST>
         </Implementation>
       </Set>
     </Property>
-    <Method Name="JogFast" Id="{95cc0a16-a1bd-4e7f-963c-68820a459e0a}" FolderPath="Commands\">
+    <Method Name="JogFast" Id="{95cc0a16-a1bd-4e7f-963c-68820a459e0a}" FolderPath="Manual\">
       <Declaration><![CDATA[METHOD JogFast : HRESULT
 VAR_INPUT
 	Direction : BOOL;
@@ -301,7 +304,7 @@ END_VAR
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="JogSlow" Id="{6f896ef2-e375-4b54-96df-82c467e4828a}" FolderPath="Commands\">
+    <Method Name="JogSlow" Id="{6f896ef2-e375-4b54-96df-82c467e4828a}" FolderPath="Manual\">
       <Declaration><![CDATA[METHOD JogSlow : HRESULT
 VAR_INPUT
 	Direction : BOOL;
@@ -313,7 +316,7 @@ END_VAR
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="MoveAtVelocity" Id="{6d3a50a7-ce83-4f3f-b972-fcb26bf76028}" FolderPath="Commands\">
+    <Method Name="MoveAtVelocity" Id="{6d3a50a7-ce83-4f3f-b972-fcb26bf76028}" FolderPath="Velocity\">
       <Declaration><![CDATA[METHOD MoveAtVelocity : HRESULT
 VAR_INPUT
 	Direction : MC_Direction;
@@ -328,7 +331,7 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="MoveByDistance" Id="{957d5870-8bcd-44f2-a483-ac5c3f32f182}" FolderPath="Commands\">
+    <Method Name="MoveByDistance" Id="{957d5870-8bcd-44f2-a483-ac5c3f32f182}" FolderPath="Position\">
       <Declaration><![CDATA[METHOD MoveByDistance : HRESULT
 VAR_INPUT
 	Distance : MC_LREAL;
@@ -347,7 +350,7 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="MoveToModuloPosition" Id="{470f0d21-ab3e-4d10-948f-9938775e223b}" FolderPath="Commands\">
+    <Method Name="MoveToModuloPosition" Id="{470f0d21-ab3e-4d10-948f-9938775e223b}" FolderPath="Position\">
       <Declaration><![CDATA[METHOD MoveToModuloPosition : HRESULT
 VAR_INPUT
 	Position : MC_LREAL;
@@ -364,7 +367,7 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="MoveToPosition" Id="{bca42834-4b90-4808-be50-ee67839e4111}" FolderPath="Commands\">
+    <Method Name="MoveToPosition" Id="{bca42834-4b90-4808-be50-ee67839e4111}" FolderPath="Position\">
       <Declaration><![CDATA[METHOD PUBLIC MoveToPosition : HRESULT
 VAR_INPUT
 	Position : MC_LREAL;
@@ -397,7 +400,7 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Reset" Id="{bd5b60f2-6a45-4850-931f-c2efbdee4a44}" FolderPath="Commands\">
+    <Method Name="Reset" Id="{bd5b60f2-6a45-4850-931f-c2efbdee4a44}" FolderPath="Base\">
       <Declaration><![CDATA[METHOD PUBLIC Reset : HRESULT
 VAR
 	ResetResult : HRESULT;

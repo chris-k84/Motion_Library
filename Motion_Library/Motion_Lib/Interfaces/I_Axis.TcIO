@@ -3,12 +3,30 @@
   <Itf Name="I_Axis" Id="{0ef07e09-d612-4b35-8507-c5527a9d7e82}">
     <Declaration><![CDATA[INTERFACE I_Axis EXTENDS I_Cyclic
 ]]></Declaration>
+    <Property Name="Acceleration" Id="{72d27c44-987d-44ce-a99c-48cb32673553}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Acceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{056425fd-3278-4643-be11-9a6970fe13ef}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{9650a87b-bd43-4b24-b18c-102d81cc67c2}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
     <Property Name="BufferMode" Id="{84cb34ca-cf7c-44e5-808a-d05b61db3bfb}">
       <Declaration><![CDATA[PROPERTY BufferMode : MC_BufferMode]]></Declaration>
       <Get Name="Get" Id="{9281d6e3-005d-411b-9675-57d36646c8ee}">
         <Declaration><![CDATA[]]></Declaration>
       </Get>
       <Set Name="Set" Id="{9446d1c2-9a48-41b1-ba0a-d81d5dd2668a}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+    <Property Name="Deceleration" Id="{5ef3957c-6644-426d-8ede-03dbef11af09}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Deceleration : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{bffc68c4-d0c8-4caa-bb08-1acb04f5a311}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{615e48f2-1833-4891-bf53-66cbe72eae8a}">
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
@@ -38,6 +56,15 @@ VAR
 END_VAR
 ]]></Declaration>
     </Method>
+    <Property Name="Jerk" Id="{dd32e94c-e653-4f44-ba1a-16a122c64a8f}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Jerk : mc_lreal]]></Declaration>
+      <Get Name="Get" Id="{ed85520a-8680-4906-88bb-bb44509a959d}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{4339837f-910b-4c9c-913e-e3f9f3195613}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
     <Method Name="Reset" Id="{70c30306-2843-45ea-9390-dee5671086b2}">
       <Declaration><![CDATA[METHOD PUBLIC Reset : HRESULT
 VAR

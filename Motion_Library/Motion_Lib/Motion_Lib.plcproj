@@ -58,9 +58,6 @@
     <Compile Include="Interfaces\I_Position.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Interfaces\I_Dynamics.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Interfaces\I_Velocity.TcIO">
       <SubType>Code</SubType>
     </Compile>

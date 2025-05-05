@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="GearTask" Id="{c68427ee-fbb2-4955-87f7-236eb5ca7453}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK GearTask IMPLEMENTS I_Object, I_Abortable, I_Cyclic
+  <POU Name="GearAxes" Id="{c68427ee-fbb2-4955-87f7-236eb5ca7453}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK GearAxes IMPLEMENTS I_Object, I_Abortable, I_Cyclic
 VAR
 	mcGearIn : MC_GearIn;
 	mcGearOut : MC_GearOut;

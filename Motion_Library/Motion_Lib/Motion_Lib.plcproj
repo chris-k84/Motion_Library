@@ -89,7 +89,7 @@
     <Compile Include="Internal\MoveVelo.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Operations\GearTask.TcPOU">
+    <Compile Include="Operations\GearAxes.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\MoveModTask.TcPOU">
@@ -104,7 +104,7 @@
     <Compile Include="Tasks\CoEResetTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\EnableDisbableTask.TcPOU">
+    <Compile Include="Tasks\EnableDisableTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\HaltTask.TcPOU">

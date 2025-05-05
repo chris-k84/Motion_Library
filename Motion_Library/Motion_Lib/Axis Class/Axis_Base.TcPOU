@@ -8,7 +8,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
-	EnableBehaviour : EnableDisbableTask;
+	EnableBehaviour : EnableDisableTask;
 	DefaultResetBehaviour : CoEResetTask;
 	DefaultMoveBehaviour : MoveAbsTask;
 	DefaultRelBehaviour : MoveRelTask;

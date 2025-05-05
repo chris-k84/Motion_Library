@@ -4,12 +4,15 @@
     <Declaration><![CDATA[FUNCTION_BLOCK IntegrationTestSuite
 VAR
 	StubAxis : AXIS_REF;
+	gearSlave : AXIS_REF;
 	TestAxis : Axis_Base(StubAxis);
-	iAxisBase : I_Axis := TestAxis;
+	gearTestAxis : Axis_Base(gearSlave);
+	iAxisBase : I_AxisBase := TestAxis;
 	iJog : I_Jog := TestAxis;
 	iAxisStatus : I_Status := TestAxis;
 	iPosition : I_Position := TestAxis;
 	iVelo : I_Velocity := TestAxis;
+	gearOperation : GearTask := (Master := TestAxis, Slave := gearTestAxis);
 	Enable: BOOL;
 	MOVETO: BOOL;
 	MOVETWO: BOOL;
@@ -24,11 +27,12 @@ VAR
 	VelocityDemand : LREAL := 100.0;
 	Pos_Dist : LREAL := 10.0;
 	Mod_Pos : LREAL := 230.0;
+	GEAR: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF Enable THEN
-	IF succeeded(iAxisBase.EnableAxis(FALSE, FALSE)) THEN
+	IF succeeded(iAxisBase.EnableAxis(FALSE, FALSE)) AND SUCCEEDED(gearTestAxis.EnableAxis(FALSE,FALSE)) THEN
 		Enable := FALSE;
 	END_IF
 END_IF
@@ -70,8 +74,14 @@ IF HALT THEN
 END_IF
 
 IF DISABLE THEN
-	IF SUCCEEDED(iAxisBase.DisableAxis()) THEN
+	IF SUCCEEDED(iAxisBase.DisableAxis()) AND SUCCEEDED(gearTestAxis.DisableAxis()) THEN
 		DISABLE := FALSE;
+	END_IF
+END_IF
+
+IF GEAR THEN
+	IF gearOperation.GearIn() THEN
+		GEAR := FALSE;
 	END_IF
 END_IF
 
@@ -89,7 +99,9 @@ IF JOGFAST THEN
 	iJog.JogFast(TRUE);
 END_IF
 
-TestAxis.Cycle();]]></ST>
+TestAxis.Cycle();
+gearTestAxis.Cycle();
+gearOperation.Cycle();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

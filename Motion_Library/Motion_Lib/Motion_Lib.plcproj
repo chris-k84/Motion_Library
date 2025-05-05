@@ -50,6 +50,9 @@
     <Compile Include="Interfaces\I_Axis.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Interfaces\I_AxisBase.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Interfaces\I_Status.TcIO">
       <SubType>Code</SubType>
     </Compile>

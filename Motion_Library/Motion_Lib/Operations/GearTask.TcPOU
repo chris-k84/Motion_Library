@@ -5,8 +5,8 @@
 VAR
 	mcGearIn : MC_GearIn;
 	mcGearOut : MC_GearOut;
-	_AxisMaster : REFERENCE TO Tc2_MC2.AXIS_REF;
-	_AxisSlave : REFERENCE TO Tc2_MC2.AXIS_REF;
+	_AxisMaster : I_AxisBase;
+	_AxisSlave : I_AxisBase;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -56,8 +56,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF _AxisMaster <> 0 AND _AxisSlave <> 0 THEN
-	mcGearIn(Master := _AxisMaster, Slave := _AxisSlave);
-	mcGearOut(Slave := _AxisSlave);
+	mcGearIn(Master := _AxisMaster.AxisRef, Slave := _AxisSlave.AxisRef);
+	mcGearOut(Slave := _AxisSlave.AxisRef);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -111,8 +111,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _AxisSlave.Status.NotMoving AND NOT _AxisSlave.Status.Coupled THEN
-	mcGearIn.Execute := TRUE;
+        <ST><![CDATA[IF _AxisSlave.isStationary() AND NOT _AxisSlave.isCoupled() THEN
+	mcGearIn.Execute := GearIn := TRUE;
 END_IF
 ]]></ST>
       </Implementation>
@@ -123,7 +123,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _AxisSlave.Status.NotMoving AND _AxisSlave.Status.Coupled THEN
+        <ST><![CDATA[IF _AxisSlave.isStationary() AND _AxisSlave.isCoupled() THEN
 	mcGearOut.Execute := TRUE;
 END_IF
 ]]></ST>
@@ -136,7 +136,7 @@ END_IF
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[InGear := mcGearIn.InGear AND _AxisSlave.Status.Coupled;]]></ST>
+          <ST><![CDATA[InGear := mcGearIn.InGear AND _AxisSlave.isCoupled();]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -160,13 +160,13 @@ END_VAR
       </Set>
     </Property>
     <Property Name="Master" Id="{eea9d746-48c9-4741-8628-9b66619afc45}">
-      <Declaration><![CDATA[PROPERTY Master : reference to Axis_Ref]]></Declaration>
+      <Declaration><![CDATA[PROPERTY Master : I_AxisBase]]></Declaration>
       <Get Name="Get" Id="{f032ec85-f2db-4ac0-a6e8-830f89e5b465}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Master REF= _AxisMaster;]]></ST>
+          <ST><![CDATA[Master := _AxisMaster;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{7741d743-d7c4-48f5-9e2d-afdaece2a719}">
@@ -174,7 +174,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_AxisMaster REF= Master;]]></ST>
+          <ST><![CDATA[_AxisMaster := Master;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -186,18 +186,17 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Runner.RegisterAbortable(THIS^);
-Runner.RegisterCyclic(THIS^);
-Runner.RegisterTask(This^);]]></ST>
+Runner.RegisterCyclic(THIS^);]]></ST>
       </Implementation>
     </Method>
     <Property Name="Slave" Id="{3fdd3b93-09f6-470b-b44d-aee99e82c3db}">
-      <Declaration><![CDATA[PROPERTY Slave : reference to Axis_Ref]]></Declaration>
+      <Declaration><![CDATA[PROPERTY Slave : I_AxisBase]]></Declaration>
       <Get Name="Get" Id="{3211fae5-3068-415f-a022-67f1210afbf4}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Slave REF= _AxisSlave;]]></ST>
+          <ST><![CDATA[Slave := _AxisSlave;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{1970a7f4-4229-42eb-ac81-475d550c5567}">
@@ -205,7 +204,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[_AxisSlave REF= Slave;]]></ST>
+          <ST><![CDATA[_AxisSlave := Slave;]]></ST>
         </Implementation>
       </Set>
     </Property>

@@ -51,6 +51,17 @@ END_VAR
         </Implementation>
       </Set>
     </Property>
+    <Property Name="AxisRef" Id="{aaea047b-5e2b-4dbe-9bce-7ee41542008d}" FolderPath="Base\">
+      <Declaration><![CDATA[PROPERTY AxisRef : reference to Axis_Ref]]></Declaration>
+      <Get Name="Get" Id="{824cd367-141c-47b9-8e15-5709b4963377}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AxisRef REF= _axis;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="BufferMode" Id="{d08e2361-5203-4398-8c61-726e8a84e0a3}" FolderPath="Dynamics\">
       <Declaration><![CDATA[PROPERTY BufferMode : MC_BufferMode]]></Declaration>
       <Get Name="Get" Id="{9e81ee1e-088d-4c14-a24d-933fb207a31e}">
@@ -401,14 +412,14 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="RegisterWithParent" Id="{381741fc-fc26-4603-bb08-86e14ada8bdb}">
-      <Declaration><![CDATA[{warning 'Add method implementation '}
-METHOD RegisterWithParent
+      <Declaration><![CDATA[METHOD RegisterWithParent
 VAR_INPUT
 	Runner	: Base_Library.I_HostObjects;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[Runner.RegisterCyclic(THIS^);
+Runner.RegisterResettable(THIS^);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Reset" Id="{bd5b60f2-6a45-4850-931f-c2efbdee4a44}" FolderPath="Base\">

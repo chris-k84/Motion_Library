@@ -40,6 +40,7 @@
     <Folder Include="Axis Class" />
     <Folder Include="Internal" />
     <Folder Include="Interfaces" />
+    <Folder Include="Operations" />
     <Folder Include="Tasks" />
   </ItemGroup>
   <ItemGroup>
@@ -85,7 +86,7 @@
     <Compile Include="Internal\MoveVelo.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\GearTask.TcPOU">
+    <Compile Include="Operations\GearTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\MoveModTask.TcPOU">

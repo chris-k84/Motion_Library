@@ -12,6 +12,12 @@
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
+    <Property Name="AxisRef" Id="{e4c93f09-4784-43f3-989e-ffe0dbb5d4d1}">
+      <Declaration><![CDATA[PROPERTY AxisRef : reference to Axis_Ref]]></Declaration>
+      <Get Name="Get" Id="{43115712-1524-4aec-841c-f993969891f9}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
     <Property Name="BufferMode" Id="{84cb34ca-cf7c-44e5-808a-d05b61db3bfb}">
       <Declaration><![CDATA[PROPERTY BufferMode : MC_BufferMode]]></Declaration>
       <Get Name="Get" Id="{9281d6e3-005d-411b-9675-57d36646c8ee}">

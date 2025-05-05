@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="ResetBehaviour" Id="{ea00788b-a7e2-4ddb-a987-8527d11bfcf5}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK ResetBehaviour IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable, I_Abortable, I_Resettable
+  <POU Name="CoEResetTask" Id="{ea00788b-a7e2-4ddb-a987-8527d11bfcf5}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK CoEResetTask IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable, I_Abortable, I_Resettable
 VAR
 	mcReset : Tc2_MC2.MC_Reset;
 	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;

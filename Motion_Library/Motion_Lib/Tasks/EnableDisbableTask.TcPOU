@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="EnableBehaviour" Id="{9020922a-7816-4155-9202-ac5854f794ea}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK EnableBehaviour IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable
+  <POU Name="EnableDisbableTask" Id="{9020922a-7816-4155-9202-ac5854f794ea}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK EnableDisbableTask IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable
 VAR
 	mcPower : Tc2_MC2.MC_Power;
 	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;

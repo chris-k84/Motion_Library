@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="JogBehaviour" Id="{93a24811-ac08-41d3-baf3-1eeddaaca380}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK JogBehaviour IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable
+  <POU Name="JogTask" Id="{93a24811-ac08-41d3-baf3-1eeddaaca380}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK JogTask IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable
 VAR
 	mcJog : MC_Jog;
 	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;

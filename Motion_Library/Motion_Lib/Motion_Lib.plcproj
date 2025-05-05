@@ -94,16 +94,16 @@
     <Compile Include="Tasks\MoveRelTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\JogBehaviour.TcPOU">
+    <Compile Include="Tasks\JogTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\ResetBehaviour.TcPOU">
+    <Compile Include="Tasks\CoEResetTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\EnableBehaviour.TcPOU">
+    <Compile Include="Tasks\EnableDisbableTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tasks\HaltBehaviour.TcPOU">
+    <Compile Include="Tasks\HaltTask.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\MoveVeloTask.TcPOU">

@@ -8,14 +8,14 @@ VAR_OUTPUT
 END_VAR
 VAR
 	_axis : REFERENCE TO Tc2_MC2.AXIS_REF;
-	EnableBehaviour : EnableBehaviour;
-	DefaultResetBehaviour : ResetBehaviour;
+	EnableBehaviour : EnableDisbableTask;
+	DefaultResetBehaviour : CoEResetTask;
 	DefaultMoveBehaviour : MoveAbsTask;
 	DefaultRelBehaviour : MoveRelTask;
 	DefaultModBehaviour : MoveModTask;
 	DefaultVeloBehaviour : MoveVeloTask;
-	DefaultJogBehaviour : JogBehaviour;
-	HaltBehaviour	: HaltBehaviour;
+	DefaultJogBehaviour : JogTask;
+	HaltBehaviour	: HaltTask;
 	TaskCollection : ObjectRunner;
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_ErrorId: DWORD;

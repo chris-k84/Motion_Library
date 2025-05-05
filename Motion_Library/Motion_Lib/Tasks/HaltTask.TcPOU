@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="HaltBehaviour" Id="{8f902aee-94bf-4385-bdcf-ca790f894752}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK HaltBehaviour IMPLEMENTS I_Task, I_Cyclic, I_Abortable, I_Object
+  <POU Name="HaltTask" Id="{8f902aee-94bf-4385-bdcf-ca790f894752}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK HaltTask IMPLEMENTS I_Task, I_Cyclic, I_Abortable, I_Object
 VAR_INPUT
 END_VAR
 VAR_OUTPUT

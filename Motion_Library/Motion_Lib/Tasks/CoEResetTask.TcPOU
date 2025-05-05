@@ -92,7 +92,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[Runner.RegisterAbortable(THIS^);
 Runner.RegisterCyclic(THIS^);
-Runner.RegisterTask(THIS^);]]></ST>
+Runner.RegisterTask(THIS^);
+Runner.RegisterResettable(THIS^);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Reset" Id="{3351ec6f-5e58-4cce-afac-76b6f35f5e04}">

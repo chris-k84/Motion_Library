@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="SoEResetTask" Id="{18ee4c2b-0397-43b0-96c9-a74db5cdf638}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK SoEResetTask IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable, I_Abortable, I_Resettable
+VAR
+	fbSoEReset : FB_SoEReset;
+	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Abort" Id="{d1b8bf4e-72b7-4caf-8c7e-6b13934f1684}">
+      <Declaration><![CDATA[METHOD Abort : HRESULT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbSoEReset.Execute := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="AxisRef" Id="{49d101db-d63e-4e1d-b960-d690830beeca}">
+      <Declaration><![CDATA[PROPERTY AxisRef : reference to Axis_Ref]]></Declaration>
+      <Get Name="Get" Id="{0de21b7a-2d14-4e71-a48c-7da84576c729}">
+        <Declaration><![CDATA[PUBLIC 
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AxisRef REF= _Axis;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{860fc9c4-6a89-42c6-a58a-26d3a5aa9a24}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_Axis REF= AxisRef;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="Busy" Id="{10e3eb85-5b6d-4a9a-b398-e0ead7417fd3}">
+      <Declaration><![CDATA[{warning 'Add property implementation'}
+PROPERTY Busy : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{0e4cba5a-f213-4c9c-a248-765dda70ddb4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := fbSoEReset.Busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Cycle" Id="{3e415f12-eb0c-4594-a316-546282543fe0}">
+      <Declaration><![CDATA[METHOD Cycle : HRESULT]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbSoEReset(Axis := _Axis);
+fbSoEReset.Execute := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Done" Id="{7e17c524-4818-46ca-b7d3-c5b14f76a4ed}">
+      <Declaration><![CDATA[{warning 'Add property implementation'}
+PROPERTY Done : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{ba1507b4-0009-477a-916a-ab4a0da6c299}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := NOT fbSoEReset.Busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{20cf0a5d-4703-475e-88cf-b97e5271c03d}">
+      <Declaration><![CDATA[{warning 'Add property implementation'}
+PROPERTY Error : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{d4e97ff5-17a6-487e-b1b3-7d5c749fcc82}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := fbSoEReset.Error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="RegisterWithParent" Id="{1471b488-29bb-4efa-990d-7576394ede6e}">
+      <Declaration><![CDATA[METHOD RegisterWithParent
+VAR_INPUT
+	Runner	: I_HostObjects;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Runner.RegisterAbortable(THIS^);
+Runner.RegisterCyclic(THIS^);
+Runner.RegisterTask(THIS^);
+Runner.RegisterResettable(THIS^);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Reset" Id="{e58546ac-e936-4b87-896e-1c1cb4cb0c40}">
+      <Declaration><![CDATA[METHOD Reset : HRESULT]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbSoEReset.Execute := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -21,7 +21,6 @@ VAR
 	_ErrorId: DWORD;
 	_Logger : Message_Null;
 	_TraceLogger : I_Message := _Logger;
-	CurrentTask : I_Task;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>

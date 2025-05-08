@@ -3,32 +3,32 @@
   <POU Name="MAIN" Id="{0e9c9627-95a3-4f44-9640-070a0428525d}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-// 	Power_TestSuite : AxisPowerTestSuite;
-// 	Reset_TestSuite : AxisResetTestSuite;
-// 	Halt_TestSuite : AxisHaltTestSuite;
-// 	Axis_TestSuite : AxisTestSuite;
-// 	AxisJog_TestSuite : AxisJogTestSuite;
-// 	AxisVelo_TestSuite : AxisVelocityTestSuite;
-// 	arrTestSuites : ARRAY[0..5] OF I_TestSuite := [Power_TestSuite, Reset_TestSuite, Halt_TestSuite, Axis_TestSuite, AxisJog_TestSuite, AxisVelo_TestSuite];
-// 	ReRun: BOOL;
+	Power_TestSuite : AxisPowerTestSuite;
+	Reset_TestSuite : AxisResetTestSuite;
+	Halt_TestSuite : AxisHaltTestSuite;
+	Axis_TestSuite : AxisTestSuite;
+	AxisJog_TestSuite : AxisJogTestSuite;
+	AxisVelo_TestSuite : AxisVelocityTestSuite;
+	arrTestSuites : ARRAY[0..5] OF I_TestSuite := [Power_TestSuite, Reset_TestSuite, Halt_TestSuite, Axis_TestSuite, AxisJog_TestSuite, AxisVelo_TestSuite];
+	ReRun: BOOL;
 	i : INT;
 	Integration_TestSuite : IntegrationTestSuite;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Power_TestSuite();
-// Reset_TestSuite();
-// Halt_TestSuite();
-// Axis_TestSuite();
-// AxisJog_TestSuite();
-// AxisVelo_TestSuite();
+      <ST><![CDATA[Power_TestSuite();
+Reset_TestSuite();
+Halt_TestSuite();
+Axis_TestSuite();
+AxisJog_TestSuite();
+AxisVelo_TestSuite();
 Integration_TestSuite();
-// IF ReRun THEN
-// 	FOR i := 0 TO 3 DO
-// 		arrTestSuites[i].ReRunTests();
-// 	END_FOR
-// 	ReRun := FALSE;
-// END_IF]]></ST>
+IF ReRun THEN
+	FOR i := 0 TO 3 DO
+		arrTestSuites[i].ReRunTests();
+	END_FOR
+	ReRun := FALSE;
+END_IF]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

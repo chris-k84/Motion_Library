@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <Itf Name="I_AxisBase" Id="{3b500b96-d520-4506-874b-5f71175da552}">
+  <Itf Name="I_AxisBase" Id="{d2f24499-8a76-481a-8508-dce932f097ed}">
     <Declaration><![CDATA[INTERFACE I_AxisBase EXTENDS I_Axis, I_Status
 ]]></Declaration>
   </Itf>

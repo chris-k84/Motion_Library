@@ -4,7 +4,9 @@
     <Declaration><![CDATA[FUNCTION_BLOCK SoEResetTask IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable, I_Abortable, I_Resettable
 VAR
 	fbSoEReset : FB_SoEReset;
+	mcReset : Tc2_MC2.MC_Reset;
 	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
+	State: INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -53,7 +55,26 @@ END_VAR
     <Method Name="Cycle" Id="{3e415f12-eb0c-4594-a316-546282543fe0}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbSoEReset(Axis := _Axis);
+        <ST><![CDATA[CASE State OF
+	10:
+		fbSoEReset.Execute := TRUE;
+		State := State + 10;
+	20:
+		IF NOT fbSoEReset.Busy THEN
+			State := State + 10;
+		END_IF
+	30:
+		mcReset.Execute := TRUE;
+		State := State + 10;
+	40:
+		IF mcReset.Done THEN
+			State := 0;
+		END_IF
+END_CASE
+
+mcReset(Axis := _Axis);
+mcReset.Execute := FALSE;
+fbSoEReset(Axis := _Axis);
 fbSoEReset.Execute := FALSE;]]></ST>
       </Implementation>
     </Method>
@@ -99,7 +120,7 @@ Runner.RegisterResettable(THIS^);]]></ST>
     <Method Name="Reset" Id="{e58546ac-e936-4b87-896e-1c1cb4cb0c40}">
       <Declaration><![CDATA[METHOD Reset : HRESULT]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbSoEReset.Execute := TRUE;]]></ST>
+        <ST><![CDATA[State := 10;]]></ST>
       </Implementation>
     </Method>
   </POU>

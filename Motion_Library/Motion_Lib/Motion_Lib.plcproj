@@ -125,10 +125,6 @@
       <DefaultResolution>Base Library, * (Beckhoff UK)</DefaultResolution>
       <Namespace>Base_Library</Namespace>
     </PlaceholderReference>
-    <PlaceholderReference Include="Eventlogger Library">
-      <DefaultResolution>Eventlogger Library, * (Beckhoff UK)</DefaultResolution>
-      <Namespace>Eventlogger_Library</Namespace>
-    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_MC2">
       <DefaultResolution>Tc2_MC2, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_MC2</Namespace>

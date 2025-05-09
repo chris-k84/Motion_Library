@@ -5,7 +5,7 @@
 VAR
 	StubAxis : AXIS_REF;
 	iStubTask : I_Task;
-	TestAxisPower : EnableBehaviour(StubAxis);
+	TestAxisPower : EnableDisableTask := (AxisRef := StubAxis);
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -26,8 +26,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	Actual := SUCCEEDED(TestAxisPower.Enable(iStubTask));
-	TestAxisPower.Disable(iStubTask);
+	Actual := SUCCEEDED(TestAxisPower.Enable());
+	TestAxisPower.Disable();
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>
       </Implementation>
@@ -40,9 +40,9 @@ VAR_INST
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisPower.Disable(iStubTask);
+	TestAxisPower.Disable();
 	iStubTask := 0;
-	TestAxisPower.Disable(iStubTask);
+	TestAxisPower.Disable();
 	Actual := iStubTask = 0;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisPower.Abort();
@@ -57,9 +57,9 @@ VAR_INST
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisPower.Enable(iStubTask);
+	TestAxisPower.Enable();
 	iStubTask := 0;
-	TestAxisPower.Enable(iStubTask);
+	TestAxisPower.Enable();
 	Actual := iStubTask = 0;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisPower.Abort();
@@ -74,9 +74,9 @@ VAR_INST
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisPower.Enable(iStubTask);
+	TestAxisPower.Enable();
 	iStubTask := 0;
-	TestAxisPower.Disable(iStubTask);
+	TestAxisPower.Disable();
 	Actual := iStubTask <> 0;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisPower.Abort();
@@ -92,7 +92,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	iStubTask := 0;
-	TestAxisPower.Enable(iStubTask);
+	TestAxisPower.Enable();
 	Actual := iStubTask <> 0;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisPower.Abort();
@@ -109,7 +109,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := s_false;
-	Actual := TestAxisPower.Disable(iStubTask);
+	Actual := TestAxisPower.Disable();
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>
@@ -124,8 +124,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisPower.Enable(iStubTask);
-	Actual := FAILED(TestAxisPower.Enable(iStubTask));
+	TestAxisPower.Enable();
+	Actual := FAILED(TestAxisPower.Enable());
 	TestAxisPower.Abort();
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>

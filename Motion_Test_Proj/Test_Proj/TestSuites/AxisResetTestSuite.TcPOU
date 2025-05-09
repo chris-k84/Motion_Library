@@ -3,9 +3,9 @@
   <POU Name="AxisResetTestSuite" Id="{35388208-47d1-43d3-9073-bac1bf114263}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK AxisResetTestSuite EXTENDS TestSuite<TestSuiteParameter.MaxTestCount>
 VAR
-	_axis : AXIS_REF;
+	StubAxis : AXIS_REF;
 	iStubTask : I_Task;
-	TestAxisReset : ResetBehaviour(_axis);
+	TestAxisReset : CoEResetTask := (AxisRef := StubAxis);
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -27,7 +27,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := s_OK;
-	Actual := TestAxisReset.Execute(iStubTask);
+	Actual := TestAxisReset.Reset();
 	TestAxisReset.Abort();
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>
@@ -42,7 +42,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisReset.Execute(iStubTask);
+	TestAxisReset.Reset();
 	TestAxisReset.Abort();
 	Actual := TestAxisReset.Busy;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
@@ -57,7 +57,7 @@ VAR_INST
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisReset.Execute(iStubTask);
+	TestAxisReset.Reset();
 	Actual := TestAxisReset.Busy;
 	TestAxisReset.Abort();
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
@@ -72,9 +72,9 @@ VAR_INST
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisReset.Execute(iStubTask);
+	TestAxisReset.Reset();
 	iStubTask := 0;
-	TestAxisReset.Execute(iStubTask);
+	TestAxisReset.Reset();
 	Actual := iStubTask = 0;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisReset.Abort();
@@ -90,7 +90,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	iStubTask := 0;
-	TestAxisReset.Execute(iStubTask);
+	TestAxisReset.Reset();
 	Actual := iStubTask <> 0;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisReset.Abort();
@@ -107,8 +107,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := S_FALSE;
-	TestAxisReset.Execute(iStubTask);
-	Actual := TestAxisReset.Execute(iStubTask);
+	TestAxisReset.Reset();
+	Actual := TestAxisReset.Reset();
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>

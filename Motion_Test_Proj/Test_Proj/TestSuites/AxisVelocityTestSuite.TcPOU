@@ -5,7 +5,7 @@
 VAR
 	StubAxis : AXIS_REF;
 	iStubTask : I_Task;
-	TestAxisVelo : VelocityBehaviour(StubAxis);
+	TestAxisVelo : MoveVeloTask := (AxisRef := StubAxis);
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -80,9 +80,9 @@ VAR_INST
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, 300.0, iStubTask);
+	TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, 300.0);
 	iStubTask := 0;
-	TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, 300.0, iStubTask);
+	TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, 300.0);
 	Actual := iStubTask = 0;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisVelo.Abort();
@@ -98,7 +98,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	iStubTask := 0;
-	Actual := FAILED(TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, 0.0, iStubTask));
+	Actual := FAILED(TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, 0.0));
 	TestAxisVelo.Abort();
 END_IF	]]></ST>
       </Implementation>
@@ -161,7 +161,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	iStubTask := 0;
-	Actual := FAILED(TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, -70.0, iStubTask));
+	Actual := FAILED(TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, -70.0));
 	TestAxisVelo.Abort();
 END_IF	]]></ST>
       </Implementation>
@@ -175,7 +175,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	iStubTask := 0;
-	TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, 300.0, iStubTask);
+	TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, 300.0);
 	Actual := iStubTask <> 0;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisVelo.Abort();

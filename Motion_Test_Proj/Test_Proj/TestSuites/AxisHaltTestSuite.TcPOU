@@ -5,7 +5,7 @@
 VAR
 	StubAxis : AXIS_REF;
 	iStubTask : I_Task;
-	TestAxisHalt : HaltBehaviour(StubAxis);
+	TestAxisHalt : HaltTask := (AxisRef := StubAxis);
 	HaltAxisStatusFeedback AT%Q* : DWORD;
 	Cycle : INT;
 END_VAR
@@ -43,7 +43,7 @@ VAR_INST
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisHalt.Execute(iStubTask);
+	TestAxisHalt.Execute();
 	TestAxisHalt.Abort();
 	Actual := TestAxisHalt.Busy;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
@@ -76,7 +76,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisHalt.Execute(iStubTask);
+	TestAxisHalt.Execute();
 	Actual := TestAxisHalt.Busy;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Abort();
@@ -110,9 +110,9 @@ VAR_INST
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisHalt.Execute(iStubTask);
+	TestAxisHalt.Execute();
 	iStubTask := 0;
-	TestAxisHalt.Execute(iStubTask);
+	TestAxisHalt.Execute();
 	Actual := iStubTask = 0;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Abort();
@@ -129,8 +129,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := S_FALSE;
-	TestAxisHalt.Execute(iStubTask);
-	Actual := TestAxisHalt.Execute(iStubTask);
+	TestAxisHalt.Execute();
+	Actual := TestAxisHalt.Execute();
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Abort();
 END_IF	]]></ST>
@@ -145,7 +145,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Expected := S_FALSE;
-	Actual := TestAxisHalt.Execute(iStubTask);
+	Actual := TestAxisHalt.Execute();
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Abort();
 END_IF	]]></ST>
@@ -192,7 +192,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	iStubTask := 0;
-	TestAxisHalt.Execute(iStubTask);
+	TestAxisHalt.Execute();
 	Actual := iStubTask <> 0;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Abort();

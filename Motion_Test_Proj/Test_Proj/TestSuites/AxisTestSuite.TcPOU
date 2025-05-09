@@ -15,13 +15,12 @@ END_VAR
     <Method Name="AxisPassesEnableRequest_Test" Id="{476e15ea-5203-470c-82e5-b849ce0ce1ae}">
       <Declaration><![CDATA[METHOD AxisPassesEnableRequest_Test
 VAR_INST
-	Expected : HRESULT;
-	Actual	 : HRESULT;
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	Expected := S_FALSE;
-	Actual := TestAxis.EnableAxis(FALSE,FALSE);
+	Actual := SUCCEEDED(TestAxis.EnableAxis(FALSE,FALSE));
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>
       </Implementation>

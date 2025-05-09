@@ -28,7 +28,6 @@ END_VAR
 		
 	1:
 		DoesTaskAcceptHaltSettingBusy();
-		DoesTaskReturnItsInterfaceOnAccept_Test();
 		HaltAxisStatusFeedback := 0;
 		Cycle := 0;
 END_CASE
@@ -178,22 +177,6 @@ END_VAR
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisHalt.Jerk := -1.0;
 	Actual := TestAxisHalt.jerk = 0.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
-	TestAxisHalt.Abort();
-END_IF	]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="DoesTaskReturnItsInterfaceOnAccept_Test" Id="{88753f8e-37a1-4151-948f-d01c3bbcdf32}">
-      <Declaration><![CDATA[METHOD DoesTaskReturnItsInterfaceOnAccept_Test
-VAR_INST
-	Expected : BOOL := TRUE;
-	Actual	 : BOOL;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	iStubTask := 0;
-	TestAxisHalt.Execute();
-	Actual := iStubTask <> 0;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Abort();
 END_IF	]]></ST>

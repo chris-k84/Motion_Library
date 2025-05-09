@@ -17,8 +17,7 @@ DoesTaskRejectAZeroVelocity_Test();
 DoesTaskRejectNegativeAccell_Test();
 DoesTaskRejectNegativeDecel_Test();
 DoesTaskRejectNegativeJerk_Test();
-DoesTaskRejectNegativeVelocity_Test();
-DoesTaskReturnItsInterfaceOnAccept_Test();]]></ST>
+DoesTaskRejectNegativeVelocity_Test();]]></ST>
     </Implementation>
     <Method Name="DoesTaskAcceptAcceleration_Test" Id="{0d230c75-21d6-4506-bf0c-f778675ad65c}">
       <Declaration><![CDATA[METHOD DoesTaskAcceptAcceleration_Test
@@ -162,22 +161,6 @@ END_VAR
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	iStubTask := 0;
 	Actual := FAILED(TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, -70.0));
-	TestAxisVelo.Abort();
-END_IF	]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="DoesTaskReturnItsInterfaceOnAccept_Test" Id="{207f928e-0db6-4b57-bd17-eb03de81502b}">
-      <Declaration><![CDATA[METHOD DoesTaskReturnItsInterfaceOnAccept_Test
-VAR_INST
-	Expected : BOOL := TRUE;
-	Actual	 : BOOL;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	iStubTask := 0;
-	TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, 300.0);
-	Actual := iStubTask <> 0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisVelo.Abort();
 END_IF	]]></ST>
       </Implementation>

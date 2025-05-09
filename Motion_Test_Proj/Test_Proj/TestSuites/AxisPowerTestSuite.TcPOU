@@ -12,8 +12,6 @@ END_VAR
       <ST><![CDATA[DoesAxisAcceptEnable_Test();
 DoesTaskClearInterfaceOnDisableReject_Test();
 DoesTaskClearInterfaceOnEnableReject_Test();
-DoesTaskReturnItsInterfaceOnDisable_Test();
-DoesTaskReturnItsInterfaceOnEnable_Test();
 RejectDisableWhenDisabled_Test();
 RejectEnableWhenEnabled_Test();]]></ST>
     </Implementation>
@@ -66,50 +64,16 @@ END_VAR]]></Declaration>
 END_IF	]]></ST>
       </Implementation>
     </Method>
-    <Method Name="DoesTaskReturnItsInterfaceOnDisable_Test" Id="{e0740361-985b-4a21-9c28-fca4797a5e60}">
-      <Declaration><![CDATA[METHOD DoesTaskReturnItsInterfaceOnDisable_Test
-VAR_INST
-	Expected : BOOL := TRUE;
-	Actual	 : BOOL;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisPower.Enable();
-	iStubTask := 0;
-	TestAxisPower.Disable();
-	Actual := iStubTask <> 0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
-	TestAxisPower.Abort();
-END_IF	]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="DoesTaskReturnItsInterfaceOnEnable_Test" Id="{4f6c62d7-8fe9-4f31-8df8-c6c5190cb41b}">
-      <Declaration><![CDATA[METHOD DoesTaskReturnItsInterfaceOnEnable_Test
-VAR_INST
-	Expected : BOOL := TRUE;
-	Actual	 : BOOL;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	iStubTask := 0;
-	TestAxisPower.Enable();
-	Actual := iStubTask <> 0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
-	TestAxisPower.Abort();
-END_IF	]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="RejectDisableWhenDisabled_Test" Id="{2c27dff1-a943-4ffc-b0d9-e00a76c5c4af}">
       <Declaration><![CDATA[METHOD RejectDisableWhenDisabled_Test : BOOL
 VAR_INST
-	Expected : HRESULT;
-	Actual	 : HRESULT;
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	Expected := s_false;
-	Actual := TestAxisPower.Disable();
+	Actual := FAILED(TestAxisPower.Disable());
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>

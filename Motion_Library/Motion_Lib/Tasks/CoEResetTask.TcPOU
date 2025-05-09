@@ -102,7 +102,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[mcReset.Execute := TRUE;]]></ST>
+        <ST><![CDATA[IF mcReset.Execute THEN
+	Reset := -1;
+ELSE
+	mcReset.Execute := TRUE;
+END_IF
+]]></ST>
       </Implementation>
     </Method>
   </POU>

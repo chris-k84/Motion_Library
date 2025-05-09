@@ -64,11 +64,14 @@ END_VAR
     <Method Name="Disable" Id="{0a54e8c6-7456-4747-8eeb-b97b9078e709}">
       <Declaration><![CDATA[METHOD Disable : HRESULT
 VAR_INPUT
-
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[mcPower.Enable := FALSE;
+        <ST><![CDATA[IF NOT mcPower.Enable THEN
+	Disable := -1;
+ELSE
+	mcPower.Enable := FALSE;
+END_IF
 ]]></ST>
       </Implementation>
     </Method>
@@ -90,9 +93,14 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[mcPower.Enable := TRUE;
-mcPower.Enable_Negative := NOT _InhibitNeg;
-mcPower.Enable_Positive := NOT _InhibitPos;]]></ST>
+        <ST><![CDATA[IF mcPower.Enable THEN 
+	Enable := -1;
+ELSE
+	mcPower.Enable := TRUE;
+	mcPower.Enable_Negative := NOT _InhibitNeg;
+	mcPower.Enable_Positive := NOT _InhibitPos;
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Property Name="Error" Id="{518ce1d0-c80e-419e-af03-bf594c64bec9}">

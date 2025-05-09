@@ -127,10 +127,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[EnableBehaviour.InhibitNegative := InhibitNegative;
 EnableBehaviour.InhibitPositive := InhibitPositive;
-EnableAxis := EnableBehaviour.Enable();
-
-_TraceLogger.Send(Message := 'Axis Enable Commanded');
-]]></ST>
+EnableAxis := EnableBehaviour.Enable();]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_Init" Id="{b79a0e62-0ee6-47b6-874a-a1e2579a6c1b}">

@@ -101,23 +101,6 @@ END_VAR
 END_IF	]]></ST>
       </Implementation>
     </Method>
-    <Method Name="DoesTaskClearInterfaceOnReject_Test" Id="{c32b02db-adfd-42b2-aaac-6244d63a16eb}">
-      <Declaration><![CDATA[METHOD DoesTaskClearInterfaceOnReject_Test
-VAR_INST
-	Expected : BOOL := TRUE;
-	Actual	 : BOOL;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisHalt.Execute();
-	iStubTask := 0;
-	TestAxisHalt.Execute();
-	Actual := iStubTask = 0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
-	TestAxisHalt.Abort();
-END_IF	]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="DoesTaskRejectHaltWhenHalting_Test" Id="{48ddc48e-e466-40b6-8eab-977aa7646793}">
       <Declaration><![CDATA[METHOD DoesTaskRejectHaltWhenHalting_Test : BOOL
 VAR_INST

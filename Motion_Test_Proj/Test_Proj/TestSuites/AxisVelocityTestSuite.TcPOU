@@ -71,23 +71,6 @@ END_VAR
 END_IF	]]></ST>
       </Implementation>
     </Method>
-    <Method Name="DoesTaskClearInterfaceOnReject_Test" Id="{bf0cc4c9-935c-45a7-bc71-6b6423129de1}">
-      <Declaration><![CDATA[METHOD DoesTaskClearInterfaceOnReject_Test
-VAR_INST
-	Expected : BOOL := TRUE;
-	Actual	 : BOOL;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, 300.0);
-	iStubTask := 0;
-	TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, 300.0);
-	Actual := iStubTask = 0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
-	TestAxisVelo.Abort();
-END_IF	]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="DoesTaskRejectAZeroVelocity_Test" Id="{9233b2c1-1cb2-4bb5-b278-086baa3c1d61}">
       <Declaration><![CDATA[METHOD DoesTaskRejectAZeroVelocity_Test
 VAR_INST

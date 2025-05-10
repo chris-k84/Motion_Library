@@ -24,6 +24,9 @@
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestSuites\AxisAbsTestSuite.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TestSuites\AxisHaltTestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>

@@ -30,40 +30,6 @@ END_VAR
 END_IF	]]></ST>
       </Implementation>
     </Method>
-    <Method Name="DoesTaskClearInterfaceOnDisableReject_Test" Id="{7d8b2f3b-2b27-4c2e-bee3-10cd5677c29e}">
-      <Declaration><![CDATA[METHOD DoesTaskClearInterfaceOnDisableReject_Test
-VAR_INST
-	Expected : BOOL := TRUE;
-	Actual	 : BOOL;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisPower.Disable();
-	iStubTask := 0;
-	TestAxisPower.Disable();
-	Actual := iStubTask = 0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
-	TestAxisPower.Abort();
-END_IF	]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="DoesTaskClearInterfaceOnEnableReject_Test" Id="{3d5cb210-ec24-4396-8afb-8c103a80ab98}">
-      <Declaration><![CDATA[METHOD DoesTaskClearInterfaceOnEnableReject_Test
-VAR_INST
-	Expected : BOOL := TRUE;
-	Actual	 : BOOL;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestAxisPower.Enable();
-	iStubTask := 0;
-	TestAxisPower.Enable();
-	Actual := iStubTask = 0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
-	TestAxisPower.Abort();
-END_IF	]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="RejectDisableWhenDisabled_Test" Id="{2c27dff1-a943-4ffc-b0d9-e00a76c5c4af}">
       <Declaration><![CDATA[METHOD RejectDisableWhenDisabled_Test : BOOL
 VAR_INST

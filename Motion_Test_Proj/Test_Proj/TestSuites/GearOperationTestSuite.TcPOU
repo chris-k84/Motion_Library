@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="GearOperationTestSuite" Id="{b08c948a-0790-48ea-94a0-f82ce204396a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK GearOperationTestSuite EXTENDS TestSuite<TestSuiteParameter.MaxTestCount>
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="OperationRejectsCommandsWithNoAxes_Test" Id="{d69a7ece-ecfd-402f-812c-5c2303fe9c7f}">
+      <Declaration><![CDATA[METHOD OperationRejectsCommandsWithNoAxes_Test : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OperationRejectsDupicateUnGearCommand_Test" Id="{cae5c897-2e0e-41b8-a3a5-ddad2b218aab}">
+      <Declaration><![CDATA[METHOD OperationRejectsDupicateUnGearCommand_Test : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OperationRejectsDuplicateGearCommand_Test" Id="{d45bd89d-7c2f-4e28-b356-542512e682f6}">
+      <Declaration><![CDATA[METHOD OperationRejectsDuplicateGearCommand_Test : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OperationRejectsGearWhenCoupled_Test" Id="{42f3f8e9-659a-441c-80e9-e980ad03dd6d}">
+      <Declaration><![CDATA[METHOD OperationRejectsGearWhenCoupled_Test : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OperationRejectsUnGearWhenNotCoupled_Test" Id="{34386af8-afef-4754-93c7-88985ae02577}">
+      <Declaration><![CDATA[METHOD OperationRejectsUnGearWhenNotCoupled_Test : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OperationsRejectsGearWhenNotStationary_Test" Id="{edf09c9c-5623-4aab-9fc8-a5b514ad1328}">
+      <Declaration><![CDATA[METHOD OperationsRejectsGearWhenNotStationary_Test : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

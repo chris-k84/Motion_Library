@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="SoEResetTestSuite" Id="{51229c30-760a-4dc9-943c-9ac0c10638e5}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK SoEResetTestSuite EXTENDS TestSuite<TestSuiteParameter.MaxTestCount>
+VAR
+	StubAxis : AXIS_REF;
+	iStubTask : I_Task;
+	Soe_Reset : SoEResetTask := (AxisRef := StubAxis);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="TaskAcceptsResetCommand_Test" Id="{e9903409-a92e-4aaf-996b-b34d77337a77}">
+      <Declaration><![CDATA[METHOD TaskAcceptsResetCommand_Test : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TaskRejectsDuplicateResetCommand_Test" Id="{929b7d0a-5392-4603-aaa4-4d618865beeb}">
+      <Declaration><![CDATA[METHOD TaskRejectsDuplicateResetCommand_Test : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

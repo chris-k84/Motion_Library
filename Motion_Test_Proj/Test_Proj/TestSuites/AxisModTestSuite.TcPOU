@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="AxisModTestSuite" Id="{6a9f2095-c181-4878-b784-361c97a62c94}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisModTestSuite EXTENDS TestSuite<TestSuiteParameter.MaxTestCount>
+VAR
+	StubAxis : AXIS_REF;
+	iStubTask : I_Task;
+	TestAxisMod : MoveModTask := (AxisRef := stubaxis);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="CheckCorrectRegistration_Test" Id="{60c66d21-cbe0-4b18-b0d5-e77338525ebf}">
+      <Declaration><![CDATA[METHOD CheckCorrectRegistration_Test : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TaskAcceptValidCommand_Test" Id="{b2a63fab-2531-4107-8183-36161e169aff}">
+      <Declaration><![CDATA[METHOD TaskAcceptValidCommand_Test : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TaskRejectsDuplicateCommand_Test" Id="{b12c2f74-2c99-4fe9-8e47-3b1835937e90}">
+      <Declaration><![CDATA[METHOD TaskRejectsDuplicateCommand_Test : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TaskRejectsZeroVeloCommand_Test" Id="{4c4b43a6-0614-4309-af14-de1d58e6c625}">
+      <Declaration><![CDATA[METHOD TaskRejectsZeroVeloCommand_Test : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

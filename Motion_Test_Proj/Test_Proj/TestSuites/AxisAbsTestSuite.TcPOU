@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="AxisAbsTestSuite" Id="{931c3bf4-e690-4ab0-bb8d-cbf096b9e190}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisAbsTestSuite
+VAR
+	StubAxis : AXIS_REF;
+	iStubTask : I_Task;
+	TestAxisJog : JogTask := (AxisRef := stubaxis);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="TaskAcceptValidCommand_Test" Id="{d5bc1b43-cf1a-4b0e-b9f0-4a82dce35f41}">
+      <Declaration><![CDATA[METHOD TaskAcceptValidCommand_Test : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TaskRejectsDuplicateCommand_Test" Id="{bb29e2fa-d612-4b9c-b1e3-3683a2ba9aab}">
+      <Declaration><![CDATA[METHOD TaskRejectsDuplicateCommand_Test : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TaskRejectsZeroVeloCommand_Test" Id="{6092ced4-346a-4b46-85f8-d8b449d061cc}">
+      <Declaration><![CDATA[METHOD TaskRejectsZeroVeloCommand_Test : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

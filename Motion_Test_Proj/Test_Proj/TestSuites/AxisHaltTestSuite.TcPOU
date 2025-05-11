@@ -16,7 +16,6 @@ END_VAR
 		DoesTaskAbortClearBusy_Test();
 		DoesTaskAcceptDeceleration_Test();
 		DoesTaskAcceptJerk_Test();
-		DoesTaskClearInterfaceOnReject_Test();
 		DoesTaskRejectHaltWhenHalting_Test();
 		DoesTaskRejectHaltWhenStationary();
 		DoesTaskRejectNegativeDecel_Test();

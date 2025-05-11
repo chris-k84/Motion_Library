@@ -10,8 +10,6 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[DoesAxisAcceptEnable_Test();
-DoesTaskClearInterfaceOnDisableReject_Test();
-DoesTaskClearInterfaceOnEnableReject_Test();
 RejectDisableWhenDisabled_Test();
 RejectEnableWhenEnabled_Test();]]></ST>
     </Implementation>

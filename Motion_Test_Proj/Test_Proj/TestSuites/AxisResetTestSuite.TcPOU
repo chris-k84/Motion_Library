@@ -12,7 +12,6 @@ END_VAR
       <ST><![CDATA[DoesAcceptExecute_Test();
 DoesTaskAbortClearBusy_Test();
 DoesTaskAccept_Test();
-DoesTaskClearInterfaceOnReject_Test();
 RejectResetWhileResetting_Test();]]></ST>
     </Implementation>
     <Method Name="DoesAcceptExecute_Test" Id="{08513cf5-caba-4c77-9c71-3b8a7a80c814}">

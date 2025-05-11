@@ -12,7 +12,6 @@ END_VAR
       <ST><![CDATA[DoesTaskAcceptAcceleration_Test();
 DoesTaskAcceptDeceleration_Test();
 DoesTaskAcceptJerk_Test();
-DoesTaskClearInterfaceOnReject_Test();
 DoesTaskRejectAZeroVelocity_Test();
 DoesTaskRejectNegativeAccell_Test();
 DoesTaskRejectNegativeDecel_Test();

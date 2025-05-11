@@ -181,7 +181,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Abort();
+        <ST><![CDATA[IF Velocity <= 0.0 THEN
+	MoveTo := -1;
+	RETURN;
+END_IF
+Abort();
 IF moveIndex = 0 THEN
 	moveIndex := 1;
 ELSE

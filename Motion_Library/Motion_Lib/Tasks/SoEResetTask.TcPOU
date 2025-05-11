@@ -40,8 +40,7 @@ END_VAR
       </Set>
     </Property>
     <Property Name="Busy" Id="{10e3eb85-5b6d-4a9a-b398-e0ead7417fd3}">
-      <Declaration><![CDATA[{warning 'Add property implementation'}
-PROPERTY Busy : BOOL
+      <Declaration><![CDATA[PROPERTY Busy : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{0e4cba5a-f213-4c9c-a248-765dda70ddb4}">
         <Declaration><![CDATA[VAR
@@ -79,8 +78,7 @@ fbSoEReset.Execute := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Done" Id="{7e17c524-4818-46ca-b7d3-c5b14f76a4ed}">
-      <Declaration><![CDATA[{warning 'Add property implementation'}
-PROPERTY Done : BOOL
+      <Declaration><![CDATA[PROPERTY Done : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{ba1507b4-0009-477a-916a-ab4a0da6c299}">
         <Declaration><![CDATA[VAR
@@ -92,8 +90,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="Error" Id="{20cf0a5d-4703-475e-88cf-b97e5271c03d}">
-      <Declaration><![CDATA[{warning 'Add property implementation'}
-PROPERTY Error : BOOL
+      <Declaration><![CDATA[PROPERTY Error : BOOL
 ]]></Declaration>
       <Get Name="Get" Id="{d4e97ff5-17a6-487e-b1b3-7d5c749fcc82}">
         <Declaration><![CDATA[VAR

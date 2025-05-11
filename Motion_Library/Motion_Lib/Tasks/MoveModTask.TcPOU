@@ -174,7 +174,7 @@ moveMod[1].Jerk := Jerk;]]></ST>
       </Set>
     </Property>
     <Method Name="MoveTo" Id="{9207e690-5364-4b6a-bd08-6224adaefb6a}">
-      <Declaration><![CDATA[METHOD MoveTo : BOOL
+      <Declaration><![CDATA[METHOD MoveTo : hresult
 VAR_INPUT
 	Position : MC_LREAL;
 	Velocity : MC_LREAL;

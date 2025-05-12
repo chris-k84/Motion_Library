@@ -106,25 +106,35 @@ END_VAR
       </Get>
     </Property>
     <Method Name="GearIn" Id="{a71fc049-0a78-4bbd-8c6d-e1cd8c076d5d}">
-      <Declaration><![CDATA[METHOD GearIn : BOOL
+      <Declaration><![CDATA[METHOD GearIn : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _AxisSlave.isStationary() AND NOT _AxisSlave.isCoupled() THEN
-	mcGearIn.Execute := GearIn := TRUE;
+        <ST><![CDATA[IF _AxisSlave <> 0 OR _AxisMaster <> 0 THEN 
+	IF _AxisSlave.isStationary() AND NOT _AxisSlave.isCoupled() THEN
+		mcGearIn.Execute := TRUE;
+	ELSE
+		GearIn := -1;
+	END_IF
+ELSE
+	GearIn := -2;
 END_IF
 ]]></ST>
       </Implementation>
     </Method>
     <Method Name="GearOut" Id="{7cc81acd-0a8f-4d8a-a325-58c9914d04f1}">
-      <Declaration><![CDATA[METHOD GearOut : BOOL
+      <Declaration><![CDATA[METHOD GearOut : HRESULT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _AxisSlave.isStationary() AND _AxisSlave.isCoupled() THEN
-	mcGearOut.Execute := TRUE;
+        <ST><![CDATA[IF _AxisSlave <> 0 OR _AxisMaster <> 0 THEN 
+	IF _AxisSlave.isStationary() AND _AxisSlave.isCoupled() THEN
+		mcGearOut.Execute := TRUE;
+	ELSE
+		GearOut := -1;
+	END_IF
 END_IF
 ]]></ST>
       </Implementation>

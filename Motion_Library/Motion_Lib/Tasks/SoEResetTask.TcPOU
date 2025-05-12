@@ -16,7 +16,9 @@ END_VAR
       <Declaration><![CDATA[METHOD Abort : HRESULT
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbSoEReset.Execute := FALSE;]]></ST>
+        <ST><![CDATA[fbSoEReset.Execute := FALSE;
+mcReset.Execute := FALSE;
+State := 0;]]></ST>
       </Implementation>
     </Method>
     <Property Name="AxisRef" Id="{49d101db-d63e-4e1d-b960-d690830beeca}">
@@ -117,7 +119,11 @@ Runner.RegisterResettable(THIS^);]]></ST>
     <Method Name="Reset" Id="{e58546ac-e936-4b87-896e-1c1cb4cb0c40}">
       <Declaration><![CDATA[METHOD Reset : HRESULT]]></Declaration>
       <Implementation>
-        <ST><![CDATA[State := 10;]]></ST>
+        <ST><![CDATA[IF State <> 0 THEN
+	Reset := -1;
+	RETURN;
+END_IF
+State := 10;]]></ST>
       </Implementation>
     </Method>
   </POU>

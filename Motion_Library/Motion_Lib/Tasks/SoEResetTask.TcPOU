@@ -56,7 +56,12 @@ END_VAR
     <Method Name="Cycle" Id="{3e415f12-eb0c-4594-a316-546282543fe0}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE State OF
+        <ST><![CDATA[IF NOT __ISVALIDREF(_Axis) THEN
+	Cycle := -1;
+	RETURN;
+END_IF
+
+CASE State OF
 	10:
 		fbSoEReset.Execute := TRUE;
 		State := State + 10;

@@ -5,13 +5,34 @@
 VAR
 	StubAxis : AXIS_REF;
 	iStubTask : I_Task;
-	Soe_Reset : SoEResetTask := (AxisRef := StubAxis);
+	Soe_Reset : SoEResetTask;
+	TestObjRunner : ObjectRunner;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[TaskAcceptsResetCommand_Test();
-TaskRejectsDuplicateResetCommand_Test();]]></ST>
+      <ST><![CDATA[TaskRejectsCycleCallWithoutAxisRef_Test();
+TaskAcceptsResetCommand_Test();
+TaskRejectsDuplicateResetCommand_Test();
+CheckCorrectRegistration_Test();]]></ST>
     </Implementation>
+    <Method Name="CheckCorrectRegistration_Test" Id="{6e5c4cac-4975-4991-8748-3fa4bd23314a}">
+      <Declaration><![CDATA[METHOD CheckCorrectRegistration_Test : BOOL
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestObjRunner.RegisterModule(Soe_Reset);
+	Actual := TestObjRunner.GetCyclicModuleCount() = TestObjRunner.GetAbortModuleCount() AND
+				TestObjRunner.GetCyclicModuleCount() = TestObjRunner.GetTaskModuleCount() AND
+				TestObjRunner.GetCyclicModuleCount() = TestObjRunner.GetResetableModuleCount();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="TaskAcceptsResetCommand_Test" Id="{e9903409-a92e-4aaf-996b-b34d77337a77}">
       <Declaration><![CDATA[METHOD TaskAcceptsResetCommand_Test : BOOL
 VAR_INST
@@ -23,6 +44,21 @@ END_VAR
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
 	Actual := SUCCEEDED(Soe_Reset.Reset());
 	Soe_Reset.Abort();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TaskRejectsCycleCallWithoutAxisRef_Test" Id="{7e5f0857-ff2e-4d82-9bac-48352d060a7f}">
+      <Declaration><![CDATA[METHOD TaskRejectsCycleCallWithoutAxisRef_Test
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	Actual := FAILED(Soe_Reset.Cycle());
+	Soe_Reset.AxisRef REF= StubAxis;
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>
       </Implementation>

@@ -21,7 +21,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	Actual := FAILED(Soe_Reset.Reset());
+	Actual := SUCCEEDED(Soe_Reset.Reset());
 	Soe_Reset.Abort();
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>

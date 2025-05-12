@@ -9,24 +9,38 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[TaskAcceptsResetCommand_Test();
+TaskRejectsDuplicateResetCommand_Test();]]></ST>
     </Implementation>
     <Method Name="TaskAcceptsResetCommand_Test" Id="{e9903409-a92e-4aaf-996b-b34d77337a77}">
       <Declaration><![CDATA[METHOD TaskAcceptsResetCommand_Test : BOOL
-VAR_INPUT
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	Actual := FAILED(Soe_Reset.Reset());
+	Soe_Reset.Abort();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF	]]></ST>
       </Implementation>
     </Method>
     <Method Name="TaskRejectsDuplicateResetCommand_Test" Id="{929b7d0a-5392-4603-aaa4-4d618865beeb}">
       <Declaration><![CDATA[METHOD TaskRejectsDuplicateResetCommand_Test : BOOL
-VAR_INPUT
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	Soe_Reset.Reset();
+	Actual := FAILED(Soe_Reset.Reset());
+	Soe_Reset.Abort();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF	]]></ST>
       </Implementation>
     </Method>
   </POU>

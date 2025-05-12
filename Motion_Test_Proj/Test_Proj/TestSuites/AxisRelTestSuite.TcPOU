@@ -6,45 +6,58 @@ VAR
 	StubAxis : AXIS_REF;
 	iStubTask : I_Task;
 	TestAxisRel : MoveRelTask := (AxisRef := stubaxis);
+	TestObjRunner : ObjectRunner;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[CheckCorrectRegistration_Test();
+TaskAcceptValidCommand_Test();
+TaskRejectsZeroVeloCommand_Test();]]></ST>
     </Implementation>
     <Method Name="CheckCorrectRegistration_Test" Id="{0e1e6947-5948-4ff9-97fd-75c449021a2d}">
       <Declaration><![CDATA[METHOD CheckCorrectRegistration_Test : BOOL
-VAR_INPUT
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : bool;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestObjRunner.RegisterModule(TestAxisRel);
+	Actual := TestObjRunner.GetCyclicModuleCount() = TestObjRunner.GetAbortModuleCount() AND
+				TestObjRunner.GetCyclicModuleCount() = TestObjRunner.GetTaskModuleCount();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="TaskAcceptValidCommand_Test" Id="{b41aa70b-a86c-411e-a753-699b9539763a}">
       <Declaration><![CDATA[METHOD TaskAcceptValidCommand_Test : BOOL
-VAR_INPUT
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : bool;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="TaskRejectsDuplicateCommand_Test" Id="{a9930c4b-39e0-4f6c-8e28-14aec0a0e8f9}">
-      <Declaration><![CDATA[METHOD TaskRejectsDuplicateCommand_Test : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	Actual := SUCCEEDED(TestAxisRel.MoveBy(100.0, 300.0));
+	TestAxisRel.Abort();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="TaskRejectsZeroVeloCommand_Test" Id="{dee3319b-7afd-4544-bf1c-04cd9756e264}">
       <Declaration><![CDATA[METHOD TaskRejectsZeroVeloCommand_Test : BOOL
-VAR_INPUT
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : bool;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	Actual := FAILED(TestAxisRel.MoveBy(100.0, 0.0));
+	TestAxisRel.Abort();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
       </Implementation>
     </Method>
   </POU>

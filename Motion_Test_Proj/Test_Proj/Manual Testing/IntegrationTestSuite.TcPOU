@@ -80,7 +80,7 @@ IF DISABLE THEN
 END_IF
 
 IF GEAR THEN
-	IF gearOperation.GearIn() THEN
+	IF SUCCEEDED(gearOperation.GearIn()) THEN
 		GEAR := FALSE;
 	END_IF
 END_IF

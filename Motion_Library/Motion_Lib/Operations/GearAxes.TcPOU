@@ -58,7 +58,9 @@ END_VAR
         <ST><![CDATA[IF _AxisMaster <> 0 AND _AxisSlave <> 0 THEN
 	mcGearIn(Master := _AxisMaster.AxisRef, Slave := _AxisSlave.AxisRef);
 	mcGearOut(Slave := _AxisSlave.AxisRef);
-END_IF]]></ST>
+END_IF
+mcGearIn.Execute := FALSE;
+mcGearOut.Execute := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Deceleration" Id="{92ba61af-a15e-46bf-86f4-eb6ef3fa3283}">
@@ -112,7 +114,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF _AxisSlave <> 0 OR _AxisMaster <> 0 THEN 
-	IF _AxisSlave.isStationary() AND NOT _AxisSlave.isCoupled() THEN
+	IF _AxisSlave.isStationary() AND NOT _AxisSlave.isCoupled() AND NOT mcGearIn.Execute THEN
 		mcGearIn.Execute := TRUE;
 	ELSE
 		GearIn := -1;
@@ -130,7 +132,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF _AxisSlave <> 0 OR _AxisMaster <> 0 THEN 
-	IF _AxisSlave.isStationary() AND _AxisSlave.isCoupled() THEN
+	IF _AxisSlave.isStationary() AND _AxisSlave.isCoupled() AND NOT mcGearOut.Execute THEN
 		mcGearOut.Execute := TRUE;
 	ELSE
 		GearOut := -1;

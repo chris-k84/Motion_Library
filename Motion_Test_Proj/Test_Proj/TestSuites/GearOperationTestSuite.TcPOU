@@ -3,63 +3,145 @@
   <POU Name="GearOperationTestSuite" Id="{b08c948a-0790-48ea-94a0-f82ce204396a}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK GearOperationTestSuite EXTENDS TestSuite<TestSuiteParameter.MaxTestCount>
 VAR
+	StubAxisRef1 : AXIS_REF;
+	StubAxisRef2 : AXIS_REF;
+	StubSlave : Axis_Base(StubAxisRef1);
+	StubMaster : Axis_Base(StubAxisRef2);
+	GearAxisCoupledFeedback AT%Q* : UDINT := 0;
+	GearAxisMotionFeedback AT%Q* : DWORD;
+	TestState : INT := 0;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[CASE TestState OF
+	0:
+		OperationRejectsCommandsWithNoAxes_Test();
+		OperationRejectsDuplicateGearCommand_Test();
+		OperationRejectsDupicateUnGearCommand_Test();
+		OperationRejectsUnGearWhenNotCoupled_Test();
+		GearAxisCoupledFeedback := 3;
+		IF StubAxisRef1.Status.Coupled THEN
+			TestState := 1;	
+		END_IF
+		
+	1:
+		OperationRejectsGearWhenCoupled_Test();
+		GearAxisMotionFeedback := 512;
+		GearAxisCoupledFeedback := 0;
+		IF StubAxisRef1.Status.Moving THEN
+			TestState := 2;	
+		END_IF	
+	2:
+		OperationsRejectsGearWhenNotStationary_Test();
+		TestState := 0;
+		GearAxisMotionFeedback := 0;
+END_CASE
+
+
+StubAxisRef1.ReadStatus();
+StubAxisRef2.ReadStatus();]]></ST>
     </Implementation>
     <Method Name="OperationRejectsCommandsWithNoAxes_Test" Id="{d69a7ece-ecfd-402f-812c-5c2303fe9c7f}">
       <Declaration><![CDATA[METHOD OperationRejectsCommandsWithNoAxes_Test : BOOL
-VAR_INPUT
+VAR_INST
+	TestGearOperation : GearAxes;
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	Actual := FAILED(TestGearOperation.GearIn());
+	TestGearOperation.Abort();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF	]]></ST>
       </Implementation>
     </Method>
     <Method Name="OperationRejectsDupicateUnGearCommand_Test" Id="{cae5c897-2e0e-41b8-a3a5-ddad2b218aab}">
       <Declaration><![CDATA[METHOD OperationRejectsDupicateUnGearCommand_Test : BOOL
-VAR_INPUT
+VAR_INST
+	TestGearOperation : GearAxes := (Slave := StubSlave, Master := StubMaster);
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
 END_VAR
+
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestGearOperation.GearOut();
+	Actual := FAILED(TestGearOperation.GearOut());
+	TestGearOperation.Abort();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="OperationRejectsDuplicateGearCommand_Test" Id="{d45bd89d-7c2f-4e28-b356-542512e682f6}">
       <Declaration><![CDATA[METHOD OperationRejectsDuplicateGearCommand_Test : BOOL
-VAR_INPUT
+VAR_INST
+	TestGearOperation : GearAxes:= (Slave := StubSlave, Master := StubMaster);
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
 END_VAR
+
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	TestGearOperation.GearIn();
+	Actual := FAILED(TestGearOperation.GearIn());
+	TestGearOperation.Abort();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="OperationRejectsGearWhenCoupled_Test" Id="{42f3f8e9-659a-441c-80e9-e980ad03dd6d}">
       <Declaration><![CDATA[METHOD OperationRejectsGearWhenCoupled_Test : BOOL
-VAR_INPUT
+VAR_INST
+	TestGearOperation : GearAxes:= (Slave := StubSlave, Master := StubMaster);
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
 END_VAR
+
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	Actual := FAILED(TestGearOperation.GearIn());
+	TestGearOperation.Abort();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="OperationRejectsUnGearWhenNotCoupled_Test" Id="{34386af8-afef-4754-93c7-88985ae02577}">
       <Declaration><![CDATA[METHOD OperationRejectsUnGearWhenNotCoupled_Test : BOOL
-VAR_INPUT
+VAR_INST
+	TestGearOperation : GearAxes:= (Slave := StubSlave, Master := StubMaster);
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
 END_VAR
+
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	Actual := FAILED(TestGearOperation.GearOut());
+	TestGearOperation.Abort();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="OperationsRejectsGearWhenNotStationary_Test" Id="{edf09c9c-5623-4aab-9fc8-a5b514ad1328}">
       <Declaration><![CDATA[METHOD OperationsRejectsGearWhenNotStationary_Test : BOOL
-VAR_INPUT
+VAR_INST
+	TestGearOperation : GearAxes:= (Slave := StubSlave, Master := StubMaster);
+	Expected : BOOL := TRUE;
+	Actual	 : bool;
 END_VAR
+
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+	Actual := FAILED(TestGearOperation.GearIn());
+	TestGearOperation.Abort();
+	Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
       </Implementation>
     </Method>
   </POU>

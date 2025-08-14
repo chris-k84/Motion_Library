@@ -248,6 +248,15 @@ END_VAR
         <ST><![CDATA[isEnabled := not _axis.Status.Disabled;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="IsInTargetPosition" Id="{30801ac0-19c7-44e5-bad0-92761feca35a}" FolderPath="Status\">
+      <Declaration><![CDATA[METHOD IsInTargetPosition : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IsInTargetPosition := _axis.Status.InTargetPosition;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="isInVelocity" Id="{7ec3b18f-c8fb-413e-b2d4-c16b36d40216}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD isInVelocity : BOOL
 VAR_INPUT

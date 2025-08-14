@@ -170,6 +170,15 @@ END_VAR
         <ST><![CDATA[getCurrentPosition := _axis.NcToPlc.ActPos;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="getCurrentVelocity" Id="{53601cdd-cffb-445d-ba98-89f333be3d31}" FolderPath="Status\">
+      <Declaration><![CDATA[METHOD getCurrentVelocity : LREAL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[getCurrentVelocity := _axis.NcToPlc.ActVelo;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="GetErrorId" Id="{c8c8fb1e-3132-40a5-bb74-f66710995f3e}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD GetErrorId : DWORD
 VAR_INPUT

@@ -9,6 +9,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="getCurrentVelocity" Id="{a93ed934-e57e-4019-8a1a-ff7e89d7920e}">
+      <Declaration><![CDATA[METHOD getCurrentVelocity : LREAL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="hasError" Id="{23e382f3-1098-4e53-9da1-56fa9b45c233}">
       <Declaration><![CDATA[METHOD hasError : BOOL
 VAR_INPUT

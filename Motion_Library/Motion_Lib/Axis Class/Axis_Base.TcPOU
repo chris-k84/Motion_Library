@@ -394,13 +394,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT isAtPosition(position := Position) THEN
-	DefaultMoveBehaviour.MoveTo(Position,Velocity);
-	MoveToPosition := 1;
-ELSE
+        <ST><![CDATA[IF isAtPosition(position := Position) THEN
 	MoveToPosition := -1;
+	RETURN;
 END_IF
-]]></ST>
+
+DefaultMoveBehaviour.MoveTo(Position,Velocity);]]></ST>
       </Implementation>
     </Method>
     <Method Name="RegisterWithParent" Id="{381741fc-fc26-4603-bb08-86e14ada8bdb}">

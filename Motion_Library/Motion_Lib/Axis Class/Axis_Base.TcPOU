@@ -359,14 +359,21 @@ END_VAR
 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF ABS(Distance) > 0 THEN
-	DefaultRelBehaviour.MoveBy(Distance,Velocity);
-	MoveByDistance := 1;
-ELSE
+        <ST><![CDATA[IF ABS(Distance) = 0 THEN
 	MoveByDistance := -1;
+	RETURN;
+END_IF
+IF _axis.Status.Disabled THEN
+	MoveByDistance := -2;
+	RETURN;
 END_IF
 
-]]></ST>
+IF _axis.Status.Error THEN
+	MoveByDistance := -3;
+	RETURN;
+END_IF
+
+DefaultRelBehaviour.MoveBy(Distance,Velocity);]]></ST>
       </Implementation>
     </Method>
     <Method Name="MoveToModuloPosition" Id="{470f0d21-ab3e-4d10-948f-9938775e223b}" FolderPath="Position\">

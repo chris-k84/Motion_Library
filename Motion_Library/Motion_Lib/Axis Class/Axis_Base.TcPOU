@@ -398,6 +398,10 @@ END_VAR
 	MoveToPosition := -1;
 	RETURN;
 END_IF
+IF _axis.Status.Disabled THEN
+	MoveToPosition := -2;
+	RETURN;
+END_IF
 
 DefaultMoveBehaviour.MoveTo(Position,Velocity);]]></ST>
       </Implementation>

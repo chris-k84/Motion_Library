@@ -377,13 +377,21 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT isAtPosition(position := Position) THEN
-	DefaultModBehaviour.MoveTo(Position,Velocity);
-	MoveToModuloPosition := 1;
-ELSE
+        <ST><![CDATA[IF isAtPosition(position := Position) THEN
 	MoveToModuloPosition := -1;
+	RETURN;
 END_IF
-]]></ST>
+IF _axis.Status.Disabled THEN
+	MoveToModuloPosition := -2;
+	RETURN;
+END_IF
+
+IF _axis.Status.Error THEN
+	MoveToModuloPosition := -3;
+	RETURN;
+END_IF
+
+DefaultModBehaviour.MoveTo(Position,Velocity);]]></ST>
       </Implementation>
     </Method>
     <Method Name="MoveToPosition" Id="{bca42834-4b90-4808-be50-ee67839e4111}" FolderPath="Position\">
@@ -400,6 +408,11 @@ END_VAR
 END_IF
 IF _axis.Status.Disabled THEN
 	MoveToPosition := -2;
+	RETURN;
+END_IF
+
+IF _axis.Status.Error THEN
+	MoveToPosition := -3;
 	RETURN;
 END_IF
 

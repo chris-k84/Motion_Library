@@ -4,11 +4,7 @@
     <Declaration><![CDATA[INTERFACE I_Velocity
 ]]></Declaration>
     <Method Name="isInVelocity" Id="{c5f75824-8828-4b91-aac7-f6fa700241c4}">
-      <Declaration><![CDATA[METHOD isInVelocity : BOOL
-VAR_INPUT
-	Velocity : MC_LREAL;
-END_VAR
-]]></Declaration>
+      <Declaration><![CDATA[METHOD isInVelocity : BOOL]]></Declaration>
     </Method>
     <Method Name="MoveAtVelocity" Id="{56b7b37d-76b7-4396-9126-21e2fa4df7b0}">
       <Declaration><![CDATA[METHOD MoveAtVelocity : HRESULT

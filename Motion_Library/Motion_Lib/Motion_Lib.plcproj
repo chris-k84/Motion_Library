@@ -9,7 +9,7 @@
     <WriteProductVersion>false</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
     <Name>Motion_Lib</Name>
-    <ProgramVersion>3.1.4026.17</ProgramVersion>
+    <ProgramVersion>3.1.4026.19</ProgramVersion>
     <Application>{453d6535-0294-4f09-9fc3-bd613479bbb1}</Application>
     <TypeSystem>{d672519a-ad22-4024-8929-217fdd460091}</TypeSystem>
     <Implicit_Task_Info>{f2da612d-b653-425d-9e0d-0b1048ddc3fe}</Implicit_Task_Info>
@@ -21,7 +21,7 @@
     <POUsForPropertyAccessIncluded>false</POUsForPropertyAccessIncluded>
     <GlobalVersionStructureIncluded>false</GlobalVersionStructureIncluded>
     <Title>Motion Library</Title>
-    <ProjectVersion>2.4.0.0</ProjectVersion>
+    <ProjectVersion>2.4.1.0</ProjectVersion>
     <LibraryCategories>
       <LibraryCategory xmlns="">
         <Id>{a4a00b8a-9270-48aa-b020-371bd9c3e701}</Id>

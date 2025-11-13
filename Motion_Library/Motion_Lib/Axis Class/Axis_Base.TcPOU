@@ -268,17 +268,9 @@ END_VAR
     </Method>
     <Method Name="isInVelocity" Id="{7ec3b18f-c8fb-413e-b2d4-c16b36d40216}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD isInVelocity : BOOL
-VAR_INPUT
-	Velocity : MC_LREAL;
-END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _axis.NcToPlc.ActVelo < Velocity + 0.2 AND _axis.NcToPlc.ActVelo > Velocity - 0.2 THEN
-	isInVelocity := TRUE;
-ELSE
-	isInVelocity := FALSE;
-END_IF  
-
+        <ST><![CDATA[isInVelocity := DefaultVeloBehaviour.InVelocity;
 ]]></ST>
       </Implementation>
     </Method>

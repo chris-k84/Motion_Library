@@ -150,17 +150,6 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <Property Name="InVelocity" Id="{d537f510-fcb4-4376-8b78-369cb4d73fa1}">
-      <Declaration><![CDATA[PROPERTY InVelocity : BOOL]]></Declaration>
-      <Get Name="Get" Id="{bc0cfcbc-6562-454f-9183-87c3bfdcb866}">
-        <Declaration><![CDATA[VAR
-END_VAR
-]]></Declaration>
-        <Implementation>
-          <ST><![CDATA[InVelocity := iMoveVelo.InVelocity;]]></ST>
-        </Implementation>
-      </Get>
-    </Property>
     <Property Name="Jerk" Id="{47d3b6ef-be1c-4ef3-b364-6e63da359318}">
       <Declaration><![CDATA[PROPERTY Jerk : MC_LREAL]]></Declaration>
       <Get Name="Get" Id="{b6612f32-b3b3-4b77-9630-833953175823}">

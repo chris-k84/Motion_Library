@@ -15,6 +15,7 @@ VAR
 	TaskCollection : ObjectRunner;
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_ErrorId: DWORD;
+	DemandVelo : LREAL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[{analysis -2}]]></ST>
@@ -270,7 +271,8 @@ END_VAR
       <Declaration><![CDATA[METHOD isInVelocity : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[isInVelocity := DefaultVeloBehaviour.InVelocity;
+        <ST><![CDATA[isInVelocity := _axis.NcToPlc.ActVelo < DemandVelo + (DemandVelo * 0.02) AND 
+				_axis.NcToPlc.ActVelo > DemandVelo - (DemandVelo * 0.02);
 ]]></ST>
       </Implementation>
     </Method>
@@ -336,6 +338,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF DefaultVeloBehaviour.MoveAtVelocity(Direction, Velocity) = 1 THEN
+	DemandVelo := Velocity;
 	MoveAtVelocity := 1;
 ELSE
 	MoveAtVelocity := -1;

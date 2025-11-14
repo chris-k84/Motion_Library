@@ -271,8 +271,8 @@ END_VAR
       <Declaration><![CDATA[METHOD isInVelocity : BOOL
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[isInVelocity := _axis.NcToPlc.ActVelo < DemandVelo + (DemandVelo * 0.02) AND 
-				_axis.NcToPlc.ActVelo > DemandVelo - (DemandVelo * 0.02);
+        <ST><![CDATA[isInVelocity := ABS(_axis.NcToPlc.ActVelo) < DemandVelo + (DemandVelo * 0.02) AND 
+				ABS(_axis.NcToPlc.ActVelo) > DemandVelo - (DemandVelo * 0.02);
 ]]></ST>
       </Implementation>
     </Method>
@@ -337,9 +337,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF DefaultVeloBehaviour.MoveAtVelocity(Direction, Velocity) = 1 THEN
+        <ST><![CDATA[IF SUCCEEDED(DefaultVeloBehaviour.MoveAtVelocity(Direction, Velocity)) THEN
 	DemandVelo := Velocity;
-	MoveAtVelocity := 1;
 ELSE
 	MoveAtVelocity := -1;
 END_IF]]></ST>

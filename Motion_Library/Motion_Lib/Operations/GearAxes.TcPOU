@@ -113,15 +113,32 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _AxisSlave <> 0 OR _AxisMaster <> 0 THEN 
-	IF _AxisSlave.isStationary() AND NOT _AxisSlave.isCoupled() AND NOT mcGearIn.Execute THEN
-		mcGearIn.Execute := TRUE;
-	ELSE
-		GearIn := -1;
-	END_IF
-ELSE
+        <ST><![CDATA[IF _AxisSlave = 0 THEN
 	GearIn := -2;
+	RETURN;
 END_IF
+
+IF _AxisMaster = 0 THEN
+	gearin := -1;
+	RETURN;
+END_IF
+
+IF NOT _AxisSlave.isStationary() THEN
+	Gearin := -3;
+	RETURN;
+END_IF
+
+IF _AxisSlave.isCoupled() THEN
+	Gearin := -4;
+	RETURN;
+END_IF
+
+IF NOT mcGearIn.Execute THEN
+	Gearin := -5;
+	RETURN;
+END_IF
+
+mcGearIn.Execute := TRUE;
 ]]></ST>
       </Implementation>
     </Method>

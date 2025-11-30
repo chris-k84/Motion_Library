@@ -55,7 +55,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[mcReset(Axis := _Axis);
+        <ST><![CDATA[IF NOT __ISVALIDREF(_Axis) THEN
+	Cycle := -1;
+	RETURN;
+END_IF
+mcReset(Axis := _Axis);
 mcReset.Execute := FALSE;]]></ST>
       </Implementation>
     </Method>

@@ -4,9 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK SoEResetTask IMPLEMENTS I_Task, I_Cyclic, I_Object, I_Abortable, I_Abortable, I_Resettable
 VAR
 	fbSoEReset : FB_SoEReset;
-	mcReset : Tc2_MC2.MC_Reset;
 	_Axis : REFERENCE TO Tc2_MC2.AXIS_REF;
-	State: INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -16,9 +14,7 @@ END_VAR
       <Declaration><![CDATA[METHOD Abort : HRESULT
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[fbSoEReset.Execute := FALSE;
-mcReset.Execute := FALSE;
-State := 0;]]></ST>
+        <ST><![CDATA[fbSoEReset.Execute := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Property Name="AxisRef" Id="{49d101db-d63e-4e1d-b960-d690830beeca}">
@@ -61,25 +57,6 @@ END_VAR
 	RETURN;
 END_IF
 
-CASE State OF
-	10:
-		fbSoEReset.Execute := TRUE;
-		State := State + 10;
-	20:
-		IF NOT fbSoEReset.Busy THEN
-			State := State + 10;
-		END_IF
-	30:
-		mcReset.Execute := TRUE;
-		State := State + 10;
-	40:
-		IF mcReset.Done THEN
-			State := 0;
-		END_IF
-END_CASE
-
-mcReset(Axis := _Axis);
-mcReset.Execute := FALSE;
 fbSoEReset(Axis := _Axis);
 fbSoEReset.Execute := FALSE;]]></ST>
       </Implementation>
@@ -124,11 +101,12 @@ Runner.RegisterResettable(THIS^);]]></ST>
     <Method Name="Reset" Id="{e58546ac-e936-4b87-896e-1c1cb4cb0c40}">
       <Declaration><![CDATA[METHOD Reset : HRESULT]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF State <> 0 THEN
+        <ST><![CDATA[IF fbSoEReset.Execute THEN
 	Reset := -1;
 	RETURN;
 END_IF
-State := 10;]]></ST>
+
+fbSoEReset.Execute := true;]]></ST>
       </Implementation>
     </Method>
   </POU>

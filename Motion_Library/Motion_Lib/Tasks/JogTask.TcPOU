@@ -74,7 +74,11 @@ END_VAR
       <Declaration><![CDATA[METHOD Cycle : HRESULT
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[mcJog(Axis := _Axis);
+        <ST><![CDATA[IF NOT __ISVALIDREF(_Axis) THEN
+	Cycle := -1;
+	RETURN;
+END_IF
+mcJog(Axis := _Axis);
 IF mcJog.JogBackwards OR mcJog.JogForward THEN
 	mcJog.JogForward := FALSE;
 	mcJog.JogBackwards := FALSE;

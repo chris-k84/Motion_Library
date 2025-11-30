@@ -98,9 +98,13 @@ END_VAR
       <Declaration><![CDATA[METHOD Cycle : HRESULT
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[mcMoveVelo[0](Axis := _Axis);
-mcMoveVelo[1](Axis := _Axis);
+        <ST><![CDATA[IF NOT __ISVALIDREF(_Axis) THEN
+	Cycle := -1;
+	RETURN;
+END_IF
 
+mcMoveVelo[0](Axis := _Axis);
+mcMoveVelo[1](Axis := _Axis);
 iMoveVelo.Execute := FALSE;]]></ST>
       </Implementation>
     </Method>

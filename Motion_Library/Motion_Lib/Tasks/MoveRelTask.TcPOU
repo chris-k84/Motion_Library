@@ -103,7 +103,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[moveRel[0](Axis := _Axis);
+        <ST><![CDATA[IF NOT __ISVALIDREF(_Axis) THEN
+	Cycle := -1;
+	RETURN;
+END_IF
+
+moveRel[0](Axis := _Axis);
 moveRel[1](Axis := _Axis);
 
 iMoveRel.Execute := FALSE;]]></ST>

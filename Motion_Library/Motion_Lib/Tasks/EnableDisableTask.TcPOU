@@ -58,7 +58,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[mcPower(Axis := _Axis);]]></ST>
+        <ST><![CDATA[IF NOT __ISVALIDREF(_Axis) THEN
+	Cycle := -1;
+	RETURN;
+END_IF
+mcPower(Axis := _Axis);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Disable" Id="{0a54e8c6-7456-4747-8eeb-b97b9078e709}">

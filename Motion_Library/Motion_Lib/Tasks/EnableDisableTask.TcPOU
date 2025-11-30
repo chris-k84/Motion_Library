@@ -69,9 +69,11 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF NOT mcPower.Enable THEN
 	Disable := -1;
-ELSE
-	mcPower.Enable := FALSE;
+	RETURN;
 END_IF
+	
+mcPower.Enable := FALSE;
+
 ]]></ST>
       </Implementation>
     </Method>
@@ -95,11 +97,13 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF mcPower.Enable THEN 
 	Enable := -1;
-ELSE
-	mcPower.Enable := TRUE;
-	mcPower.Enable_Negative := NOT _InhibitNeg;
-	mcPower.Enable_Positive := NOT _InhibitPos;
-END_IF
+	RETURN;
+END_IF	
+
+mcPower.Enable := TRUE;
+mcPower.Enable_Negative := NOT _InhibitNeg;
+mcPower.Enable_Positive := NOT _InhibitPos;
+
 ]]></ST>
       </Implementation>
     </Method>

@@ -103,8 +103,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF mcReset.Execute THEN
-	RETURN;
 	Reset := -1;
+	RETURN;
 END_IF
 
 mcReset.Execute := TRUE;

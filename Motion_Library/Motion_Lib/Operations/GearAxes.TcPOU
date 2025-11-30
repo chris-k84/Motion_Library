@@ -155,7 +155,7 @@ END_IF
 
 IF _AxisMaster = 0 THEN
 	GearOut := -2;
-	RETURN
+	RETURN;
 END_IF
 
 IF NOT _AxisSlave.isStationary() THEN

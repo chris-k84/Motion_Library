@@ -118,10 +118,12 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF NOT _Axis.Status.Moving THEN
 	Execute := -1;
+	RETURN;
 END_IF
 
-IF NOT mcHalt.Execute THEN
+IF mcHalt.Execute THEN
 	Execute := -2;
+	RETURN;
 END_IF
 
 mcHalt.Execute := TRUE;

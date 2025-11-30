@@ -103,15 +103,14 @@ END_IF	]]></ST>
     <Method Name="DoesTaskRejectHaltWhenHalting_Test" Id="{48ddc48e-e466-40b6-8eab-977aa7646793}">
       <Declaration><![CDATA[METHOD DoesTaskRejectHaltWhenHalting_Test : BOOL
 VAR_INST
-	Expected : HRESULT;
-	Actual	 : HRESULT;
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	Expected := S_FALSE;
 	TestAxisHalt.Execute();
-	Actual := TestAxisHalt.Execute();
+	Actual := FAILED(TestAxisHalt.Execute());
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Abort();
 END_IF	]]></ST>
@@ -120,13 +119,12 @@ END_IF	]]></ST>
     <Method Name="DoesTaskRejectHaltWhenStationary" Id="{d10470f1-6c20-4eed-b536-d69117943531}">
       <Declaration><![CDATA[METHOD DoesTaskRejectHaltWhenStationary : BOOL
 VAR_INST
-	Expected : HRESULT;
-	Actual	 : HRESULT;
+	Expected : BOOL := true;
+	Actual	 : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	Expected := S_FALSE;
-	Actual := TestAxisHalt.Execute();
+	Actual := FAILED(TestAxisHalt.Execute());
 	Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Abort();
 END_IF	]]></ST>

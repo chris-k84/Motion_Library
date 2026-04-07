@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="AxisVelocityTestSuite" Id="{6f423009-7ac9-4bbc-9784-ede5e34ea635}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK AxisVelocityTestSuite EXTENDS TestSuite<TestSuiteParameter.MaxTestCount>
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisVelocityTestSuite 
 VAR
 	StubAxis : AXIS_REF;
 	iStubTask : I_Task;
 	TestAxisVelo : MoveVeloTask := (AxisRef := StubAxis);
+	ObjTestSuite : TestSuite<TestSuiteParameter.MaxTestCount>('C:\ProgramData\Beckhoff\TwinCAT\3.1\Boot\Object_Tests.xml') := (TestSuiteName := 'Object Test Suite');
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -26,10 +27,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisVelo.Acceleration := 1.0;
 	Actual := TestAxisVelo.Acceleration = 1.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisVelo.Acceleration := 0.0;
 	TestAxisVelo.Abort();
 END_IF	]]></ST>
@@ -43,10 +44,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisVelo.Deceleration := 1.0;
 	Actual := TestAxisVelo.Deceleration = 1.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisVelo.Deceleration := 0.0;
 	TestAxisVelo.Abort();
 END_IF	]]></ST>
@@ -61,10 +62,10 @@ END_VAR
 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisVelo.Jerk := 1.0;
 	Actual := TestAxisVelo.Jerk = 1.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisVelo.Jerk := 0.0;
 	TestAxisVelo.Abort();
 END_IF	]]></ST>
@@ -77,9 +78,10 @@ VAR_INST
 	Actual	 : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	iStubTask := 0;
 	Actual := FAILED(TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, 0.0));
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisVelo.Abort();
 END_IF	]]></ST>
       </Implementation>
@@ -92,10 +94,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisVelo.Acceleration := -1.0;
 	Actual := TestAxisVelo.Acceleration = 0.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisVelo.Abort();
 END_IF	]]></ST>
       </Implementation>
@@ -108,10 +110,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisVelo.Deceleration := -1.0;
 	Actual := TestAxisVelo.Deceleration = 0.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisVelo.Abort();
 END_IF	]]></ST>
       </Implementation>
@@ -124,10 +126,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisVelo.Jerk := -1.0;
 	Actual := TestAxisVelo.jerk = 0.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisVelo.Abort();
 END_IF	]]></ST>
       </Implementation>
@@ -140,9 +142,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	iStubTask := 0;
 	Actual := FAILED(TestAxisVelo.MoveAtVelocity(mc_direction.MC_Positive_Direction, -70.0));
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisVelo.Abort();
 END_IF	]]></ST>
       </Implementation>

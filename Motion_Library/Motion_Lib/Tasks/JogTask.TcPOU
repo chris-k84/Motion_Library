@@ -74,11 +74,7 @@ END_VAR
       <Declaration><![CDATA[METHOD Cycle : HRESULT
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT __ISVALIDREF(_Axis) THEN
-	Cycle := -1;
-	RETURN;
-END_IF
-mcJog(Axis := _Axis);
+        <ST><![CDATA[mcJog(Axis := _Axis);
 IF mcJog.JogBackwards OR mcJog.JogForward THEN
 	mcJog.JogForward := FALSE;
 	mcJog.JogBackwards := FALSE;
@@ -209,13 +205,13 @@ JogSlow := 1;]]></ST>
     <Method Name="RegisterWithParent" Id="{77064e75-9866-4201-98fe-2845bd642a22}">
       <Declaration><![CDATA[METHOD RegisterWithParent
 VAR_INPUT
-	Runner	: I_HostObjects;
+	Parent	: I_HostObjects;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Runner.RegisterAbortable(THIS^);
-Runner.RegisterCyclic(THIS^);
-Runner.RegisterTask(THIS^);]]></ST>
+        <ST><![CDATA[Parent.RegisterAbortable(THIS^);
+Parent.RegisterCyclic(THIS^);
+Parent.RegisterTask(THIS^);]]></ST>
       </Implementation>
     </Method>
   </POU>

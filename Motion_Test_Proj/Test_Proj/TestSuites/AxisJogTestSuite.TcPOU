@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="AxisJogTestSuite" Id="{d58fdfa9-a16a-4795-9564-e1d5a0ea8323}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK AxisJogTestSuite EXTENDS TestSuite<TestSuiteParameter.MaxTestCount>
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisJogTestSuite
 VAR
 	StubAxis : AXIS_REF;
 	iStubTask : I_Task;
 	TestAxisJog : JogTask := (AxisRef := stubaxis);
+	ObjTestSuite : TestSuite<TestSuiteParameter.MaxTestCount>('C:\ProgramData\Beckhoff\TwinCAT\3.1\Boot\Object_Tests.xml') := (TestSuiteName := 'Object Test Suite');
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -26,10 +27,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisJog.Acceleration := 1.0;
 	Actual := TestAxisJog.Acceleration = 1.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisJog.Acceleration := 0.0;
 	TestAxisJog.Abort();
 END_IF	]]></ST>
@@ -43,10 +44,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisJog.Deceleration := 1.0;
 	Actual := TestAxisJog.Deceleration = 1.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisJog.Deceleration := 0.0;
 	TestAxisJog.Abort();
 END_IF	]]></ST>
@@ -61,10 +62,10 @@ END_VAR
 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisJog.Jerk := 1.0;
 	Actual := TestAxisJog.Jerk = 1.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisJog.Jerk := 0.0;
 	TestAxisJog.Abort();
 END_IF	]]></ST>
@@ -77,9 +78,9 @@ VAR_INST
 	Actual	 : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Actual := SUCCEEDED(TestAxisJog.Inch(10.0,TRUE));
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisJog.Abort();
 END_IF	]]></ST>
       </Implementation>
@@ -92,10 +93,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisJog.Acceleration := -1.0;
 	Actual := TestAxisJog.Acceleration = 0.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisJog.Abort();
 END_IF	]]></ST>
       </Implementation>
@@ -108,10 +109,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisJog.Deceleration := -1.0;
 	Actual := TestAxisJog.Deceleration = 0.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisJog.Abort();
 END_IF	]]></ST>
       </Implementation>
@@ -124,10 +125,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisJog.Jerk := -1.0;
 	Actual := TestAxisJog.jerk = 0.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisJog.Abort();
 END_IF	]]></ST>
       </Implementation>
@@ -141,9 +142,9 @@ END_VAR
 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Actual := FAILED(TestAxisJog.Inch(-10.0,TRUE));
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisJog.Abort();
 END_IF	]]></ST>
       </Implementation>

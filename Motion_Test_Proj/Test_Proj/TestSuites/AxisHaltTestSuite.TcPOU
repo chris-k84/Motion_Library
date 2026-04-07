@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="AxisHaltTestSuite" Id="{506c244a-6b71-4d33-aeec-65d4d3cf5d5e}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK AxisHaltTestSuite EXTENDS TestSuite<TestSuiteParameter.MaxTestCount>
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisHaltTestSuite
 VAR
 	StubAxis : AXIS_REF;
 	iStubTask : I_Task;
 	TestAxisHalt : HaltTask := (AxisRef := StubAxis);
 	HaltAxisStatusFeedback AT%Q* : DWORD;
 	Cycle : INT;
+	ObjTestSuite : TestSuite<TestSuiteParameter.MaxTestCount>('C:\ProgramData\Beckhoff\TwinCAT\3.1\Boot\Object_Tests.xml') := (TestSuiteName := 'Object Test Suite');
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -40,11 +41,11 @@ VAR_INST
 	Actual	 : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisHalt.Execute();
 	TestAxisHalt.Abort();
 	Actual := TestAxisHalt.Busy;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -56,10 +57,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisHalt.Deceleration := 1.0;
 	Actual := TestAxisHalt.Deceleration = 1.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Deceleration := 0.0;
 	TestAxisHalt.Abort();
 END_IF	]]></ST>
@@ -73,10 +74,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisHalt.Execute();
 	Actual := TestAxisHalt.Busy;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Abort();
 	HaltAxisStatusFeedback := 0;
 END_IF	]]></ST>
@@ -91,10 +92,10 @@ END_VAR
 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisHalt.Jerk := 1.0;
 	Actual := TestAxisHalt.Jerk = 1.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Jerk := 0.0;
 	TestAxisHalt.Abort();
 END_IF	]]></ST>
@@ -103,15 +104,16 @@ END_IF	]]></ST>
     <Method Name="DoesTaskRejectHaltWhenHalting_Test" Id="{48ddc48e-e466-40b6-8eab-977aa7646793}">
       <Declaration><![CDATA[METHOD DoesTaskRejectHaltWhenHalting_Test : BOOL
 VAR_INST
-	Expected : BOOL := TRUE;
-	Actual	 : BOOL;
+	Expected : HRESULT;
+	Actual	 : HRESULT;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	Expected := S_FALSE;
 	TestAxisHalt.Execute();
-	Actual := FAILED(TestAxisHalt.Execute());
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	Actual := TestAxisHalt.Execute();
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Abort();
 END_IF	]]></ST>
       </Implementation>
@@ -119,13 +121,14 @@ END_IF	]]></ST>
     <Method Name="DoesTaskRejectHaltWhenStationary" Id="{d10470f1-6c20-4eed-b536-d69117943531}">
       <Declaration><![CDATA[METHOD DoesTaskRejectHaltWhenStationary : BOOL
 VAR_INST
-	Expected : BOOL := true;
-	Actual	 : BOOL;
+	Expected : HRESULT;
+	Actual	 : HRESULT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	Actual := FAILED(TestAxisHalt.Execute());
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	Expected := S_FALSE;
+	Actual := TestAxisHalt.Execute();
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Abort();
 END_IF	]]></ST>
       </Implementation>
@@ -138,10 +141,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisHalt.Deceleration := -1.0;
 	Actual := TestAxisHalt.Deceleration = 0.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Abort();
 END_IF	]]></ST>
       </Implementation>
@@ -154,10 +157,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	TestAxisHalt.Jerk := -1.0;
 	Actual := TestAxisHalt.jerk = 0.0;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestAxisHalt.Abort();
 END_IF	]]></ST>
       </Implementation>

@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="AxisAbsTestSuite" Id="{931c3bf4-e690-4ab0-bb8d-cbf096b9e190}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK AxisAbsTestSuite EXTENDS TestSuite<TestSuiteParameter.MaxTestCount>
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisAbsTestSuite
 VAR
 	StubAxis : AXIS_REF;
 	iStubTask : I_Task;
 	TestAxisAbs : MoveAbsTask := (AxisRef := stubaxis);
-	TestObjRunner : ObjectRunner;
+	TestObjRunner : ObjectRunner<99>;
+	ObjTestSuite : TestSuite<TestSuiteParameter.MaxTestCount>('C:\ProgramData\Beckhoff\TwinCAT\3.1\Boot\Object_Tests.xml') := (TestSuiteName := 'Object Test Suite');
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -22,11 +23,11 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestObjRunner.RegisterModule(TestAxisAbs);
-	Actual := TestObjRunner.GetCyclicModuleCount() = TestObjRunner.GetAbortModuleCount() AND
-				TestObjRunner.GetCyclicModuleCount() = TestObjRunner.GetTaskModuleCount();
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisAbs.RegisterWithParent(TestObjRunner);
+	Actual := TestObjRunner.CyclicModuleCount = TestObjRunner.AbortableModuleCount AND
+				TestObjRunner.CyclicModuleCount = TestObjRunner.TaskModuleCount;
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -37,10 +38,10 @@ VAR_INST
 	Actual	 : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Actual := SUCCEEDED(TestAxisAbs.MoveTo(100.0, 300.0));
 	TestAxisAbs.Abort();
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -52,10 +53,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Actual := FAILED(TestAxisAbs.MoveTo(100.0, 0.0));
 	TestAxisAbs.Abort();
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>
     </Method>

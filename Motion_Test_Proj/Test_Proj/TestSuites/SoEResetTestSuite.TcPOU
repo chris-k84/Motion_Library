@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="SoEResetTestSuite" Id="{51229c30-760a-4dc9-943c-9ac0c10638e5}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK SoEResetTestSuite EXTENDS TestSuite<TestSuiteParameter.MaxTestCount>
+    <Declaration><![CDATA[FUNCTION_BLOCK SoEResetTestSuite
 VAR
 	StubAxis : AXIS_REF;
 	iStubTask : I_Task;
 	Soe_Reset : SoEResetTask;
-	TestObjRunner : ObjectRunner;
+	TestObjRunner : ObjectRunner<99>;
+	ObjTestSuite : TestSuite<TestSuiteParameter.MaxTestCount>('C:\ProgramData\Beckhoff\TwinCAT\3.1\Boot\Object_Tests.xml') := (TestSuiteName := 'Object Test Suite');
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -24,12 +25,12 @@ END_VAR
 
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestObjRunner.RegisterModule(Soe_Reset);
-	Actual := TestObjRunner.GetCyclicModuleCount() = TestObjRunner.GetAbortModuleCount() AND
-				TestObjRunner.GetCyclicModuleCount() = TestObjRunner.GetTaskModuleCount() AND
-				TestObjRunner.GetCyclicModuleCount() = TestObjRunner.GetResetableModuleCount();
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	Soe_Reset.RegisterWithParent(TestObjRunner);
+	Actual := TestObjRunner.CyclicModuleCount = TestObjRunner.AbortableModuleCount AND
+				TestObjRunner.CyclicModuleCount = TestObjRunner.TaskModuleCount AND
+				TestObjRunner.CyclicModuleCount = TestObjRunner.ResettableModuleCount;
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -41,10 +42,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Actual := SUCCEEDED(Soe_Reset.Reset());
 	Soe_Reset.Abort();
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>
       </Implementation>
     </Method>
@@ -56,10 +57,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Actual := FAILED(Soe_Reset.Cycle());
 	Soe_Reset.AxisRef REF= StubAxis;
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>
       </Implementation>
     </Method>
@@ -71,11 +72,11 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Soe_Reset.Reset();
 	Actual := FAILED(Soe_Reset.Reset());
 	Soe_Reset.Abort();
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF	]]></ST>
       </Implementation>
     </Method>

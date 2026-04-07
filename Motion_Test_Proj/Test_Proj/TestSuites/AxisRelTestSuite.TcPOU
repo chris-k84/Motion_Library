@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="AxisRelTestSuite" Id="{17fb2fd6-f573-4d0a-9afb-f84bca683c76}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK AxisRelTestSuite EXTENDS TestSuite<TestSuiteParameter.MaxTestCount>
+    <Declaration><![CDATA[FUNCTION_BLOCK AxisRelTestSuite 
 VAR
 	StubAxis : AXIS_REF;
 	iStubTask : I_Task;
 	TestAxisRel : MoveRelTask := (AxisRef := stubaxis);
-	TestObjRunner : ObjectRunner;
+	TestObjRunner : ObjectRunner<99>;
+	ObjTestSuite : TestSuite<TestSuiteParameter.MaxTestCount>('C:\ProgramData\Beckhoff\TwinCAT\3.1\Boot\Object_Tests.xml') := (TestSuiteName := 'Object Test Suite');
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -22,11 +23,11 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
-	TestObjRunner.RegisterModule(TestAxisRel);
-	Actual := TestObjRunner.GetCyclicModuleCount() = TestObjRunner.GetAbortModuleCount() AND
-				TestObjRunner.GetCyclicModuleCount() = TestObjRunner.GetTaskModuleCount();
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	TestAxisRel.RegisterWithParent(TestObjRunner);
+	Actual := TestObjRunner.CyclicModuleCount = TestObjRunner.AbortableModuleCount AND
+				TestObjRunner.CyclicModuleCount = TestObjRunner.TaskModuleCount;
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -38,10 +39,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Actual := SUCCEEDED(TestAxisRel.MoveBy(100.0, 300.0));
 	TestAxisRel.Abort();
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -53,10 +54,10 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Test(__POUNAME()).ExecuteTest() THEN
+        <ST><![CDATA[IF ObjTestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Actual := FAILED(TestAxisRel.MoveBy(100.0, 0.0));
 	TestAxisRel.Abort();
-	Test(__POUNAME()).AssertEqual(Expected, Actual);
+	ObjTestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>
     </Method>

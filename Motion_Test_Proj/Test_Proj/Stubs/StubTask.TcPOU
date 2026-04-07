@@ -29,6 +29,13 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
+    <Method Name="Cycle" Id="{8f75d094-6e95-4146-a462-dfacd2953ad8}">
+      <Declaration><![CDATA[METHOD Cycle : Base_Library.HRESULT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
     <Property Name="Done" Id="{6d0d6f9b-aebb-4d0d-8062-3bba4dc48f43}">
       <Declaration><![CDATA[{warning 'Add property implementation'}
 PROPERTY Done : BOOL

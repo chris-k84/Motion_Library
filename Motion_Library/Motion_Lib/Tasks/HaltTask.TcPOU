@@ -58,11 +58,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT __ISVALIDREF(_Axis) THEN
-	Cycle := -1;
-	RETURN;
-END_IF
-mcHalt(Axis := _Axis);
+        <ST><![CDATA[mcHalt(Axis := _Axis);
 mcHalt.Execute := FALSE;]]></ST>
       </Implementation>
     </Method>
@@ -120,17 +116,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT _Axis.Status.Moving THEN
-	Execute := -1;
-	RETURN;
+        <ST><![CDATA[IF _Axis.Status.Moving AND NOT mcHalt.Execute THEN
+	Execute := S_OK;
+	mcHalt.Execute := TRUE;
+ELSE
+	Execute := S_FALSE;
 END_IF
-
-IF mcHalt.Execute THEN
-	Execute := -2;
-	RETURN;
-END_IF
-
-mcHalt.Execute := TRUE;
 ]]></ST>
       </Implementation>
     </Method>
@@ -159,13 +150,13 @@ END_IF
     <Method Name="RegisterWithParent" Id="{761e717a-0349-45b2-b11d-2954748efbaa}">
       <Declaration><![CDATA[METHOD RegisterWithParent
 VAR_INPUT
-	Runner	: I_HostObjects;
+	Parent	: I_HostObjects;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Runner.RegisterAbortable(THIS^);
-Runner.RegisterCyclic(THIS^);
-Runner.RegisterTask(THIS^);]]></ST>
+        <ST><![CDATA[Parent.RegisterAbortable(THIS^);
+Parent.RegisterCyclic(THIS^);
+Parent.RegisterTask(THIS^);]]></ST>
       </Implementation>
     </Method>
   </POU>

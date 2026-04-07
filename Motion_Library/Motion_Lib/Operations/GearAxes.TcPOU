@@ -113,32 +113,15 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _AxisSlave = 0 THEN
+        <ST><![CDATA[IF _AxisSlave <> 0 OR _AxisMaster <> 0 THEN 
+	IF _AxisSlave.isStationary() AND NOT _AxisSlave.isCoupled() AND NOT mcGearIn.Execute THEN
+		mcGearIn.Execute := TRUE;
+	ELSE
+		GearIn := -1;
+	END_IF
+ELSE
 	GearIn := -2;
-	RETURN;
 END_IF
-
-IF _AxisMaster = 0 THEN
-	gearin := -1;
-	RETURN;
-END_IF
-
-IF NOT _AxisSlave.isStationary() THEN
-	Gearin := -3;
-	RETURN;
-END_IF
-
-IF _AxisSlave.isCoupled() THEN
-	Gearin := -4;
-	RETURN;
-END_IF
-
-IF mcGearIn.Execute THEN
-	Gearin := -5;
-	RETURN;
-END_IF
-
-mcGearIn.Execute := TRUE;
 ]]></ST>
       </Implementation>
     </Method>
@@ -148,32 +131,14 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _AxisSlave = 0 THEN
-	GearOut := -1;
-	RETURN;
+        <ST><![CDATA[IF _AxisSlave <> 0 OR _AxisMaster <> 0 THEN 
+	IF _AxisSlave.isStationary() AND _AxisSlave.isCoupled() AND NOT mcGearOut.Execute THEN
+		mcGearOut.Execute := TRUE;
+	ELSE
+		GearOut := -1;
+	END_IF
 END_IF
-
-IF _AxisMaster = 0 THEN
-	GearOut := -2;
-	RETURN;
-END_IF
-
-IF NOT _AxisSlave.isStationary() THEN
-	GearOut := -3;
-	RETURN;
-END_IF
-
-IF NOT _AxisSlave.isCoupled() THEN
-	GearOut := -4;
-	RETURN;
-END_IF
-
-IF mcGearOut.Execute THEN
-	GearOut := -5;
-	RETURN;
-END_IF
-
-mcGearOut.Execute := TRUE;]]></ST>
+]]></ST>
       </Implementation>
     </Method>
     <Property Name="InGear" Id="{7b9c5c0a-d5e8-485c-a913-d9dcff95acaf}">
@@ -228,12 +193,12 @@ END_VAR
     <Method Name="RegisterWithParent" Id="{3aa8e96a-b079-418b-b42d-30714fde13ef}">
       <Declaration><![CDATA[METHOD RegisterWithParent
 VAR_INPUT
-	Runner	: I_HostObjects;
+	Parent	: I_HostObjects;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Runner.RegisterAbortable(THIS^);
-Runner.RegisterCyclic(THIS^);]]></ST>
+        <ST><![CDATA[Parent.RegisterAbortable(THIS^);
+Parent.RegisterCyclic(THIS^);]]></ST>
       </Implementation>
     </Method>
     <Property Name="Slave" Id="{3fdd3b93-09f6-470b-b44d-aee99e82c3db}">

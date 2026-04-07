@@ -55,11 +55,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT __ISVALIDREF(_Axis) THEN
-	Cycle := -1;
-	RETURN;
-END_IF
-mcReset(Axis := _Axis);
+        <ST><![CDATA[mcReset(Axis := _Axis);
 mcReset.Execute := FALSE;]]></ST>
       </Implementation>
     </Method>
@@ -90,14 +86,14 @@ END_VAR
     <Method Name="RegisterWithParent" Id="{ac903c7a-36cd-4508-9b6b-75b99dd2293c}">
       <Declaration><![CDATA[METHOD RegisterWithParent
 VAR_INPUT
-	Runner	: I_HostObjects;
+	Parent	: I_HostObjects;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Runner.RegisterAbortable(THIS^);
-Runner.RegisterCyclic(THIS^);
-Runner.RegisterTask(THIS^);
-Runner.RegisterResettable(THIS^);]]></ST>
+        <ST><![CDATA[Parent.RegisterAbortable(THIS^);
+Parent.RegisterCyclic(THIS^);
+Parent.RegisterTask(THIS^);
+Parent.RegisterResettable(THIS^);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Reset" Id="{3351ec6f-5e58-4cce-afac-76b6f35f5e04}">
@@ -108,10 +104,9 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF mcReset.Execute THEN
 	Reset := -1;
-	RETURN;
+ELSE
+	mcReset.Execute := TRUE;
 END_IF
-
-mcReset.Execute := TRUE;
 ]]></ST>
       </Implementation>
     </Method>

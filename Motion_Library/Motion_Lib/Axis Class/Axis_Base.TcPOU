@@ -12,7 +12,7 @@ VAR
 	DefaultVeloBehaviour : MoveVeloTask;
 	DefaultJogBehaviour : JogTask;
 	HaltBehaviour	: HaltTask;
-	TaskCollection : ObjectRunner;
+	TaskCollection : ObjectRunner<99>;
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_ErrorId: DWORD;
 	DemandVelo : LREAL;
@@ -152,14 +152,16 @@ DefaultRelBehaviour.AxisRef REF= axis;
 DefaultModBehaviour.AxisRef REF= axis;
 HaltBehaviour.AxisRef REF= axis;
 _axis REF= Axis;
-TaskCollection.RegisterModule(DefaultMoveBehaviour);
-TaskCollection.RegisterModule(DefaultModBehaviour);
-TaskCollection.RegisterModule(DefaultRelBehaviour);
-TaskCollection.RegisterModule(DefaultJogBehaviour);
-TaskCollection.RegisterModule(DefaultVeloBehaviour);
-TaskCollection.RegisterModule(HaltBehaviour);
-TaskCollection.RegisterModule(DefaultResetBehaviour);
-TaskCollection.RegisterModule(EnableBehaviour);]]></ST>
+
+DefaultJogBehaviour.RegisterWithParent(Parent := TaskCollection);
+DefaultModBehaviour.RegisterWithParent(Parent := TaskCollection);
+DefaultMoveBehaviour.RegisterWithParent(Parent := TaskCollection);
+DefaultRelBehaviour.RegisterWithParent(Parent := TaskCollection);
+DefaultJogBehaviour.RegisterWithParent(Parent := TaskCollection);
+DefaultVeloBehaviour.RegisterWithParent(Parent := TaskCollection);
+HaltBehaviour.RegisterWithParent(Parent := TaskCollection);
+DefaultResetBehaviour.RegisterWithParent(Parent := TaskCollection);
+EnableBehaviour.RegisterWithParent(Parent := TaskCollection);]]></ST>
       </Implementation>
     </Method>
     <Method Name="getCurrentPosition" Id="{c887f268-1e61-4e9e-8941-aa0a7b360cf9}" FolderPath="Status\">
@@ -423,12 +425,12 @@ DefaultMoveBehaviour.MoveTo(Position,Velocity);]]></ST>
     <Method Name="RegisterWithParent" Id="{381741fc-fc26-4603-bb08-86e14ada8bdb}">
       <Declaration><![CDATA[METHOD RegisterWithParent
 VAR_INPUT
-	Runner	: Base_Library.I_HostObjects;
+	Parent	: Base_Library.I_HostObjects;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Runner.RegisterCyclic(THIS^);
-Runner.RegisterResettable(THIS^);]]></ST>
+        <ST><![CDATA[Parent.RegisterCyclic(THIS^);
+Parent.RegisterResettable(THIS^);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Reset" Id="{bd5b60f2-6a45-4850-931f-c2efbdee4a44}" FolderPath="Base\">

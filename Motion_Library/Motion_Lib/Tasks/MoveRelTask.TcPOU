@@ -103,12 +103,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT __ISVALIDREF(_Axis) THEN
-	Cycle := -1;
-	RETURN;
-END_IF
-
-moveRel[0](Axis := _Axis);
+        <ST><![CDATA[moveRel[0](Axis := _Axis);
 moveRel[1](Axis := _Axis);
 
 iMoveRel.Execute := FALSE;]]></ST>
@@ -205,13 +200,13 @@ iMoveRel.Execute := TRUE;]]></ST>
     <Method Name="RegisterWithParent" Id="{cc43a688-d666-4ba6-8ca0-5f0df818dca9}">
       <Declaration><![CDATA[METHOD RegisterWithParent
 VAR_INPUT
-	Runner	: I_HostObjects;
+	Parent	: I_HostObjects;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Runner.RegisterAbortable(THIS^);
-Runner.RegisterCyclic(THIS^);
-Runner.RegisterTask(THIS^);]]></ST>
+        <ST><![CDATA[Parent.RegisterAbortable(THIS^);
+Parent.RegisterCyclic(THIS^);
+Parent.RegisterTask(THIS^);]]></ST>
       </Implementation>
     </Method>
   </POU>

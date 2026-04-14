@@ -443,7 +443,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[TaskCollection.Reset();
-TaskCollection.Abort();]]></ST>
+//TaskCollection.Abort();]]></ST>
       </Implementation>
     </Method>
   </POU>

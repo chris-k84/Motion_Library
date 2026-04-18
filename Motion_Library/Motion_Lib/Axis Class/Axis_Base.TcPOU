@@ -77,6 +77,28 @@ DefaultModBehaviour.BufferMode := BufferMode;]]></ST>
         </Implementation>
       </Set>
     </Property>
+    <Property Name="CurrentPosition" Id="{f81022c8-aabe-4350-937c-d5e331c84e53}" FolderPath="Status\">
+      <Declaration><![CDATA[PROPERTY CurrentPosition : LREAL]]></Declaration>
+      <Get Name="Get" Id="{31d53272-f477-419f-9f8f-b2455c97ac7a}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[CurrentPosition := _axis.NcToPlc.ActPos;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="CurrentVelocity" Id="{c88251f7-bef5-418d-9bae-83d23009f166}" FolderPath="Status\">
+      <Declaration><![CDATA[PROPERTY CurrentVelocity : LREAL]]></Declaration>
+      <Get Name="Get" Id="{bc628771-a224-458b-b10f-81135cefb406}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[CurrentVelocity := _axis.NcToPlc.ActVelo;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="Cycle" Id="{6e2b69ab-f1bf-4962-bdbb-f480f753daf6}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
 VAR_INPUT
@@ -131,6 +153,17 @@ EnableBehaviour.InhibitPositive := InhibitPositive;
 EnableAxis := EnableBehaviour.Enable();]]></ST>
       </Implementation>
     </Method>
+    <Property Name="ErrorID" Id="{23aaf61d-867b-4a0d-829f-c516b080f5fb}" FolderPath="Status\">
+      <Declaration><![CDATA[PROPERTY ErrorID : DWORD]]></Declaration>
+      <Get Name="Get" Id="{1db8f21e-3bb5-4924-ba79-9b04f8a9157c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ErrorId := _ErrorId;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="FB_Init" Id="{b79a0e62-0ee6-47b6-874a-a1e2579a6c1b}">
       <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
 //The return value is not evaluated. For a specific influence, you can also declare the
@@ -164,33 +197,6 @@ DefaultResetBehaviour.RegisterWithParent(Parent := TaskCollection);
 EnableBehaviour.RegisterWithParent(Parent := TaskCollection);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="getCurrentPosition" Id="{c887f268-1e61-4e9e-8941-aa0a7b360cf9}" FolderPath="Status\">
-      <Declaration><![CDATA[METHOD getCurrentPosition : LREAL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[getCurrentPosition := _axis.NcToPlc.ActPos;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="getCurrentVelocity" Id="{53601cdd-cffb-445d-ba98-89f333be3d31}" FolderPath="Status\">
-      <Declaration><![CDATA[METHOD getCurrentVelocity : LREAL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[getCurrentVelocity := _axis.NcToPlc.ActVelo;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="GetErrorId" Id="{c8c8fb1e-3132-40a5-bb74-f66710995f3e}" FolderPath="Status\">
-      <Declaration><![CDATA[METHOD GetErrorId : DWORD
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[GetErrorId := _ErrorId;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="HaltAxis" Id="{b5b4d676-a559-4d25-8571-0c2ec9c3c015}" FolderPath="Base\">
       <Declaration><![CDATA[METHOD PUBLIC HaltAxis : HRESULT
 VAR
@@ -206,15 +212,17 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="hasError" Id="{ca345aeb-702e-4d9d-ada0-0eb76d61a85d}" FolderPath="Status\">
-      <Declaration><![CDATA[METHOD hasError : BOOL
-VAR_INPUT
+    <Property Name="HasError" Id="{a508d66e-2c23-49e5-bf01-8d54382ab174}" FolderPath="Status\">
+      <Declaration><![CDATA[PROPERTY HasError : BOOL]]></Declaration>
+      <Get Name="Get" Id="{26e58127-3309-47b3-91dd-05ea60bb0e3f}">
+        <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[hasError := _axis.Status.Error;]]></ST>
-      </Implementation>
-    </Method>
+        <Implementation>
+          <ST><![CDATA[HasError := _axis.Status.Error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="Inch" Id="{a8ecae9a-5934-4e49-93bc-ed8a7c89528c}" FolderPath="Manual\">
       <Declaration><![CDATA[METHOD Inch : HRESULT
 VAR_INPUT
@@ -228,49 +236,62 @@ END_VAR
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="IsCoupled" Id="{c0712c94-ae98-4f0c-8c14-f5255c4aa801}" FolderPath="Status\">
-      <Declaration><![CDATA[METHOD isCoupled : BOOL
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[isCoupled := _axis.Status.Coupled;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="isEnabled" Id="{460678ae-c472-4e27-a376-f3d29d1278b6}" FolderPath="Status\">
-      <Declaration><![CDATA[METHOD isEnabled : BOOL
-VAR_INPUT
+    <Property Name="InTargetPosition" Id="{9abca603-e884-4f4f-bccc-fc41fc8ff5ee}" FolderPath="Status\">
+      <Declaration><![CDATA[PROPERTY InTargetPosition : BOOL]]></Declaration>
+      <Get Name="Get" Id="{25924b82-ccca-4ae9-aec4-bfae0b30c843}">
+        <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[isEnabled := not _axis.Status.Disabled;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="IsInTargetPosition" Id="{30801ac0-19c7-44e5-bad0-92761feca35a}" FolderPath="Status\">
-      <Declaration><![CDATA[METHOD IsInTargetPosition : BOOL
-VAR_INPUT
+        <Implementation>
+          <ST><![CDATA[InTargetPosition := _axis.Status.InTargetPosition;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="InVelocity" Id="{58797bbc-1847-4345-b88d-e9a061a816ed}" FolderPath="Status\">
+      <Declaration><![CDATA[PROPERTY InVelocity : BOOL]]></Declaration>
+      <Get Name="Get" Id="{2d341fd7-f727-4430-a670-3040afdfb9d4}">
+        <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IsInTargetPosition := _axis.Status.InTargetPosition;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="isInVelocity" Id="{7ec3b18f-c8fb-413e-b2d4-c16b36d40216}" FolderPath="Status\">
-      <Declaration><![CDATA[METHOD isInVelocity : BOOL
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[isInVelocity := ABS(_axis.NcToPlc.ActVelo) < DemandVelo + (DemandVelo * 0.02) AND 
-				ABS(_axis.NcToPlc.ActVelo) > DemandVelo - (DemandVelo * 0.02);
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="isStationary" Id="{4df49a98-73c3-4028-9049-ecd2a431e2f1}" FolderPath="Status\">
-      <Declaration><![CDATA[METHOD PUBLIC isStationary : BOOL
-VAR_INPUT
+        <Implementation>
+          <ST><![CDATA[InVelocity := ABS(_axis.NcToPlc.ActVelo) < DemandVelo + (DemandVelo * 0.02) AND 
+				ABS(_axis.NcToPlc.ActVelo) > DemandVelo - (DemandVelo * 0.02);]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsCoupled" Id="{6b5c09b2-f69c-4bfa-8f55-e28d0dee4f96}" FolderPath="Status\">
+      <Declaration><![CDATA[PROPERTY IsCoupled : bool]]></Declaration>
+      <Get Name="Get" Id="{5710167e-5ed2-4c8f-a7c3-1f2e8d1de119}">
+        <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[isStationary := _axis.NcToPlc.SetVelo = 0;]]></ST>
-      </Implementation>
-    </Method>
+        <Implementation>
+          <ST><![CDATA[isCoupled := _axis.Status.Coupled;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsEnabled" Id="{61d475f5-477d-4a41-ac2b-c5e94d4efd87}" FolderPath="Status\">
+      <Declaration><![CDATA[PROPERTY IsEnabled : bool]]></Declaration>
+      <Get Name="Get" Id="{c410a671-3e66-4117-ad8d-e6127a67edec}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[isEnabled := not _axis.Status.Disabled;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsStationary" Id="{c81c5586-ca5c-467c-9e94-5811eaa88ec6}" FolderPath="Status\">
+      <Declaration><![CDATA[PROPERTY IsStationary : bool]]></Declaration>
+      <Get Name="Get" Id="{ee3f5e21-c9c4-44e4-88f0-3b457286107f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[isStationary := _axis.NcToPlc.SetVelo = 0;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Property Name="Jerk" Id="{79ff8a18-6bf8-46ba-a24c-7f84c4790e08}" FolderPath="Dynamics\">
       <Declaration><![CDATA[PROPERTY PUBLIC Jerk : mc_lreal]]></Declaration>
       <Get Name="Get" Id="{66a6c61c-9532-41a0-a772-02a7efa824e1}">

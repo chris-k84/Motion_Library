@@ -3,19 +3,18 @@
   <Itf Name="I_Position" Id="{67ee2d44-07ee-4a7f-8cf0-2ba796d7942a}">
     <Declaration><![CDATA[INTERFACE I_Position EXTENDS __SYSTEM.IQueryInterface
 ]]></Declaration>
-    <Method Name="isAtPosition" Id="{0795d33e-560d-4636-8a90-52e889bcb73b}">
-      <Declaration><![CDATA[METHOD isAtPosition : BOOL
-VAR_INPUT
-	position : MC_LREAL;
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="isStationary" Id="{cddbd933-61b5-4d6b-a5a0-3c907a5aba73}">
-      <Declaration><![CDATA[METHOD PUBLIC isStationary : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
+    <Property Name="CurrentPosition" Id="{205db87f-f7bb-4e74-ad59-4c514b54dda0}">
+      <Declaration><![CDATA[PROPERTY CurrentPosition : LREAL]]></Declaration>
+      <Get Name="Get" Id="{27e51b78-62c8-44b7-a5f2-0d1b26ebf193}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsStationary" Id="{27d390c2-fbca-4a5c-bcc1-15c4bbbbfc4f}">
+      <Declaration><![CDATA[PROPERTY IsStationary : bool]]></Declaration>
+      <Get Name="Get" Id="{e895ea74-610a-464d-8612-26e8bb00b426}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
     <Method Name="MoveByDistance" Id="{a5b81455-a8f6-4114-80eb-0d55f77596a7}">
       <Declaration><![CDATA[METHOD MoveByDistance : HRESULT
 VAR_INPUT

@@ -50,12 +50,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
-    <Method Name="GetErrorId" Id="{0e102596-72b8-4e67-b2e5-ef82f66c692e}">
-      <Declaration><![CDATA[METHOD GetErrorId : DWORD
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
+    <Property Name="ErrorID" Id="{52b85bd9-c966-4845-b532-20088e4690ea}">
+      <Declaration><![CDATA[PROPERTY ErrorID : DWORD]]></Declaration>
+      <Get Name="Get" Id="{4d938dee-d107-459d-86cd-329dbada6b63}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
     <Method Name="HaltAxis" Id="{f00a986d-e8a1-4ddc-8d6f-7dfd0ff96b72}">
       <Declaration><![CDATA[METHOD PUBLIC HaltAxis : HRESULT
 VAR

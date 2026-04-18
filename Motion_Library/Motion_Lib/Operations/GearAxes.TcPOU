@@ -114,7 +114,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF _AxisSlave <> 0 OR _AxisMaster <> 0 THEN 
-	IF _AxisSlave.isStationary() AND NOT _AxisSlave.isCoupled() AND NOT mcGearIn.Execute THEN
+	IF _AxisSlave.IsStationary AND NOT _AxisSlave.IsCoupled AND NOT mcGearIn.Execute THEN
 		mcGearIn.Execute := TRUE;
 	ELSE
 		GearIn := -1;
@@ -132,7 +132,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF _AxisSlave <> 0 OR _AxisMaster <> 0 THEN 
-	IF _AxisSlave.isStationary() AND _AxisSlave.isCoupled() AND NOT mcGearOut.Execute THEN
+	IF _AxisSlave.IsStationary AND _AxisSlave.IsCoupled AND NOT mcGearOut.Execute THEN
 		mcGearOut.Execute := TRUE;
 	ELSE
 		GearOut := -1;
@@ -148,7 +148,7 @@ END_IF
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[InGear := mcGearIn.InGear AND _AxisSlave.isCoupled();]]></ST>
+          <ST><![CDATA[InGear := mcGearIn.InGear AND _AxisSlave.isCoupled;]]></ST>
         </Implementation>
       </Get>
     </Property>

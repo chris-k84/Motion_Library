@@ -3,57 +3,59 @@
   <Itf Name="I_Status" Id="{6057db56-1d8d-4c90-8f15-4379a266ab62}">
     <Declaration><![CDATA[INTERFACE I_Status EXTENDS __SYSTEM.IQueryInterface
 ]]></Declaration>
-    <Method Name="getCurrentPosition" Id="{4fa41b0c-b611-436e-9bd7-2a6e55e87dc6}">
-      <Declaration><![CDATA[METHOD getCurrentPosition : LREAL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="getCurrentVelocity" Id="{a93ed934-e57e-4019-8a1a-ff7e89d7920e}">
-      <Declaration><![CDATA[METHOD getCurrentVelocity : LREAL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="hasError" Id="{23e382f3-1098-4e53-9da1-56fa9b45c233}">
-      <Declaration><![CDATA[METHOD hasError : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="isAtPosition" Id="{b1b2fe74-f8e0-4241-b0e9-3e1b63b14a12}">
-      <Declaration><![CDATA[METHOD isAtPosition : BOOL
-VAR_INPUT
-	position : MC_LREAL;
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="isCoupled" Id="{3a64e49f-8ff5-45ad-8a05-18f9af926126}">
-      <Declaration><![CDATA[METHOD isCoupled : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="isEnabled" Id="{74def401-5519-4834-a231-64b141cc4fba}">
-      <Declaration><![CDATA[METHOD isEnabled : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="IsInTargetPosition" Id="{547687c1-91b7-45dd-ba0f-4e79c4ef7efb}">
-      <Declaration><![CDATA[METHOD IsInTargetPosition : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
-    <Method Name="isInVelocity" Id="{3b580483-8069-42c2-961f-3563b2202ac4}">
-      <Declaration><![CDATA[METHOD isInVelocity : BOOL]]></Declaration>
-    </Method>
-    <Method Name="isStationary" Id="{58e66eb5-9088-44a9-a122-982f73f5789e}">
-      <Declaration><![CDATA[METHOD isStationary : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-    </Method>
+    <Property Name="CurrentPosition" Id="{1dd40bc8-3f99-4bad-8e07-083536769e40}">
+      <Declaration><![CDATA[PROPERTY CurrentPosition : LREAL]]></Declaration>
+      <Get Name="Get" Id="{95001c26-a881-4edb-a053-e51c961445d0}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="CurrentVelocity" Id="{97907787-c05d-4992-abb4-8777b0603fc9}">
+      <Declaration><![CDATA[PROPERTY CurrentVelocity : LREAL]]></Declaration>
+      <Get Name="Get" Id="{eb1ce3f9-0501-4350-b473-fbbfd356c617}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="ErrorID" Id="{b11aa0a0-7098-44ca-82bd-6ca7d22ca21e}">
+      <Declaration><![CDATA[PROPERTY ErrorID : DWORD]]></Declaration>
+      <Get Name="Get" Id="{fe8508de-a7df-4935-8954-57d4fdec9685}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="HasError" Id="{4f9a47cb-8b1f-402d-b2c6-4b52878406bb}">
+      <Declaration><![CDATA[PROPERTY HasError : BOOL]]></Declaration>
+      <Get Name="Get" Id="{28a41045-34a4-421b-9179-1599bce12a5c}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="InTargetPosition" Id="{4b369373-838c-4cc4-941b-06225a33951d}">
+      <Declaration><![CDATA[PROPERTY InTargetPosition : BOOL]]></Declaration>
+      <Get Name="Get" Id="{30a64782-fad1-4bf2-a79d-a9c3a2fa8c1e}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="InVelocity" Id="{89c9aebc-0407-4c60-bfdd-b41bb7aec0a6}">
+      <Declaration><![CDATA[PROPERTY InVelocity : BOOL]]></Declaration>
+      <Get Name="Get" Id="{8b2ab8a0-85bf-437a-b651-bf05bdd63e43}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsCoupled" Id="{1482ae7c-1f33-4889-80b5-c5148cec0e70}">
+      <Declaration><![CDATA[PROPERTY IsCoupled : bool]]></Declaration>
+      <Get Name="Get" Id="{f719c339-2597-4343-b354-172be3601a76}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsEnabled" Id="{14fa7212-d544-4f73-a48f-1e9f238c75ce}">
+      <Declaration><![CDATA[PROPERTY IsEnabled : bool]]></Declaration>
+      <Get Name="Get" Id="{601fc560-3c28-4130-bf0b-666aac65d338}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsStationary" Id="{5ca175da-4c6e-4296-8faf-30d6bd78a25a}">
+      <Declaration><![CDATA[PROPERTY IsStationary : bool]]></Declaration>
+      <Get Name="Get" Id="{50cb22a8-9c64-44df-8969-787a60532850}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
   </Itf>
 </TcPlcObject>

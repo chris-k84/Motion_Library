@@ -228,22 +228,6 @@ END_VAR
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="isAtPosition" Id="{a3fbba8b-aebd-4df9-9a9b-10d926ce7c0a}" FolderPath="Status\">
-      <Declaration><![CDATA[METHOD isAtPosition : BOOL
-VAR_INPUT
-	position : MC_LREAL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF _axis.NcToPlc.ActPos < position + 0.2 AND _axis.NcToPlc.ActPos > position - 0.2 THEN
-	isAtPosition := TRUE;
-ELSE
-	isAtPosition := FALSE;
-END_IF  
-
-]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="IsCoupled" Id="{c0712c94-ae98-4f0c-8c14-f5255c4aa801}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD isCoupled : BOOL
 ]]></Declaration>
@@ -339,7 +323,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF SUCCEEDED(DefaultVeloBehaviour.MoveAtVelocity(Direction, Velocity)) THEN
+        <ST><![CDATA[IF Velocity = 0 THEN 
+	MoveAtVelocity := -1;
+	RETURN;
+END_IF
+
+IF SUCCEEDED(DefaultVeloBehaviour.MoveAtVelocity(Direction, Velocity)) THEN
 	DemandVelo := Velocity;
 ELSE
 	MoveAtVelocity := -1;
@@ -380,10 +369,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF isAtPosition(position := Position) THEN
+        <ST><![CDATA[IF Velocity = 0 THEN
 	MoveToModuloPosition := -1;
 	RETURN;
 END_IF
+
 IF _axis.Status.Disabled THEN
 	MoveToModuloPosition := -2;
 	RETURN;
@@ -405,10 +395,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF isAtPosition(position := Position) THEN
+        <ST><![CDATA[IF Velocity = 0 THEN
 	MoveToPosition := -1;
 	RETURN;
 END_IF
+
 IF _axis.Status.Disabled THEN
 	MoveToPosition := -2;
 	RETURN;

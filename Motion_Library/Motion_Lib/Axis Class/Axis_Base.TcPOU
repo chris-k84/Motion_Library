@@ -417,20 +417,24 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Velocity = 0 THEN
+	Base_Library.Tracing.Trace.Warning(TO_STRING(_axis.NcToPlc.AxisId), 'Abs Move Fail - 0 Velo');
 	MoveToPosition := -1;
 	RETURN;
 END_IF
 
 IF _axis.Status.Disabled THEN
+	Base_Library.Tracing.Trace.Warning(TO_STRING(_axis.NcToPlc.AxisId), 'Abs Move Fail - Disabled');
 	MoveToPosition := -2;
 	RETURN;
 END_IF
 
 IF _axis.Status.Error THEN
+	Base_Library.Tracing.Trace.Warning(TO_STRING(_axis.NcToPlc.AxisId), 'Abs Move Fail - Error');
 	MoveToPosition := -3;
 	RETURN;
 END_IF
 
+Base_Library.Tracing.Trace.Verbose(TO_STRING(_axis.NcToPlc.AxisId), 'Abs Move Success');
 DefaultMoveBehaviour.MoveTo(Position,Velocity);]]></ST>
       </Implementation>
     </Method>

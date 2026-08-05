@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <GVL Name="Global_Version" Id="{2a9f0330-558b-4315-a2e3-9f7e657e585e}">
+    <Declaration><![CDATA[{attribute 'TcGenerated'}
+{attribute 'no-analysis'}
+{attribute 'linkalways'}
+// This function has been automatically generated from the project information.
+VAR_GLOBAL CONSTANT
+	{attribute 'const_non_replaced'}
+	stLibVersion_Motion_Library : ST_LibVersion := (iMajor := 4, iMinor := 0, iBuild := 2, iRevision := 0, nFlags := 0, sVersion := '4.0.2.0');
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

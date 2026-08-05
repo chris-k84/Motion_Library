@@ -19,7 +19,7 @@
     <Company>Beckhoff UK</Company>
     <Released>false</Released>
     <POUsForPropertyAccessIncluded>false</POUsForPropertyAccessIncluded>
-    <GlobalVersionStructureIncluded>false</GlobalVersionStructureIncluded>
+    <GlobalVersionStructureIncluded>true</GlobalVersionStructureIncluded>
     <Title>Motion Library</Title>
     <ProjectVersion>4.0.2.0</ProjectVersion>
     <LibraryCategories>
@@ -41,6 +41,7 @@
     <Folder Include="Interfaces" />
     <Folder Include="Operations" />
     <Folder Include="Tasks" />
+    <Folder Include="Version" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Axis Class\Axis_Base.TcPOU">
@@ -116,6 +117,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tasks\SoEResetTask.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Version\Global_Version.TcGVL">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

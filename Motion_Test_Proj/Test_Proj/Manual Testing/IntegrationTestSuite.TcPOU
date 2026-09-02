@@ -28,6 +28,7 @@ VAR
 	Pos_Dist : LREAL := 10.0;
 	Mod_Pos : LREAL := 230.0;
 	GEAR: BOOL;
+	iCounter: INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -35,6 +36,10 @@ END_VAR
 	IF succeeded(iAxisBase.EnableAxis(FALSE, FALSE)) AND SUCCEEDED(gearTestAxis.EnableAxis(FALSE,FALSE)) THEN
 		Enable := FALSE;
 	END_IF
+END_IF
+
+IF iAxisBase.Operating THEN
+	iCounter := iCounter + 1;
 END_IF
 
 IF MOVETO THEN

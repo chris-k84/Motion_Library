@@ -10,7 +10,7 @@ VAR
 	GearAxisCoupledFeedback AT%Q* : UDINT := 0;
 	GearAxisMotionFeedback AT%Q* : DWORD;
 	TestState : INT := 0;
-	ObjTestSuite : TestSuite<TestSuiteParameter.MaxTestCount>('C:\ProgramData\Beckhoff\TwinCAT\3.1\Boot\Object_Tests.xml') := (TestSuiteName := 'Object Test Suite');
+	ObjTestSuite : TestSuite<TestSuiteParameter.MaxTestCount>(ResultFile := JUnitResultFile) := (TestSuiteName := 'Object Test Suite');
 END_VAR
 ]]></Declaration>
     <Implementation>

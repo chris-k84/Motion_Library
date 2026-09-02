@@ -15,6 +15,7 @@ VAR
 	TaskCollection : ObjectRunner<99>;
 	axesReadError : Tc2_MC2.MC_ReadAxisError;
 	_ErrorId: DWORD;
+	_Operating : BOOL;
 	DemandVelo : LREAL;
 END_VAR]]></Declaration>
     <Implementation>
@@ -101,13 +102,16 @@ END_VAR
     </Property>
     <Method Name="Cycle" Id="{6e2b69ab-f1bf-4962-bdbb-f480f753daf6}">
       <Declaration><![CDATA[METHOD Cycle : HRESULT
-VAR_INPUT
+VAR_INST
+	
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[_axis.ReadStatus();
 axesReadError(Axis := _axis, Enable := TRUE, AxisErrorID => _ErrorId);
-TaskCollection.Cycle();]]></ST>
+TaskCollection.Cycle();
+
+_Operating := DefaultMoveBehaviour.Busy OR DefaultRelBehaviour.Busy OR DefaultModBehaviour.Busy OR DefaultVeloBehaviour.Busy;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Deceleration" Id="{bb54abe4-e56a-4330-9f3c-f7af329a7f17}" FolderPath="Dynamics\">
@@ -438,6 +442,17 @@ Base_Library.Tracing.Trace.Verbose(TO_STRING(_axis.NcToPlc.AxisId), 'Abs Move Su
 DefaultMoveBehaviour.MoveTo(Position,Velocity);]]></ST>
       </Implementation>
     </Method>
+    <Property Name="Operating" Id="{2826cb54-890e-4680-8351-f7a1832e17c1}" FolderPath="Status\">
+      <Declaration><![CDATA[PROPERTY Operating : BOOL]]></Declaration>
+      <Get Name="Get" Id="{c0bb9c85-969d-4c91-8860-481e57e53007}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Operating := _Operating;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
     <Method Name="RegisterWithParent" Id="{381741fc-fc26-4603-bb08-86e14ada8bdb}">
       <Declaration><![CDATA[METHOD RegisterWithParent
 VAR_INPUT

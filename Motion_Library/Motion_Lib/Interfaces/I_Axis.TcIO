@@ -71,6 +71,12 @@ END_VAR
         <Declaration><![CDATA[]]></Declaration>
       </Set>
     </Property>
+    <Property Name="Operating" Id="{1989e548-414f-4241-9325-26b5e3866acf}">
+      <Declaration><![CDATA[PROPERTY Operating : BOOL]]></Declaration>
+      <Get Name="Get" Id="{ab90dda6-37af-4cff-9da4-9572d37a36e8}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
     <Method Name="Reset" Id="{70c30306-2843-45ea-9390-dee5671086b2}">
       <Declaration><![CDATA[METHOD PUBLIC Reset : HRESULT
 VAR

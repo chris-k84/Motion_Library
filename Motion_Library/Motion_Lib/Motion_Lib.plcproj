@@ -21,7 +21,7 @@
     <POUsForPropertyAccessIncluded>true</POUsForPropertyAccessIncluded>
     <GlobalVersionStructureIncluded>true</GlobalVersionStructureIncluded>
     <Title>Motion Library</Title>
-    <ProjectVersion>4.0.3</ProjectVersion>
+    <ProjectVersion>4.1.0</ProjectVersion>
     <LibraryCategories>
       <LibraryCategory xmlns="">
         <Id>{a4a00b8a-9270-48aa-b020-371bd9c3e701}</Id>

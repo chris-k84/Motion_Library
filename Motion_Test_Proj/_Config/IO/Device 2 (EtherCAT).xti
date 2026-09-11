@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4026.25" ClassName="CDevEtherCATDef" SubType="111">
+	<Device Id="2" DevType="111" DevFlags="#x0003" AmsPort="28674" AmsNetId="10.201.62.134.3.1" RemoteName="Device 2 (EtherCAT)" InfoImageId="4">
+		<Name>__FILENAME__</Name>
+		<AddressInfo>
+			<Pnp>
+				<DeviceDesc>Ethernet 2 (TwinCAT-Intel PCI Ethernet Adapter (Gig</DeviceDesc>
+				<DeviceName>\DEVICE\{F90F6E59-A720-4BA5-B89F-2F2EA73C13BE}</DeviceName>
+				<DeviceData>00010590096a</DeviceData>
+			</Pnp>
+		</AddressInfo>
+		<Image Id="3" AddrType="9" ImageType="3">
+			<Name>Image</Name>
+		</Image>
+		<Box File="Term 1 (EK1100).xti" Id="1">
+			<EtherCAT PortABoxInfo="#x00ffffff"/>
+		</Box>
+		<EtherCAT DcSyncMode="3"/>
+	</Device>
+</TcSmItem>

@@ -292,7 +292,8 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[isStationary := (_axis.Status.StandStill OR _axis.Status.SynchronizedMotion) AND NOT _axis.Status.HasJob AND _axis.Status.NotMoving;]]></ST>
+          <ST><![CDATA[isStationary := NOT _axis.Status.HasJob AND _axis.Status.NotMoving;
+]]></ST>
         </Implementation>
       </Get>
     </Property>

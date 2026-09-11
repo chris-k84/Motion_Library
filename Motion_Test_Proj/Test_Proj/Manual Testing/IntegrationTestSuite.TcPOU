@@ -28,7 +28,11 @@ VAR
 	Pos_Dist : LREAL := 10.0;
 	Mod_Pos : LREAL := 230.0;
 	GEAR: BOOL;
-	iCounter: INT;
+	checkflag : BOOL;
+	istartCounter: INT;
+	ioperatCounter : INT;
+	stationaryTest1: BOOL;
+	stationaryTest2: BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -37,13 +41,18 @@ END_VAR
 		Enable := FALSE;
 	END_IF
 END_IF
+ IF checkflag THEN
+	 istartCounter := istartCounter + 1;
+ END_IF
 
 IF iAxisBase.Operating THEN
-	iCounter := iCounter + 1;
+	checkflag := FALSE;
+	ioperatCounter := ioperatCounter + 1;
 END_IF
 
 IF MOVETO THEN
 	IF SUCCEEDED(iPosition.MoveToPosition(1000.0,100.0)) THEN
+		checkflag := TRUE;
 		MOVETO := FALSE;
 	END_IF
 END_IF
@@ -103,6 +112,9 @@ END_IF
 IF JOGFAST THEN
 	iJog.JogFast(TRUE);
 END_IF
+
+stationaryTest1 := TestAxis.IsStationary;
+stationaryTest2 := gearTestAxis.IsStationary;
 
 TestAxis.Cycle();
 gearTestAxis.Cycle();
